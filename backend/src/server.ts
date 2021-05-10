@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 const app = express();
 app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
 
-
 app
   .get('/', (req: Request, res: Response) =>
     res.json({ message: 'Welcome to the GamerHouse API!' })
