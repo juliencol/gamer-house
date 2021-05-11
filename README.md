@@ -9,7 +9,7 @@ Web application to meet gamers and follow their successes.
 Starting backend server
 
 ```bash
-cd api
+cd backend
 npm start
 ```
 
