@@ -1,8 +1,10 @@
-import { Schema, model, Model, Document } from 'mongoose';
-import { IPost } from './Post';
+import { Schema, model, Model, Document } from "mongoose";
+import { IPost } from "./Post";
+import { IGame } from "./Game";
+import { IGroup } from "./Group";
 
-export const gamerSchemaName = 'Gamer';
-const gamerCollectionName = 'gamers';
+export const gamerSchemaName = "Gamer";
+const gamerCollectionName = "gamers";
 
 export const GamerSchema = new Schema({
   pseudo: { type: String, required: true },
@@ -15,13 +17,11 @@ export const GamerSchema = new Schema({
   country: { type: String, required: false },
   city: { type: String, required: false },
   createdAt: { type: Date, required: false },
-  posts: [{ type: Schema.Types.ObjectId, ref: 'Post', require: false }],
-  followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', require: true }],
-  following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', require: true }],
-
-  // TODO for David
-  // add gamesWithRanks field after defined Game model (this one is a bit tricky to define)
-  // add group field after defined Group model
+  posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
+  followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
+  following: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
+  gamesWithRanks: [], //TODO
+  group: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
 });
 
 GamerSchema.methods.getID = function () {
@@ -39,9 +39,11 @@ interface IGamerSchema extends Document {
   country: { type: string; required: false };
   city: { type: string; required: false };
   createdAt: { type: Date; required: false };
-  posts: Array<IPost['id']>;
-  followers: Array<IGamer['id']>;
-  following: Array<IGamer['id']>;
+  posts: Array<IPost["id"]>;
+  followers: Array<IGamer["id"]>;
+  following: Array<IGamer["id"]>;
+  gamesWithRanks: Array<IGame["id"]>; //TODO
+  group: Array<IGroup["id"]>;
 }
 
 interface IGamerBase extends IGamerSchema {
