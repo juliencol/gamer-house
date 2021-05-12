@@ -1,14 +1,14 @@
-import { Schema, model, Model, Document } from "mongoose";
-import { IGamer } from "./Gamer";
+import { Schema, model, Model, Document } from 'mongoose';
+import { IGamer } from './Gamer';
 
-export const groupSchemaName = "Group";
-const groupCollectionName = "groups";
+export const groupSchemaName = 'Group';
+const groupCollectionName = 'groups';
 
 export const GroupSchema = new Schema({
   name: { type: String, required: true },
   createdAt: { type: Date, required: false },
-  members: [{ type: Schema.Types.ObjectId, ref: "Gamer", require: false }],
-  banner: { type: String, required: true },
+  members: [{ type: Schema.Types.ObjectId, ref: 'Gamer', require: false }],
+  banner: { type: String, required: false },
 });
 
 GroupSchema.methods.getID = function () {
@@ -18,7 +18,7 @@ GroupSchema.methods.getID = function () {
 interface IGroupSchema extends Document {
   name: { type: string; required: true };
   createdAt: { type: Date; required: true };
-  members: Array<IGamer["id"]>;
+  members: Array<IGamer['id']>;
   banner: { type: string; required: false };
 }
 
