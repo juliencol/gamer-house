@@ -1,7 +1,7 @@
-import { Schema, model, Model, Document } from "mongoose";
+import { Schema, model, Model, Document } from 'mongoose';
 
-export const postTagSchemaName = "PostTag";
-const postTagCollectionName = "posts";
+export const postTagSchemaName = 'PostTag';
+const postTagCollectionName = 'posts';
 
 export const PostTagSchema = new Schema({
   name: { type: String, required: true },

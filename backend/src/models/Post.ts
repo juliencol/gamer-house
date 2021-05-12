@@ -1,18 +1,18 @@
-import { Schema, model, Model, Document } from "mongoose";
-import { IGamer } from "./Gamer";
-import { IGame } from "./Game";
-import { IPostTag } from "./PostTag";
+import { Schema, model, Model, Document } from 'mongoose';
+import { IGamer } from './Gamer';
+import { IGame } from './Game';
+import { IPostTag } from './PostTag';
 
-export const postSchemaName = "Post";
-const postCollectionName = "posts";
+export const postSchemaName = 'Post';
+const postCollectionName = 'posts';
 
 export const PostSchema = new Schema({
   name: { type: String, required: true },
   content: { type: String, required: true },
-  writer: { type: Schema.Types.ObjectId, ref: "Gamer", required: true },
+  writer: { type: Schema.Types.ObjectId, ref: 'Gamer', required: true },
   createdAt: { type: Date, required: false },
-  game: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
-  tag: [{ type: Schema.Types.ObjectId, ref: "PostTag", required: true }],
+  game: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  tags: [{ type: Schema.Types.ObjectId, ref: 'PostTag', required: true }],
 });
 
 PostSchema.methods.getID = function () {
@@ -22,10 +22,10 @@ PostSchema.methods.getID = function () {
 interface IPostSchema extends Document {
   name: string;
   content: string;
-  writer: IGamer["id"];
+  writer: IGamer['id'];
   createdAt: Date;
-  game: IGame["id"];
-  tag: IPostTag["id"];
+  game: IGame['id'];
+  tags: Array<IPostTag['id']>;
 }
 
 interface IPostBase extends IPostSchema {
@@ -36,8 +36,4 @@ export interface IPost extends IPostBase {}
 
 export interface IPostModel extends Model<IPost> {}
 
-export default model<IPost, IPostModel>(
-  postSchemaName,
-  PostSchema,
-  postCollectionName
-);
+export default model<IPost, IPostModel>(postSchemaName, PostSchema, postCollectionName);
