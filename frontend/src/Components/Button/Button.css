@@ -1,0 +1,21 @@
+.Button {
+  font-size: var(--normal-font);
+  background-color: var(--grey);
+  border: none;
+  border-radius: var(--normal-radius);
+  padding: var(--normal-padding);
+  color: var(--white);
+  margin: var(--normal-margin);
+}
+
+.Button:hover {
+  cursor: pointer;
+  opacity: 70%;
+}
+
+.Ghost {
+  background-color: var(--white);
+  color: var(--grey);
+  border-radius: none;
+  border: 1px solid var(--grey);
+}

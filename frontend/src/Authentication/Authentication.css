@@ -1,0 +1,23 @@
+.Authentication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AuthenticationFormTitle {
+  margin: var(--normal-margin);
+  font-weight: normal;
+  color: var(--white);
+  font-size: var(--big-font);
+}
+
+.AuthenticationForm {
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--large-padding);
+  background-color: var(--white);
+  border-radius: var(--normal-radius);
+}
