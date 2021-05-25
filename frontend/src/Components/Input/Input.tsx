@@ -8,6 +8,7 @@ interface propsInput {
   type: string;
   id: formMaximalFields;
   placeholder: string;
+  value: string;
   errors: Array<string>;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -23,6 +24,7 @@ function Input(props: propsInput) {
         required={false}
         name={props.id}
         id={props.id}
+        value={props.value}
         type={props.type}
         placeholder={props.placeholder}
         onChange={props.onChange}

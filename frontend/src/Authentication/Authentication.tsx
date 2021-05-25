@@ -167,6 +167,7 @@ function Authentication(props: propsAuthentication) {
           id="username"
           placeholder="Enter your username"
           type="text"
+          value={formData.username}
           onChange={handleChange}
           errors={formErrors.username}
         />
@@ -175,6 +176,7 @@ function Authentication(props: propsAuthentication) {
           id="password"
           placeholder="Enter your password"
           type="password"
+          value={formData.password}
           onChange={handleChange}
           errors={formErrors.password}
         />
@@ -185,6 +187,7 @@ function Authentication(props: propsAuthentication) {
               id="confirmPassword"
               placeholder="Confirm your password"
               type="password"
+              value={formData.confirmPassword}
               onChange={handleChange}
               errors={formErrors.confirmPassword}
             />
@@ -193,6 +196,7 @@ function Authentication(props: propsAuthentication) {
               id="email"
               placeholder="Enter your email"
               type="email"
+              value={formData.email}
               onChange={handleChange}
               errors={formErrors.email}
             />
