@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render the login page correctly by default 1`] = `
+<div
+  className="Authentication"
+>
+  <h1
+    className="AuthenticationFormTitle"
+  >
+    <span>
+      Sign 
+    </span>
+    <span
+      className="PurpleText"
+    >
+      In
+       
+    </span>
+  </h1>
+  <form
+    className="AuthenticationForm"
+    onSubmit={[Function]}
+  >
+    <label
+      className="Label"
+      htmlFor="username"
+    >
+      Username
+    </label>
+    <input
+      className="Input"
+      id="username"
+      name="username"
+      onChange={[Function]}
+      placeholder="Enter your username"
+      required={true}
+      type="text"
+    />
+    <label
+      className="Label"
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="Input"
+      id="password"
+      name="password"
+      onChange={[Function]}
+      placeholder="Enter your password"
+      required={true}
+      type="password"
+    />
+    <button
+      className="Button"
+      type="submit"
+    >
+      <span>
+        Sign 
+      </span>
+      <span
+        className="PurpleText"
+      >
+        In
+         
+      </span>
+    </button>
+    <button
+      className="Button"
+      onClick={[Function]}
+      type="reset"
+    >
+      No account yet?
+    </button>
+  </form>
+</div>
+`;

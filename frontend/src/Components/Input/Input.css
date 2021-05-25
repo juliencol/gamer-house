@@ -1,0 +1,18 @@
+.Input {
+  font-size: var(--normal-font);
+  padding: var(--normal-padding);
+  border-radius: var(--normal-radius);
+  border: 1px solid var(--grey);
+  margin: var(--normal-margin);
+}
+
+.Label,
+.Input {
+  display: flex;
+  align-items: center;
+  color: var(--purple);
+}
+
+.Label {
+  margin-top: var(--normal-margin);
+}

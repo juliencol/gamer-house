@@ -1,13 +1,43 @@
+/*
+* Global CSS variables
+*/
+:root {
+  /*Font*/
+  --big-font: 80px;
+  --normal-font: 18px;
+
+  /*Colors*/
+  --red: #f00;
+  --purple: #9485f2;
+  --grey: #b5b5b5;
+  --white: #fff;
+
+  /*Padding*/
+  --normal-padding: 10px;
+  --large-padding: 20px;
+
+  /*Margin*/
+  --normal-margin: 10px;
+
+  /*Radius*/
+  --normal-radius: 20px;
+}
+
+.PurpleText {
+  color: var(--purple);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: #6f4071;
+  font-size: var(--normal-font);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

@@ -1,0 +1,9 @@
+.Errors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Error {
+  color: var(--red);
+}
