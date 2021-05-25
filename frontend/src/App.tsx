@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
+import Feed from './Feed/Feed';
 import Authentication from './Authentication/Authentication';
 
 function App() {
@@ -10,8 +11,11 @@ function App() {
     return (
       <Router>
         <Switch>
-          <Route path="/">
+          <Route exact={true} path="/">
             <Authentication setAuthentication={setIsAuthenticate} />
+          </Route>
+          <Route exact={true} path="/feed">
+            <Feed />
           </Route>
         </Switch>
       </Router>
