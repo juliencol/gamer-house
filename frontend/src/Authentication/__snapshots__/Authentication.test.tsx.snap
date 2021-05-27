@@ -2,7 +2,7 @@
 
 exports[`should render the login page correctly by default 1`] = `
 <div
-  className="Authentication"
+  className="Login"
 >
   <h1
     className="AuthenticationFormTitle"
