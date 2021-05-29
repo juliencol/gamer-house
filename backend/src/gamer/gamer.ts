@@ -4,6 +4,7 @@ import {
   createGamerDB,
   deleteGamerDB,
   getGamerDB,
+  getGamerByEmailDB,
   getGamersDB,
 } from "./gamerModel";
 import { parseGamer } from "../models/mongoParser";
@@ -24,6 +25,12 @@ export async function getGamers(): Promise<Gamer[]> {
 
 export async function getGamer(id: string): Promise<Gamer> {
   const gamer = await getGamerDB(id);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return parseGamer(gamer);
+}
+
+export async function getGamerByEmail(email: string): Promise<Gamer> {
+  const gamer = await getGamerByEmailDB(email);
   if (!gamer) throw new Error("The requested gamer does not exist");
   return parseGamer(gamer);
 }
