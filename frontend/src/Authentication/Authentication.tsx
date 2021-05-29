@@ -14,7 +14,7 @@ const ERRORS_VALUES = {
 };
 
 const MINIMAL_FIELDS = ['username', 'password'];
-type formMinimalFields = 'username' | 'password';
+export type formMinimalFields = 'username' | 'password';
 export type formMaximalFields = formMinimalFields | 'confirmPassword' | 'email';
 
 function Authentication(props: propsAuthentication) {
