@@ -1,7 +1,6 @@
 import { IGamer } from "./Gamer";
 import { Gamer } from "../gamer/gamer.types";
 import { IPost } from "./Post";
-import { IGame } from "./Game";
 
 export function parseGamer(gamer: IGamer): Gamer {
   return {
