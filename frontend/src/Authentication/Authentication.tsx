@@ -1,10 +1,13 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import Input from '../Components/Input/Input';
-import Button from '../Components/Button/Button';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import Input from 'Components/Input/Input';
+import Button from 'Components/Button/Button';
 import './Authentication.css';
+import useFetch from 'Components/Fetch/useFetch';
+import { authReq } from 'Components/Fetch/request';
 
 interface propsAuthentication {
   setAuthentication: (state: boolean) => void;
+  refresh: () => void;
 }
 
 const ERRORS_VALUES = {
@@ -13,11 +16,25 @@ const ERRORS_VALUES = {
     `The ${name} is too short! (must be longer than ${minimalLength})`,
 };
 
-const MINIMAL_FIELDS = ['username', 'password'];
-export type formMinimalFields = 'username' | 'password';
-export type formMaximalFields = formMinimalFields | 'confirmPassword' | 'email';
+const MINIMAL_FIELDS = ['email', 'password'];
+export type formMinimalFields = 'email' | 'password';
+export type formMaximalFields =
+  | formMinimalFields
+  | 'confirmPassword'
+  | 'username'
+  | 'birthDate';
 
 function Authentication(props: propsAuthentication) {
+  const { data, setRequest } = useFetch<{ accessToken: string } | undefined>(undefined);
+
+  const refresh = props.refresh;
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem('accessToken', data.accessToken);
+      refresh();
+    }
+  }, [data, refresh]);
+
   const [isOnLoginPage, setIsOnLoginPage] = useState(true);
 
   const defaultFormValue: { [key in formMaximalFields]: string } = {
@@ -25,6 +42,7 @@ function Authentication(props: propsAuthentication) {
     password: '',
     confirmPassword: '',
     email: '',
+    birthDate: '',
   };
   const [formData, setFormData] = useState(defaultFormValue);
 
@@ -33,6 +51,7 @@ function Authentication(props: propsAuthentication) {
     password: [],
     confirmPassword: [],
     email: [],
+    birthDate: [],
   };
   const [formErrors, setFormErrors] = useState(defaultErrors);
 
@@ -77,6 +96,9 @@ function Authentication(props: propsAuthentication) {
           break;
         case 'email':
           currentErrors.push(...emailVerification(value));
+          break;
+        case 'birthDate':
+          currentErrors.push(...birthDateVerification(value));
           break;
         default:
           break;
@@ -132,6 +154,26 @@ function Authentication(props: propsAuthentication) {
     return errorsArray;
   }
 
+  function birthDateVerification(value: string) {
+    const today = new Date();
+    const birthDate = new Date(value);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const monthLeft = today.getMonth() - birthDate.getMonth();
+    if (monthLeft < 0 || (monthLeft === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    const errorsArray: Array<string> = [];
+    if (age < 18) {
+      errorsArray.push(
+        'The birthdate is invalid! You must be older than 18 years old to use this website.'
+      );
+    }
+    return errorsArray;
+  }
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -146,9 +188,12 @@ function Authentication(props: propsAuthentication) {
       alert('Some fields are not valid');
       return;
     }
-    //TODO Send form data to the back
-    console.log('Submitted');
-    console.log(formData);
+
+    const request = isOnLoginPage
+      ? authReq().login(formData)
+      : authReq().register(formData);
+
+    setRequest(request);
   }
 
   const actionName = (
@@ -163,12 +208,13 @@ function Authentication(props: propsAuthentication) {
       <h1 className="AuthenticationFormTitle">{actionName}</h1>
       <form className="AuthenticationForm" onSubmit={handleSubmit}>
         <Input
-          name="Username"
-          id="username"
-          placeholder="Enter your username"
-          type="text"
+          name="Email"
+          id="email"
+          placeholder="Enter your email"
+          type="email"
           onChange={handleChange}
-          errors={formErrors.username}
+          errors={formErrors.email}
+          value={formData.email}
         />
         <Input
           name="Password"
@@ -177,6 +223,7 @@ function Authentication(props: propsAuthentication) {
           type="password"
           onChange={handleChange}
           errors={formErrors.password}
+          value={formData.password}
         />
         {!isOnLoginPage && (
           <>
@@ -187,14 +234,26 @@ function Authentication(props: propsAuthentication) {
               type="password"
               onChange={handleChange}
               errors={formErrors.confirmPassword}
+              value={formData.confirmPassword}
             />
             <Input
-              name="Email"
-              id="email"
-              placeholder="Enter your email"
-              type="email"
+              name="Username"
+              id="username"
+              placeholder="Enter your username"
+              type="text"
               onChange={handleChange}
-              errors={formErrors.email}
+              errors={formErrors.username}
+              value={formData.username}
+            />
+
+            <Input
+              name="Birth date"
+              id="birthDate"
+              placeholder="Enter your birthdate"
+              type="date"
+              onChange={handleChange}
+              errors={formErrors.birthDate}
+              value={formData.birthDate}
             />
           </>
         )}
