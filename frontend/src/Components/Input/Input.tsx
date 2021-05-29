@@ -1,9 +1,10 @@
 import { ChangeEvent } from 'react';
-import { formMaximalFields } from '../../Authentication/Authentication';
-import Errors from '../Errors/Errors';
+import { formMaximalFields } from 'Authentication/Authentication';
+import Errors from 'Components/Errors/Errors';
 import './Input.css';
 
 interface propsInput {
+  value: string;
   name: string;
   type: string;
   id: formMaximalFields;
@@ -26,6 +27,8 @@ function Input(props: propsInput) {
         type={props.type}
         placeholder={props.placeholder}
         onChange={props.onChange}
+        value={props.value}
+        max={new Date().toISOString().split('T')[0]}
       />
       <Errors errors={props.errors} />
     </>
