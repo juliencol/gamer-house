@@ -1,28 +1,19 @@
-import { Post } from "../post/post.types";
-import { Game } from "../game/game.types";
-
-export interface Gamer {
-  id: string;
-  pseudo: string;
-  firstName?: string;
-  lastName?: string;
-  profilePicture?: string;
-  email: string;
-  password: string;
-  birthDate: Date;
-  country?: string;
-  city?: string;
-  createdAt?: Date;
-  posts?: Post["id"][];
-  followers: Gamer["id"][];
-  following: Gamer["id"][];
-  //gamesWithRanks: [Game["id"], string][];
-  group: Game["id"][];
-}
+import { IGamer } from "../models/Gamer";
 
 export interface CreateGamerArgs {
-  pseudo: string;
-  email: string;
-  password: string;
-  birthDate: Date;
+  pseudo: IGamer["pseudo"];
+  email: IGamer["email"];
+  password: IGamer["password"];
+  birthDate: IGamer["birthDate"];
+}
+
+export interface UpdateGamerArgs {
+  pseudo: IGamer["pseudo"];
+  firstName?: IGamer["firstName"];
+  lastName?: IGamer["lastName"];
+  profilePicture?: IGamer["profilePicture"];
+  email: IGamer["email"];
+  birthDate: IGamer["birthDate"];
+  country?: IGamer["country"];
+  city?: IGamer["city"];
 }
