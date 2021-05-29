@@ -1,27 +1,27 @@
-import { Schema, model, Model, Document } from 'mongoose';
-import { IPost } from './Post';
-import { IGame } from './Game';
-import { IGroup } from './Group';
+import { Schema, model, Model, Document } from "mongoose";
+import { IPost } from "./Post";
+import { IGame } from "./Game";
+import { IGroup } from "./Group";
 
-export const gamerSchemaName = 'Gamer';
-const gamerCollectionName = 'gamers';
+export const gamerSchemaName = "Gamer";
+const gamerCollectionName = "gamers";
 
 export const GamerSchema = new Schema({
   pseudo: { type: String, required: true },
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   profilePicture: { type: String, required: false },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   birthDate: { type: Date, required: true },
   country: { type: String, required: false },
   city: { type: String, required: false },
   createdAt: { type: Date, required: false },
-  posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
-  followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
-  following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
-  gamesWithRanks: [{ type: Object, required: false }],
-  group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
+  followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
+  following: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
+  /*gamesWithRanks: [{ type: Object, required: false }],*/
+  group: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
 });
 
 GamerSchema.methods.getID = function () {
@@ -29,24 +29,24 @@ GamerSchema.methods.getID = function () {
 };
 
 interface IGamerSchema extends Document {
-  pseudo: { type: string; required: true };
-  firstName: { type: string; required: false };
-  lastName: { type: string; required: false };
-  profilePicture: { type: string; required: false };
-  email: { type: string; required: true };
-  password: { type: string; required: true };
-  birthDate: { type: Date; required: true };
-  country: { type: string; required: false };
-  city: { type: string; required: false };
-  createdAt: { type: Date; required: false };
-  posts: Array<IPost['id']>;
-  followers: Array<IGamer['id']>;
-  following: Array<IGamer['id']>;
-  gamesWithRanks: Array<{
-    game: IGame['id'];
+  pseudo: string;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+  email: string;
+  password: string;
+  birthDate: Date;
+  country: string;
+  city: string;
+  createdAt: Date;
+  posts: Array<IPost["id"]>;
+  followers: Array<IGamer["id"]>;
+  following: Array<IGamer["id"]>;
+  /*gamesWithRanks: Array<{
+    game: IGame["id"];
     rank: string;
-  }>;
-  group: Array<IGroup['id']>;
+  }>;*/
+  group: Array<IGroup["id"]>;
 }
 
 interface IGamerBase extends IGamerSchema {
