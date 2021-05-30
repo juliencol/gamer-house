@@ -1,7 +1,10 @@
 import JWT from "jsonwebtoken";
 import { SECRET_ACCESS_TOKEN } from "../constants";
 
-export function generateJWT(data: { id: string }) {
+export type jwtPlayloadKeys = "id";
+export type PlayloadJWT = { [key in jwtPlayloadKeys]: string };
+
+export function generateJWT(data: PlayloadJWT) {
   return JWT.sign(data, SECRET_ACCESS_TOKEN, { expiresIn: 60 * 60 });
 }
 

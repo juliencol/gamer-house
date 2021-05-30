@@ -21,7 +21,7 @@ export type formMinimalFields = 'email' | 'password';
 export type formMaximalFields =
   | formMinimalFields
   | 'confirmPassword'
-  | 'username'
+  | 'pseudo'
   | 'birthDate';
 
 function Authentication(props: propsAuthentication) {
@@ -38,7 +38,7 @@ function Authentication(props: propsAuthentication) {
   const [isOnLoginPage, setIsOnLoginPage] = useState(true);
 
   const defaultFormValue: { [key in formMaximalFields]: string } = {
-    username: '',
+    pseudo: '',
     password: '',
     confirmPassword: '',
     email: '',
@@ -47,7 +47,7 @@ function Authentication(props: propsAuthentication) {
   const [formData, setFormData] = useState(defaultFormValue);
 
   const defaultErrors: { [key in formMaximalFields]: Array<string> } = {
-    username: [],
+    pseudo: [],
     password: [],
     confirmPassword: [],
     email: [],
@@ -80,8 +80,8 @@ function Authentication(props: propsAuthentication) {
 
     if (value.length > 0) {
       switch (name) {
-        case 'username':
-          currentErrors.push(...usernameValidation(value));
+        case 'pseudo':
+          currentErrors.push(...pseudoValidation(value));
           break;
         case 'password':
           currentErrors.push(...passwordVerification(value));
@@ -121,10 +121,10 @@ function Authentication(props: propsAuthentication) {
     }
   }
 
-  function usernameValidation(value: string) {
+  function pseudoValidation(value: string) {
     const errorsArray: Array<string> = [];
     if (value.length < 5) {
-      errorsArray.push(ERRORS_VALUES.tooShort('username', 5));
+      errorsArray.push(ERRORS_VALUES.tooShort('pseudo', 5));
     }
     return errorsArray;
   }
@@ -237,13 +237,13 @@ function Authentication(props: propsAuthentication) {
               value={formData.confirmPassword}
             />
             <Input
-              name="Username"
-              id="username"
-              placeholder="Enter your username"
+              name="Pseudo"
+              id="pseudo"
+              placeholder="Enter your pseudo"
               type="text"
               onChange={handleChange}
-              errors={formErrors.username}
-              value={formData.username}
+              errors={formErrors.pseudo}
+              value={formData.pseudo}
             />
 
             <Input

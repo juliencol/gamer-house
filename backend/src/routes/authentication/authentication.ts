@@ -23,7 +23,7 @@ authenticationRouter.post("/login", (req: Request, res: Response) => {
   getGamerByEmail(email)
     .then((gamer) => {
       if (!bcrypt.compareSync(password, gamer.password)) {
-        throw Error;
+        throw Error("Wrong password and email combination");
       }
       const accessToken = generateJWT({
         id: gamer.id,
@@ -31,14 +31,14 @@ authenticationRouter.post("/login", (req: Request, res: Response) => {
 
       res.status(200).json({ accessToken });
     })
-    .catch(() => res.status(500).send("Bad input"));
+    .catch((err) => res.status(500).send(err.message || "Bad input"));
 });
 
 authenticationRouter.post("/register", async (req: Request, res: Response) => {
   const gamerData: CreateGamerArgs = {
     email: req.body.email.toLowerCase(),
     password: req.body.password,
-    pseudo: req.body.username,
+    pseudo: req.body.pseudo,
     birthDate: new Date(req.body.birthDate),
   };
 
@@ -56,7 +56,7 @@ authenticationRouter.post("/register", async (req: Request, res: Response) => {
       const accessToken = generateJWT({ id: gamer.id });
       res.status(200).json({ accessToken });
     })
-    .catch(() => res.status(500).send("Bad input"));
+    .catch(() => res.status(500).send("Something went wrong"));
 });
 
 authenticationRouter.get("/isAuthenticated", (req: Request, res: Response) => {
