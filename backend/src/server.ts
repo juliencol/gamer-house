@@ -1,24 +1,20 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import gamerRoutes from "./gamer/gamerRoutes";
-import { connectDatabase } from "./database/connectDatabase";
+import cors from "cors";
+import authenticationRouter from "./routes/authentication/authentication";
+import { FRONT_URL } from "./constants";
 
-// Create express app
-export const app = express();
-app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
+export function createServer() {
+  const app = express();
 
-/** Start backend server **/
-const startBackendServer = async (): Promise<void> => {
-  await connectDatabase().then(() => {
-    app
-      .get("/", (req: Request, res: Response) =>
-        res.json({ message: "Welcome to the GamerHouse API!" })
-      )
-      .use("/gamers", gamerRoutes)
-      .listen(5000, () => {
-        console.log("Running GamerHouse API on http://localhost:5000");
-      });
-  });
-};
+  app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
 
-startBackendServer();
+  app.use(cors({ origin: FRONT_URL, credentials: true }));
+
+  app.get("/", (req: Request, res: Response) =>
+    res.json({ message: "Welcome to the GamerHouse API!" })
+  );
+
+  app.use("/authentication", authenticationRouter);
+  return app;
+}
