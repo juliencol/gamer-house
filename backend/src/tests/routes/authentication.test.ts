@@ -7,14 +7,19 @@ import {
   isValidJWT,
   readJWT,
 } from "../../authentication/jwt";
-import { DB_CONNECTION_STRING } from "../../constants";
 import { createGamer } from "../../gamer/gamer";
 import { CreateGamerArgs } from "../../gamer/gamer.types";
 import { createServer } from "../../server";
 
+const DEV_DB_CONNECTION_STRING = process.env.DEV_DB_CONNECTION_STRING;
+
+if (!DEV_DB_CONNECTION_STRING) {
+  throw new Error("DEV_DB_CONNECTION_STRING is not defined");
+}
+
 beforeEach((done) => {
   mongoose.connect(
-    DB_CONNECTION_STRING,
+    DEV_DB_CONNECTION_STRING,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => done()
   );

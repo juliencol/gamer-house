@@ -40,7 +40,6 @@ authenticationRouter.post("/register", async (req: Request, res: Response) => {
     password: req.body.password,
     pseudo: req.body.pseudo,
     birthDate: new Date(req.body.birthDate),
-    createdAt: new Date(),
   };
 
   const confirmPassword = req.body.confirmPassword;

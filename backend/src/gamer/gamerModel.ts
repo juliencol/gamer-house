@@ -3,7 +3,9 @@ import { CreateGamerArgs, UpdateGamerArgs } from "./gamer.types";
 
 // Gamer management
 
-export function createGamerDB(gamerArgs: CreateGamerArgs): Promise<IGamer> {
+export function createGamerDB(
+  gamerArgs: CreateGamerArgs & { createdAt: Date }
+): Promise<IGamer> {
   const gamer = new Gamer({
     ...gamerArgs,
   });

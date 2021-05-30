@@ -31,7 +31,6 @@ router.post(
         pseudo: req.body.pseudo,
         email: req.body.email.toLowerCase(),
         birthDate: req.body.birthDate,
-        createdAt: new Date(),
       };
       const gamer = await createGamer(gamerArgs);
       res.status(201).json(gamer);
@@ -56,7 +55,6 @@ router.get("/:id", async (req: Request, res: Response) => {
   try {
     const gamer = await getGamer(req.params.id);
     res.status(201).json(gamer);
-    console.log(gamer);
   } catch (e) {
     res
       .status(500)

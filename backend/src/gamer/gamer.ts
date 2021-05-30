@@ -20,6 +20,7 @@ export async function createGamer(args: CreateGamerArgs): Promise<IGamer> {
   const gamer = await createGamerDB({
     ...args,
     password: hashedPassword,
+    createdAt: new Date(),
   });
   return gamer;
 }
