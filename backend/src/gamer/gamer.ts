@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import {
   addToFollowersDB,
   addToFollowingDB,
+  changePasswordDB,
   createGamerDB,
   deleteFromFollowersDB,
   deleteFromFollowingDB,
@@ -51,7 +52,20 @@ export async function updateGamer(
   id: string,
   args: UpdateGamerArgs
 ): Promise<IGamer> {
+  if (args.email != null && !regexEmail.test(args.email)) {
+    throw new Error("This email is not valid");
+  }
   const gamer = await updateGamerDB(id, args);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return gamer;
+}
+
+export async function changePassword(
+  id: string,
+  password: string
+): Promise<IGamer> {
+  const hashedPassword = await hashPassword(password);
+  const gamer = await changePasswordDB(id, hashedPassword);
   if (!gamer) throw new Error("The requested gamer does not exist");
   return gamer;
 }
@@ -87,6 +101,8 @@ const isFollowable = async (id: string, idToFollow: string) => {
     throw new Error("The gamer is already being followed");
   }
 };
+
+const regexEmail = new RegExp("[a-zA-Z0-9]*[^@]@{1}[a-zA-Z0-9]*[.][a-zA-Z]+");
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 10);

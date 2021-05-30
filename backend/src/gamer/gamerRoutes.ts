@@ -1,5 +1,10 @@
 import { Request, Response, Router } from "express";
 import {
+  changePasswordArgumentsValidator,
+  createGamerArgumentsValidator,
+} from "../request_validators/gamerArgumentsValidator";
+import { validate } from "../request_validators/validator";
+import {
   createGamer,
   deleteGamer,
   getGamer,
@@ -7,6 +12,7 @@ import {
   followGamer,
   unfollowGamer,
   updateGamer,
+  changePassword,
 } from "./gamer";
 import { CreateGamerArgs, UpdateGamerArgs } from "./gamer.types";
 
@@ -14,22 +20,27 @@ const router = Router();
 
 // Gamer management
 
-router.post("/", async (req: Request, res: Response) => {
-  try {
-    const gamerArgs: CreateGamerArgs = {
-      password: req.body.password,
-      pseudo: req.body.pseudo,
-      email: req.body.email,
-      birthDate: req.body.birthDate,
-    };
-    const gamer = await createGamer(gamerArgs);
-    res.status(201).json(gamer);
-  } catch (e) {
-    res
-      .status(500)
-      .json({ error: `The gamer could not be created: ${e.message}` });
+router.post(
+  "/",
+  createGamerArgumentsValidator(),
+  validate,
+  async (req: Request, res: Response) => {
+    try {
+      const gamerArgs: CreateGamerArgs = {
+        password: req.body.password,
+        pseudo: req.body.pseudo,
+        email: req.body.email,
+        birthDate: req.body.birthDate,
+      };
+      const gamer = await createGamer(gamerArgs);
+      res.status(201).json(gamer);
+    } catch (e) {
+      res
+        .status(500)
+        .json({ error: `The gamer could not be created: ${e.message}` });
+    }
   }
-});
+);
 
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -74,6 +85,22 @@ router.put("/:id", async (req: Request, res: Response) => {
       .json({ error: `The gamer could not be updated: ${e.message}` });
   }
 });
+
+router.patch(
+  "/:id/password",
+  changePasswordArgumentsValidator(),
+  validate,
+  async (req: Request, res: Response) => {
+    try {
+      const gamer = await changePassword(req.params.id, req.body.password);
+      res.status(201).json(gamer);
+    } catch (e) {
+      res
+        .status(500)
+        .json({ error: `The gamer could not be updated: ${e.message}` });
+    }
+  }
+);
 
 // Following System
 

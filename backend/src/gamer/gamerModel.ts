@@ -33,6 +33,17 @@ export async function updateGamerDB(
   return Gamer.findByIdAndUpdate(id, { $set: { ...args } }, { new: true });
 }
 
+export async function changePasswordDB(
+  id: string,
+  password: string
+): Promise<IGamer | null> {
+  return Gamer.findByIdAndUpdate(
+    id,
+    { $set: { password: password } },
+    { new: true }
+  );
+}
+
 export async function addToFollowingDB(
   id: string,
   idToFollow: string
