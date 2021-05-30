@@ -1,63 +1,59 @@
 import Router, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { generateJWT, isValidJWT } from "../../authentication/jwt";
-import {
-  emailValidation,
-  passwordVerification,
-  usernameVerification,
-  birthDateVerification,
-} from "../../authentication/verifications";
 import { getGamerByEmail, createGamer } from "../../gamer/gamer";
 import { CreateGamerArgs } from "../../gamer/gamer.types";
+import {
+  loginGamerArgumentsValidator,
+  registerGamerArgumentsValidator,
+} from "../../request_validators/gamerArgumentsValidator";
+import { validate } from "../../request_validators/validator";
 
 const authenticationRouter = Router();
 
-authenticationRouter.post("/login", (req: Request, res: Response) => {
-  const email = req.body.email.toLowerCase();
-  const password = req.body.password;
+authenticationRouter.post(
+  "/login",
+  loginGamerArgumentsValidator(),
+  validate,
+  (req: Request, res: Response) => {
+    getGamerByEmail(req.body.email)
+      .then((gamer) => {
+        if (!bcrypt.compareSync(req.body.password, gamer.password)) {
+          throw Error("Wrong password and email combination");
+        }
+        const accessToken = generateJWT({
+          id: gamer.id,
+        });
 
-  if (!emailValidation(email) || !passwordVerification(password, password)) {
-    return res.status(500).send("Bad input");
+        res.status(200).json({ accessToken });
+      })
+      .catch((e) =>
+        res.status(500).send(`The gamer could not be logged: ${e.message}`)
+      );
   }
+);
 
-  getGamerByEmail(email)
-    .then((gamer) => {
-      if (!bcrypt.compareSync(password, gamer.password)) {
-        throw Error("Wrong password and email combination");
-      }
-      const accessToken = generateJWT({
-        id: gamer.id,
-      });
-
-      res.status(200).json({ accessToken });
-    })
-    .catch((err) => res.status(500).send(err.message || "Bad input"));
-});
-
-authenticationRouter.post("/register", async (req: Request, res: Response) => {
-  const gamerData: CreateGamerArgs = {
-    email: req.body.email.toLowerCase(),
-    password: req.body.password,
-    pseudo: req.body.pseudo,
-    birthDate: new Date(req.body.birthDate),
-  };
-
-  const confirmPassword = req.body.confirmPassword;
-  if (
-    !emailValidation(gamerData.email) ||
-    !passwordVerification(gamerData.password, confirmPassword) ||
-    !usernameVerification(gamerData.pseudo) ||
-    !birthDateVerification(gamerData.birthDate)
-  ) {
-    return res.status(500).send("Bad input");
+authenticationRouter.post(
+  "/register",
+  registerGamerArgumentsValidator(),
+  validate,
+  async (req: Request, res: Response) => {
+    const gamerData: CreateGamerArgs = {
+      email: req.body.email.toLowerCase(),
+      password: req.body.password,
+      pseudo: req.body.pseudo,
+      birthDate: new Date(req.body.birthDate),
+    };
+    createGamer(gamerData)
+      .then((gamer) => {
+        const accessToken = generateJWT({ id: gamer.id });
+        res.status(200).json({ accessToken });
+      })
+      .catch((e) =>
+        res.status(500).send(`The gamer could not be registered: ${e.message}`)
+      );
   }
-  createGamer(gamerData)
-    .then((gamer) => {
-      const accessToken = generateJWT({ id: gamer.id });
-      res.status(200).json({ accessToken });
-    })
-    .catch(() => res.status(500).send("Something went wrong"));
-});
+);
 
 authenticationRouter.get("/isAuthenticated", (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
