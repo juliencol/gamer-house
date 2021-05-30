@@ -31,6 +31,7 @@ router.post(
         pseudo: req.body.pseudo,
         email: req.body.email,
         birthDate: req.body.birthDate,
+        createdAt: new Date(),
       };
       const gamer = await createGamer(gamerArgs);
       res.status(201).json(gamer);
@@ -125,5 +126,7 @@ router.delete("/:id/unfollow", async (req: Request, res: Response) => {
       .json({ error: `The gamer could not be followed: ${e.message}` });
   }
 });
+
+// Group System
 
 export default router;

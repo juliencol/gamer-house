@@ -1,5 +1,4 @@
 import { Schema, model, Model, Document } from "mongoose";
-
 export const gameSchemaName = "Game";
 const gameCollectionName = "games";
 
@@ -13,8 +12,8 @@ GameSchema.methods.getID = function () {
 };
 
 interface IGameSchema extends Document {
-  name: { type: string; required: true };
-  picture: { type: string; required: true };
+  name: string;
+  picture: string;
 }
 
 interface IGameBase extends IGameSchema {

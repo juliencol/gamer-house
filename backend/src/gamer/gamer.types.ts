@@ -5,6 +5,7 @@ export interface CreateGamerArgs {
   email: IGamer["email"];
   password: IGamer["password"];
   birthDate: IGamer["birthDate"];
+  createdAt: IGamer["createdAt"];
 }
 
 export interface UpdateGamerArgs {

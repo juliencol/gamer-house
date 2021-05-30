@@ -14,7 +14,6 @@ import {
   updateGamerDB,
 } from "./gamerModel";
 import { IGamer } from "../models/Gamer";
-import { forEachChild } from "typescript";
 
 export async function createGamer(args: CreateGamerArgs): Promise<IGamer> {
   const hashedPassword = await hashPassword(args.password);

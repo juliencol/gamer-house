@@ -1,6 +1,8 @@
 import Gamer, { IGamer } from "../models/Gamer";
 import { CreateGamerArgs, UpdateGamerArgs } from "./gamer.types";
 
+// Gamer management
+
 export function createGamerDB(gamerArgs: CreateGamerArgs): Promise<IGamer> {
   const gamer = new Gamer({
     ...gamerArgs,
@@ -43,6 +45,8 @@ export async function changePasswordDB(
     { new: true }
   );
 }
+
+// Following system
 
 export async function addToFollowingDB(
   id: string,
