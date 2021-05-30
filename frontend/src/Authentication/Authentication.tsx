@@ -148,7 +148,7 @@ function Authentication(props: propsAuthentication) {
 
   function emailVerification(value: string) {
     const errorsArray: Array<string> = [];
-    if (value.search('@') === -1) {
+    if (value.search('[a-zA-Z0-9]*[^@]@{1}[a-zA-Z0-9]*[.][a-zA-Z]+') === -1) {
       errorsArray.push('The email is not valid');
     }
     return errorsArray;
