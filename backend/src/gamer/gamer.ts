@@ -1,45 +1,108 @@
-import { CreateGamerArgs, Gamer } from "./gamer.types";
+import { CreateGamerArgs, UpdateGamerArgs } from "./gamer.types";
 import bcrypt from "bcrypt";
 import {
+  addToFollowersDB,
+  addToFollowingDB,
+  changePasswordDB,
   createGamerDB,
+  deleteFromFollowersDB,
+  deleteFromFollowingDB,
   deleteGamerDB,
   getGamerDB,
   getGamerByEmailDB,
   getGamersDB,
+  updateGamerDB,
 } from "./gamerModel";
-import { parseGamer } from "../models/mongoParser";
+import { IGamer } from "../models/Gamer";
 
-export async function createGamer(args: CreateGamerArgs): Promise<Gamer> {
+export async function createGamer(args: CreateGamerArgs): Promise<IGamer> {
   const hashedPassword = await hashPassword(args.password);
   const gamer = await createGamerDB({
     ...args,
     password: hashedPassword,
+    createdAt: new Date(),
   });
-  return parseGamer(gamer);
+  return gamer;
 }
 
-export async function getGamers(): Promise<Gamer[]> {
+export async function getGamers(): Promise<IGamer[]> {
   const gamers = await getGamersDB();
-  return gamers.map((gamer) => parseGamer(gamer));
+  return gamers;
 }
 
-export async function getGamer(id: string): Promise<Gamer> {
+export async function getGamer(id: string): Promise<IGamer> {
   const gamer = await getGamerDB(id);
   if (!gamer) throw new Error("The requested gamer does not exist");
-  return parseGamer(gamer);
+  return gamer;
 }
 
-export async function getGamerByEmail(email: string): Promise<Gamer> {
+export async function getGamerByEmail(email: string): Promise<IGamer> {
   const gamer = await getGamerByEmailDB(email);
   if (!gamer) throw new Error("The requested gamer does not exist");
-  return parseGamer(gamer);
+  return gamer;
 }
 
-export async function deleteGamer(id: string): Promise<Gamer> {
+export async function deleteGamer(id: string): Promise<IGamer> {
   const gamer = await deleteGamerDB(id);
   if (!gamer) throw new Error("The requested gamer does not exist");
-  return parseGamer(gamer);
+  return gamer;
 }
+
+export async function updateGamer(
+  id: string,
+  args: UpdateGamerArgs
+): Promise<IGamer> {
+  if (args.email != null && !regexEmail.test(args.email)) {
+    throw new Error("This email is not valid");
+  }
+  const gamer = await updateGamerDB(id, args);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return gamer;
+}
+
+export async function changePassword(
+  id: string,
+  password: string
+): Promise<IGamer> {
+  const hashedPassword = await hashPassword(password);
+  const gamer = await changePasswordDB(id, hashedPassword);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return gamer;
+}
+
+export async function followGamer(
+  id: string,
+  idToFollow: string
+): Promise<IGamer> {
+  await getGamer(idToFollow); // checks if the gamer to follow exists
+  await isFollowable(id, idToFollow);
+  await addToFollowersDB(idToFollow, id);
+  const gamer = await addToFollowingDB(id, idToFollow);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return gamer;
+}
+
+export async function unfollowGamer(
+  id: string,
+  idToUnfollow: string
+): Promise<IGamer> {
+  await deleteFromFollowersDB(idToUnfollow, id);
+  const gamer = await deleteFromFollowingDB(id, idToUnfollow);
+  if (!gamer) throw new Error("The requested gamer does not exist");
+  return gamer;
+}
+
+const isFollowable = async (id: string, idToFollow: string) => {
+  if (id === idToFollow) {
+    throw new Error("One can't follow themselves");
+  }
+  const gamer = await getGamer(id);
+  if (gamer.following.find(() => idToFollow)) {
+    throw new Error("The gamer is already being followed");
+  }
+};
+
+const regexEmail = new RegExp("[a-zA-Z0-9]*[^@]@{1}[a-zA-Z0-9]*[.][a-zA-Z]+");
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 10);

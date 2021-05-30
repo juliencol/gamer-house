@@ -16,10 +16,10 @@ GroupSchema.methods.getID = function () {
 };
 
 interface IGroupSchema extends Document {
-  name: { type: string; required: true };
-  createdAt: { type: Date; required: true };
+  name: string;
+  createdAt: Date;
   members: Array<IGamer['id']>;
-  banner: { type: string; required: false };
+  banner: string;
 }
 
 interface IGroupBase extends IGroupSchema {
