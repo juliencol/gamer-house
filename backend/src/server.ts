@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import authenticationRouter from "./routes/authentication/authentication";
 import { FRONT_URL } from "./constants";
+import gamerRoutes from "./gamer/gamerRoutes";
 
 export function createServer() {
   const app = express();
@@ -16,5 +17,6 @@ export function createServer() {
   );
 
   app.use("/authentication", authenticationRouter);
+  app.use("/gamers", gamerRoutes);
   return app;
 }

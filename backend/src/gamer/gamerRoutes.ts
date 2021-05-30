@@ -29,7 +29,7 @@ router.post(
       const gamerArgs: CreateGamerArgs = {
         password: req.body.password,
         pseudo: req.body.pseudo,
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
         birthDate: req.body.birthDate,
         createdAt: new Date(),
       };
