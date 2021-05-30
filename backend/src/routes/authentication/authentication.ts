@@ -12,35 +12,31 @@ import { CreateGamerArgs } from "../../gamer/gamer.types";
 
 const authenticationRouter = Router();
 
-authenticationRouter.post("/login", async (req: Request, res: Response) => {
-  const email = req.body.email;
+authenticationRouter.post("/login", (req: Request, res: Response) => {
+  const email = req.body.email.toLowerCase();
   const password = req.body.password;
 
   if (!emailValidation(email) || !passwordVerification(password, password)) {
-    return res.status(500).json("Bad input");
+    return res.status(500).send("Bad input");
   }
 
   getGamerByEmail(email)
     .then((gamer) => {
-      bcrypt
-        .compare(password, gamer.password)
-        .then(() => {
-          const accessToken = generateJWT({
-            id: gamer.id,
-          });
+      if (!bcrypt.compareSync(password, gamer.password)) {
+        throw Error;
+      }
+      const accessToken = generateJWT({
+        id: gamer.id,
+      });
 
-          res.status(200).json({ accessToken });
-        })
-        .catch(() => {
-          res.status(500).json("Bad input");
-        });
+      res.status(200).json({ accessToken });
     })
-    .catch(() => res.status(500).json("Bad input"));
+    .catch(() => res.status(500).send("Bad input"));
 });
 
 authenticationRouter.post("/register", async (req: Request, res: Response) => {
   const gamerData: CreateGamerArgs = {
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     password: req.body.password,
     pseudo: req.body.username,
     birthDate: new Date(req.body.birthDate),
@@ -53,14 +49,14 @@ authenticationRouter.post("/register", async (req: Request, res: Response) => {
     !usernameVerification(gamerData.pseudo) ||
     !birthDateVerification(gamerData.birthDate)
   ) {
-    return res.status(500).json("Bad input");
+    return res.status(500).send("Bad input");
   }
   createGamer(gamerData)
     .then((gamer) => {
       const accessToken = generateJWT({ id: gamer.id });
       res.status(200).json({ accessToken });
     })
-    .catch(() => res.status(500).json("Bad input"));
+    .catch(() => res.status(500).send("Bad input"));
 });
 
 authenticationRouter.get("/isAuthenticated", (req: Request, res: Response) => {

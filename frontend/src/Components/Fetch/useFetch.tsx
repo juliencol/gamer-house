@@ -17,7 +17,11 @@ function useFetch<T>(defaultResponse: T, defaultRequest?: AxiosRequestConfig) {
     }
   }, [request]);
 
-  return { data, someError, isLoading, setRequest };
+  function resetData() {
+    setData(defaultResponse);
+  }
+
+  return { data, someError, isLoading, setRequest, resetData };
 }
 
 export default useFetch;

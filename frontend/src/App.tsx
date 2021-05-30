@@ -6,12 +6,21 @@ import useFetch from 'Components/Fetch/useFetch';
 import { authReq } from 'Components/Fetch/request';
 
 function App() {
-  const { data, setRequest } = useFetch<boolean>(false, authReq().isAuthenticated());
+  const { data, setRequest, resetData } = useFetch<boolean>(
+    false,
+    authReq().isAuthenticated()
+  );
   const [isAuthenticate, setIsAuthenticate] = useState(false);
 
   useEffect(() => {
     setIsAuthenticate(data);
   }, [data]);
+
+  function logOut() {
+    setIsAuthenticate(false);
+    localStorage.removeItem('accessToken');
+    resetData();
+  }
 
   if (!isAuthenticate) {
     return (
@@ -33,14 +42,7 @@ function App() {
       <Switch>
         <Route path="/">
           <h1>You are now connected</h1>
-          <button
-            onClick={() => {
-              setIsAuthenticate(false);
-              localStorage.removeItem('accessToken');
-            }}
-          >
-            Log out
-          </button>
+          <button onClick={() => logOut()}>Log out</button>
         </Route>
       </Switch>
     </Router>

@@ -33,7 +33,7 @@ function Authentication(props: propsAuthentication) {
       localStorage.setItem('accessToken', data.accessToken);
       refresh();
     }
-  }, [data, refresh]);
+  }, [data]);
 
   const [isOnLoginPage, setIsOnLoginPage] = useState(true);
 
