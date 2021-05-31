@@ -8,15 +8,14 @@ const MAXIMUM_DATE = `${
 
 export const registerGamerArgumentsValidator = () => [
   body("email", "This email is not valid").isEmail(),
-  check(
-    "confirmPassword",
-    "confirmPassword field must have the same value as the password field"
-  ).custom((value, { req }) => value === req.body.password),
-  body(
-    "password",
-    "Password should be 8 characters long, contains an upper case, a lower case and a number"
-  ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
-  body("pseudo", "Pseudo should be 5 characters long").isLength({ min: 5 }),
+  check("confirmPassword", "The passwords do not match").custom(
+    (value, { req }) => value === req.body.password
+  ),
+  body("password", "This password is not valid").matches(
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+    "i"
+  ),
+  body("pseudo", "This pseudo is not valid").isLength({ min: 5 }),
   body("birthDate")
     .isDate()
     .withMessage("Incorrect date format")
@@ -28,15 +27,15 @@ export const registerGamerArgumentsValidator = () => [
 
 export const loginGamerArgumentsValidator = () => [
   body("email", "This email is not valid").isEmail(),
-  body(
-    "password",
-    "Password should be 8 characters long, contains an upper case, a lower case and a number"
-  ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
+  body("password", "This password is not valid").matches(
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+    "i"
+  ),
 ];
 
 export const changePasswordArgumentsValidator = () => [
-  body(
-    "password",
-    "Password should be 8 characters long, contains an upper case, a lower case and a number"
-  ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
+  body("password", "This password is not valid").matches(
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+    "i"
+  ),
 ];

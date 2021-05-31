@@ -8,7 +8,7 @@ import {
   readJWT,
 } from "../../authentication/jwt";
 import { createGamer } from "../../gamer/gamer";
-import { CreateGamerArgs } from "../../gamer/gamer.types";
+import { TestDataForLogin, TestDataForRegister } from "../../gamer/gamer.types";
 import { createServer } from "../../server";
 
 const DEV_DB_CONNECTION_STRING = process.env.DEV_DB_CONNECTION_STRING;
@@ -59,23 +59,29 @@ describe("GET/ isAuthenticated", () => {
 
 describe("POST/ login", () => {
   it("should respond with an error 500 an invalid email or password", async () => {
-    const invalidMail = { email: "toto", password: "Password0" };
+    const invalidMail: TestDataForLogin = {
+      email: "toto",
+      password: "Password0",
+    };
     await request(app)
       .post("/authentication/login")
       .send(invalidMail)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["This email is not valid"]);
 
-    const invalidPassword = { email: "toto@email.com", password: "Password" };
+    const invalidPassword: TestDataForLogin = {
+      email: "toto@email.com",
+      password: "Password",
+    };
     await request(app)
       .post("/authentication/login")
       .send(invalidPassword)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["This password is not valid"]);
   });
 
   it("should respond with an error 500 with an unregistered email", async () => {
-    const unregisteredMail = {
+    const unregisteredMail: TestDataForLogin = {
       email: "unregistered@email.com",
       password: "Password0",
     };
@@ -83,7 +89,7 @@ describe("POST/ login", () => {
       .post("/authentication/login")
       .send(unregisteredMail)
       .expect(500)
-      .expect("The requested gamer does not exist");
+      .expect(`The gamer could not be logged`);
   });
 
   it("should respond with an error 500 with a registered email but wrong password", async () => {
@@ -94,7 +100,7 @@ describe("POST/ login", () => {
       birthDate: new Date("1999-01-01"),
     });
 
-    const wrongPassword = {
+    const wrongPassword: TestDataForLogin = {
       email: "registered@email.com",
       password: "Password1",
     };
@@ -102,7 +108,7 @@ describe("POST/ login", () => {
       .post("/authentication/login")
       .send(wrongPassword)
       .expect(500)
-      .expect("Wrong password and email combination");
+      .expect("The gamer could not be logged");
   });
 
   it("should respond with a valid jwt with valid log in data", async () => {
@@ -140,35 +146,35 @@ describe("POST/ login", () => {
 
 describe("POST/ register", () => {
   it("should respond with an error 500 for an invalid email", async () => {
-    const gamerArgs: CreateGamerArgs & { confirmPassword: string } = {
+    const gamerArgs: TestDataForRegister & { confirmPassword: string } = {
       email: "toto",
       password: "Password0",
       confirmPassword: "Password0",
       pseudo: "pseudo",
-      birthDate: new Date("1999-01-01"),
+      birthDate: "1999-01-01",
     };
 
     await request(app)
       .post("/authentication/register")
       .send(gamerArgs)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["This email is not valid"]);
   });
 
   it("should respond with an error 500 for an invalid password or not the same confirmPassword", async () => {
-    const gamerArgs: CreateGamerArgs & { confirmPassword: string } = {
+    const gamerArgs: TestDataForRegister & { confirmPassword: string } = {
       email: "good@mail.com",
       password: "Password",
       confirmPassword: "Password",
       pseudo: "pseudo",
-      birthDate: new Date("1999-01-01"),
+      birthDate: "1999-01-01",
     };
 
     await request(app)
       .post("/authentication/register")
       .send(gamerArgs)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["This password is not valid"]);
 
     gamerArgs.password = "Password0";
     gamerArgs.confirmPassword = "anotherPassword";
@@ -176,49 +182,53 @@ describe("POST/ register", () => {
     await request(app)
       .post("/authentication/register")
       .send(gamerArgs)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["The passwords do not match"]);
   });
 
   it("should respond with an error 500 for an invalid pseudo", async () => {
-    const gamerArgs: CreateGamerArgs & { confirmPassword: string } = {
+    const gamerArgs: TestDataForRegister & { confirmPassword: string } = {
       email: "good@mail.com",
       password: "Password0",
       confirmPassword: "Password0",
       pseudo: "ps",
-      birthDate: new Date("1999-01-01"),
+      birthDate: "1999-01-01",
     };
 
     await request(app)
       .post("/authentication/register")
       .send(gamerArgs)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect(["This pseudo is not valid"]);
   });
 
   it("should respond with an error 500 for an invalid birthdate", async () => {
-    const gamerArgs: CreateGamerArgs & { confirmPassword: string } = {
+    const gamerArgs: TestDataForRegister & { confirmPassword: string } = {
       email: "good@mail.com",
       password: "Password0",
       confirmPassword: "Password0",
       pseudo: "pseudo",
-      birthDate: new Date(),
+      birthDate: "",
     };
 
     await request(app)
       .post("/authentication/register")
       .send(gamerArgs)
-      .expect(500)
-      .expect("Bad input");
+      .expect(422)
+      .expect([
+        "Incorrect date format",
+        "Incorrect date",
+        "You must be at least 18 to create an account",
+      ]);
   });
 
   it("should respond with a valid jwt with valid log in data", async () => {
-    const gamerArgs: CreateGamerArgs & { confirmPassword: string } = {
+    const gamerArgs: TestDataForRegister & { confirmPassword: string } = {
       email: "good@mail.com",
       password: "Password0",
       confirmPassword: "Password0",
       pseudo: "pseudo",
-      birthDate: new Date("1999-01-01"),
+      birthDate: "1999-01-01",
     };
 
     const resp = await request(app)

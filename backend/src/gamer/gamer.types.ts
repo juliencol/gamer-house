@@ -7,6 +7,16 @@ export interface CreateGamerArgs {
   birthDate: IGamer["birthDate"];
 }
 
+export interface TestDataForLogin {
+  email: IGamer["email"];
+  password: IGamer["password"];
+}
+
+export interface TestDataForRegister extends TestDataForLogin {
+  pseudo: IGamer["pseudo"];
+  birthDate: string;
+}
+
 export interface UpdateGamerArgs {
   pseudo: IGamer["pseudo"];
   firstName?: IGamer["firstName"];

@@ -27,9 +27,7 @@ authenticationRouter.post(
 
         res.status(200).json({ accessToken });
       })
-      .catch((e) =>
-        res.status(500).send(`The gamer could not be logged: ${e.message}`)
-      );
+      .catch((e) => res.status(500).send(`The gamer could not be logged`));
   }
 );
 
@@ -49,9 +47,7 @@ authenticationRouter.post(
         const accessToken = generateJWT({ id: gamer.id });
         res.status(200).json({ accessToken });
       })
-      .catch((e) =>
-        res.status(500).send(`The gamer could not be registered: ${e.message}`)
-      );
+      .catch((e) => res.status(500).send(`The gamer could not be registered`));
   }
 );
 
