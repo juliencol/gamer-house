@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import Input from 'Components/Input/Input';
-import Button from 'Components/Button/Button';
+import Input from 'Components/Globals/Input/Input';
+import Button from 'Components/Globals/Button/Button';
 import './Authentication.css';
 import useFetch from 'Components/Fetch/useFetch';
 import { authReq } from 'Components/Fetch/request';

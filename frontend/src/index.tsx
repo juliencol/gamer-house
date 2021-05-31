@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AuthenticationPage from 'Pages/Authentication/Authentication';
+import FeedPage from 'Pages/Feed/Feed'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FeedPage/>
   </React.StrictMode>,
   document.getElementById('root')
 );
