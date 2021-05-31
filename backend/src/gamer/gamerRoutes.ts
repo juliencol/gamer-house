@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import {
   changePasswordArgumentsValidator,
-  createGamerArgumentsValidator,
+  registerGamerArgumentsValidator,
 } from "../request_validators/gamerArgumentsValidator";
 import { validate } from "../request_validators/validator";
 import {
@@ -22,7 +22,7 @@ const router = Router();
 
 router.post(
   "/",
-  createGamerArgumentsValidator(),
+  registerGamerArgumentsValidator(),
   validate,
   async (req: Request, res: Response) => {
     try {
