@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import FeedPage from "Pages/Feed/Feed";
 
 test('renders learn react link', () => {
-  render(<App />);
+  render(<FeedPage/>);
   const elements = screen.getAllByText(/sign/i);
   expect(elements[0]).toBeInTheDocument();
 });
