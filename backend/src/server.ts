@@ -4,6 +4,7 @@ import cors from "cors";
 import authenticationRouter from "./routes/authentication/authentication";
 import { FRONT_URL } from "./constants";
 import gamerRoutes from "./gamer/gamerRoutes";
+import mustBeAuthenticated from "./authentication/authenticationMiddleware";
 
 export function createServer() {
   const app = express();
@@ -17,6 +18,7 @@ export function createServer() {
   );
 
   app.use("/authentication", authenticationRouter);
-  app.use("/gamers", gamerRoutes);
+  app.use("/gamers", mustBeAuthenticated, gamerRoutes);
+
   return app;
 }
