@@ -23,6 +23,7 @@ authenticationRouter.post(
         }
         const accessToken = generateJWT({
           id: gamer.id,
+          pseudo: gamer.pseudo,
         });
 
         res.status(200).json({ accessToken });
@@ -44,7 +45,7 @@ authenticationRouter.post(
     };
     createGamer(gamerData)
       .then((gamer) => {
-        const accessToken = generateJWT({ id: gamer.id });
+        const accessToken = generateJWT({ id: gamer.id, pseudo: gamer.pseudo });
         res.status(200).json({ accessToken });
       })
       .catch((e) => res.status(500).send(`The gamer could not be registered`));

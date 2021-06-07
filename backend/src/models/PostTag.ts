@@ -1,10 +1,10 @@
-import { Schema, model, Model, Document } from 'mongoose';
+import { Schema, model, Model, Document } from "mongoose";
 
-export const postTagSchemaName = 'PostTag';
-const postTagCollectionName = 'posts';
+export const postTagSchemaName = "PostTag";
+const postTagCollectionName = "postsTags";
 
 export const PostTagSchema = new Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
 });
 
 PostTagSchema.methods.getID = function () {
@@ -12,7 +12,7 @@ PostTagSchema.methods.getID = function () {
 };
 
 interface IPostTagSchema extends Document {
-  name: { type: string; required: true };
+  name: string;
 }
 
 interface IPostTagBase extends IPostTagSchema {
