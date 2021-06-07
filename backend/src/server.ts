@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import authenticationRouter from "./routes/authentication/authentication";
@@ -11,15 +11,10 @@ import postTagRoutes from "./postTag/postTagRoutes";
 
 export async function createServer() {
   const app = express();
-
   app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
-
   app.use(cors({ origin: FRONT_URL, credentials: true }));
 
-  app.get("/", (req: Request, res: Response) =>
-    res.json({ message: "Welcome to the GamerHouse API!" })
-  );
-
+  // Backend endpoints
   app.use("/authentication", authenticationRouter);
   app.use("/gamers", mustBeAuthenticated, gamerRoutes);
   app.use("/user", userInfoRouter);

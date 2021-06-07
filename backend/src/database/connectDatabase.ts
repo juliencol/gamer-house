@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { DB_CONNECTION_STRING } from '../constants';
+import mongoose from "mongoose";
+import { DB_CONNECTION_STRING } from "../constants";
 
 // Declare database object
 export let database: mongoose.Connection;
@@ -10,13 +10,15 @@ export const connectDatabase = async (): Promise<void> => {
     .connect(DB_CONNECTION_STRING, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
     })
     .then(() => (database = mongoose.connection))
     .then((database: mongoose.Connection) => {
-      console.log(`Successfully connected to ${database.name} database`);
+      console.log(`Successfully connected to ${database.name} database.`);
     })
     .catch((error: Error) => {
-      console.error('Could not connect to the database. Exiting now...', error);
+      console.error("Could not connect to the database. Exiting now...", error);
       process.exit();
     });
 };
