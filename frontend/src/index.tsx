@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Home from "Pages/Homepage/Home"
 import AuthenticationPage from 'Pages/Authentication/Authentication';
 import FeedPage from 'Pages/Feed/Feed'
 import reportWebVitals from './reportWebVitals';
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FeedPage/>
+    <Home/>
   </React.StrictMode>,
   document.getElementById('root')
 );

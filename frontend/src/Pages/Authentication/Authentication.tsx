@@ -1,4 +1,4 @@
-import Authentication from "Components/Authentication/Authentication";
+import Authentication from "App";
 
 function AuthenticationPage(){
     return(

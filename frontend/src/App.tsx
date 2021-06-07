@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './style.css';
+import './Components/Authentication/HomePageLanding.css';
 import Authentication from 'Authentication/Authentication';
 import useFetch from 'Components/Fetch/useFetch';
 import { authReq } from 'Components/Fetch/request';

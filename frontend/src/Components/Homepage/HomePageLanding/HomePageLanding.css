@@ -1,0 +1,33 @@
+.homePageLandingImage{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.homePageLandingTitleDiv{
+    z-index: 2;
+    position: absolute;
+    top: 35%; left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.homePageLandingTitle{
+    font-family: Heiti TC;
+    font-size: 5em;
+    font-weight: lighter;
+    min-width: 515px;
+}
+
+.homePageLandingTextWelcome {
+    position: relative;
+    font-size: 1.5em;
+    color: white;
+    margin-left: 30%;
+    margin-top: -40px;
+}
+
+
+.signInButton{
+    position: relative;
+    margin-left: 35%;
+}
