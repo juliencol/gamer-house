@@ -5,7 +5,7 @@ import './Header.css';
 import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header(props: { logOut: () => void }) {
   const { data } = useFetch({ pseudo: '' }, userInfo().pseudo());
   const [pseudo, setPseudo] = useState('');
   useEffect(() => {
@@ -38,8 +38,9 @@ function Header() {
         </Menu.Item>
         <Menu.Item key="disconnect">
           <Link
-            to="/profile"
+            to="/"
             style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+            onClick={() => props.logOut()}
           >
             Log out
           </Link>

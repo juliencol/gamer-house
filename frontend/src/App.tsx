@@ -41,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Header logOut={logOut} />
       <Switch>
         <Route exact={true} path="/">
           <h1>You are now connected</h1>
