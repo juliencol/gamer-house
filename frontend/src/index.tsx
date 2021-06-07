@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import AuthenticationPage from 'Pages/Authentication/Authentication';
-import FeedPage from 'Pages/Feed/Feed'
+import ProfilePage from 'Pages/Profil/Profil';
+import FeedPage from 'Pages/Feed/Feed';
 import reportWebVitals from './reportWebVitals';
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <FeedPage/>
+    <ProfilePage/>
   </React.StrictMode>,
   document.getElementById('root')
 );
