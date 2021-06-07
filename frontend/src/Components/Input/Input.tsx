@@ -9,7 +9,6 @@ interface propsInput {
   type: string;
   id: formMaximalFields;
   placeholder: string;
-  value: string;
   errors: Array<string>;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -29,7 +28,6 @@ function Input(props: propsInput) {
         type={props.type}
         placeholder={props.placeholder}
         onChange={props.onChange}
-        value={props.value}
         max={new Date().toISOString().split('T')[0]}
       />
       <Errors errors={props.errors} />

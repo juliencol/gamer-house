@@ -43,3 +43,13 @@ export function authReq(): Request {
     }),
   };
 }
+
+export function userInfo(): Request {
+  const userInfoBaseUrl = 'user';
+  return {
+    pseudo: () => ({
+      url: `${userInfoBaseUrl}/pseudo`,
+      method: 'get',
+    }),
+  };
+}

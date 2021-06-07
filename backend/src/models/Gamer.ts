@@ -16,6 +16,8 @@ export const GamerSchema = new Schema({
   birthDate: { type: Date, required: true },
   country: { type: String, required: false },
   city: { type: String, required: false },
+  statusMessage: { type: String, required: false },
+  description: { type: String, required: false },
   createdAt: { type: Date, required: false },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
   followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
@@ -38,6 +40,8 @@ interface IGamerSchema extends Document {
   birthDate: Date;
   country: string;
   city: string;
+  statusMessage: string;
+  description: string;
   createdAt: Date;
   posts: Array<IPost["id"]>;
   followers: Array<IGamer["id"]>;

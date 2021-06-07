@@ -1,14 +1,9 @@
-.Feed {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  justify-items: center;
-}
-
-#posts {
-  width: 80%;
-}
-
 .post {
   margin: var(--normal-margin);
   border-radius: var(--normal-radius);
+}
+
+.date {
+  margin-top: 10px;
+  margin-left: 70%;
 }

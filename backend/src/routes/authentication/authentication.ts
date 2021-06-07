@@ -27,6 +27,7 @@ authenticationRouter.post("/login", (req: Request, res: Response) => {
       }
       const accessToken = generateJWT({
         id: gamer.id,
+        pseudo: gamer.pseudo,
       });
 
       res.status(200).json({ accessToken });
@@ -53,7 +54,7 @@ authenticationRouter.post("/register", async (req: Request, res: Response) => {
   }
   createGamer(gamerData)
     .then((gamer) => {
-      const accessToken = generateJWT({ id: gamer.id });
+      const accessToken = generateJWT({ id: gamer.id, pseudo: gamer.pseudo });
       res.status(200).json({ accessToken });
     })
     .catch(() => res.status(500).send("Something went wrong"));

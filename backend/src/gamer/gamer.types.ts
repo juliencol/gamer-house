@@ -16,4 +16,6 @@ export interface UpdateGamerArgs {
   birthDate: IGamer["birthDate"];
   country?: IGamer["country"];
   city?: IGamer["city"];
+  statusMessage?: IGamer["statusMessage"];
+  description?: IGamer["description"];
 }

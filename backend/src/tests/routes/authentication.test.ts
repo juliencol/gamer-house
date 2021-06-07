@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 import request from "supertest";
 import {
-  jwtPlayloadKeys,
-  PlayloadJWT,
+  PayloadJWT,
   generateJWT,
   isValidJWT,
-  readJWT,
+  getPayload,
 } from "../../authentication/jwt";
 import { createGamer } from "../../gamer/gamer";
 import { CreateGamerArgs } from "../../gamer/gamer.types";
@@ -48,7 +47,7 @@ describe("GET/ isAuthenticated", () => {
   });
 
   it("should respond with true with a good jwt", async () => {
-    const goodJWT = generateJWT({ id: "un id" });
+    const goodJWT = generateJWT({ id: "un id", pseudo: "un pseudo" });
     await request(app)
       .get("/authentication/isAuthenticated")
       .set("Authorization", `AccessToken ${goodJWT}`)
@@ -125,14 +124,11 @@ describe("POST/ login", () => {
     const jwt = resp.body.accessToken;
     expect(isValidJWT(jwt)).toBe(true);
 
-    const expectedPlayload: PlayloadJWT = { id: gamer.id };
-    const jwtPlayload = Object.entries(readJWT(jwt)).reduce((prev, curr) => {
-      const key = curr[0];
-      if (key !== "exp" && key !== "iat") {
-        prev[key as jwtPlayloadKeys] = curr[1];
-      }
-      return prev;
-    }, expectedPlayload);
+    const expectedPlayload: PayloadJWT = {
+      id: gamer.id,
+      pseudo: gamer.pseudo,
+    };
+    const jwtPlayload = getPayload(jwt);
 
     expect(jwtPlayload).toBe(expectedPlayload);
   });

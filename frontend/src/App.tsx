@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-<<<<<<< HEAD
 import Authentication from 'Authentication/Authentication';
 import useFetch from 'Components/Fetch/useFetch';
 import { authReq } from 'Components/Fetch/request';
-=======
-import Feed from './Feed/Feed';
-import Authentication from './Authentication/Authentication';
->>>>>>> Added feed_page
+import Feed from 'Feed/Feed';
+import Header from 'Components/Header/Header';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(
@@ -37,9 +34,6 @@ function App() {
               refresh={() => setRequest(authReq().isAuthenticated())}
             />
           </Route>
-          <Route exact={true} path="/feed">
-            <Feed />
-          </Route>
         </Switch>
       </Router>
     );
@@ -47,10 +41,14 @@ function App() {
 
   return (
     <Router>
+      <Header />
       <Switch>
-        <Route path="/">
+        <Route exact={true} path="/">
           <h1>You are now connected</h1>
           <button onClick={() => logOut()}>Log out</button>
+        </Route>
+        <Route exact={true} path="/feed">
+          <Feed />
         </Route>
       </Switch>
     </Router>
