@@ -16,11 +16,13 @@ export const GamerSchema = new Schema({
   birthDate: { type: Date, required: true },
   country: { type: String, required: false },
   city: { type: String, required: false },
+  statusMessage: { type: String, required: false },
+  description: { type: String, required: false },
   createdAt: { type: Date, required: false },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
   followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
   following: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
-  /*gamesWithRanks: [{ type: Object, required: false }],*/
+  gamesWithRanks: [{ type: Object, required: false }],
   group: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
 });
 
@@ -38,14 +40,16 @@ interface IGamerSchema extends Document {
   birthDate: Date;
   country: string;
   city: string;
+  statusMessage: string;
+  description: string;
   createdAt: Date;
   posts: Array<IPost["id"]>;
   followers: Array<IGamer["id"]>;
   following: Array<IGamer["id"]>;
-  /*gamesWithRanks: Array<{
+  gamesWithRanks: Array<{
     game: IGame["id"];
     rank: string;
-  }>;*/
+  }>;
   group: Array<IGroup["id"]>;
 }
 

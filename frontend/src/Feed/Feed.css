@@ -1,0 +1,9 @@
+.post {
+  margin: var(--normal-margin);
+  border-radius: var(--normal-radius);
+}
+
+.date {
+  margin-top: 10px;
+  margin-left: 70%;
+}

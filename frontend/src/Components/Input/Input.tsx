@@ -24,10 +24,10 @@ function Input(props: propsInput) {
         required={false}
         name={props.id}
         id={props.id}
+        value={props.value}
         type={props.type}
         placeholder={props.placeholder}
         onChange={props.onChange}
-        value={props.value}
         max={new Date().toISOString().split('T')[0]}
       />
       <Errors errors={props.errors} />
