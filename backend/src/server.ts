@@ -9,7 +9,7 @@ import mustBeAuthenticated from "./authentication/authenticationMiddleware";
 import postRoutes from "./post/postRoutes";
 import postTagRoutes from "./postTag/postTagRoutes";
 
-export function createServer() {
+export async function createServer() {
   const app = express();
 
   app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
