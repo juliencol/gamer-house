@@ -1,7 +1,7 @@
-import JWT from "jsonwebtoken";
-import { SECRET_ACCESS_TOKEN } from "../constants";
+import JWT from 'jsonwebtoken';
+import { SECRET_ACCESS_TOKEN } from '../constants';
 
-export type jwtPayloadKeys = "id" | "pseudo";
+export type jwtPayloadKeys = 'id' | 'pseudo';
 export type PayloadJWT = { [key in jwtPayloadKeys]: string };
 
 export function generateJWT(data: PayloadJWT) {
@@ -22,12 +22,12 @@ export function getPayload(jwt: string) {
   const jwtPayload = Object.entries(fullPayload).reduce(
     (prev, curr) => {
       const key = curr[0] as string;
-      if (key !== "exp" && key !== "iat") {
+      if (key !== 'exp' && key !== 'iat') {
         prev[key as jwtPayloadKeys] = curr[1];
       }
       return prev;
     },
-    { id: "", pseudo: "" }
+    { id: '', pseudo: '' }
   );
   return jwtPayload;
 }

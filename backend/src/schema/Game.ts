@@ -1,6 +1,6 @@
-import { Schema, model, Model, Document } from "mongoose";
-export const gameSchemaName = "Game";
-const gameCollectionName = "games";
+import { Schema, model, Model, Document } from 'mongoose';
+export const gameSchemaName = 'Game';
+const gameCollectionName = 'games';
 
 export const GameSchema = new Schema({
   name: { type: String, required: true },
@@ -24,8 +24,4 @@ export interface IGame extends IGameBase {}
 
 export interface IGameModel extends Model<IGame> {}
 
-export default model<IGame, IGameModel>(
-  gameSchemaName,
-  GameSchema,
-  gameCollectionName
-);
+export default model<IGame, IGameModel>(gameSchemaName, GameSchema, gameCollectionName);

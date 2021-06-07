@@ -1,25 +1,25 @@
-import Router, { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import { generateJWT, isValidJWT } from "../../authentication/jwt";
-import { getGamerByEmail, createGamer } from "../../gamer/gamer";
-import { CreateGamerArgs } from "../../gamer/gamer.types";
+import Router, { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import { getGamerByEmail, createGamer } from '../controllers/gamerController';
 import {
   loginGamerArgumentsValidator,
   registerGamerArgumentsValidator,
-} from "../../request_validators/gamerArgumentsValidator";
-import { validate } from "../../request_validators/validator";
+} from '../validators/gamerArgumentsValidator';
+import { validate } from '../validators/validator';
+import { generateJWT, isValidJWT } from '../services/authenticationService';
+import { CreateGamerArgs } from '../types/gamer.types';
 
 const authenticationRouter = Router();
 
 authenticationRouter.post(
-  "/login",
+  '/login',
   loginGamerArgumentsValidator(),
   validate,
   (req: Request, res: Response) => {
     getGamerByEmail(req.body.email)
       .then((gamer) => {
         if (!bcrypt.compareSync(req.body.password, gamer.password)) {
-          throw Error("Wrong password and email combination");
+          throw Error('Wrong password and email combination');
         }
         const accessToken = generateJWT({
           id: gamer.id,
@@ -33,7 +33,7 @@ authenticationRouter.post(
 );
 
 authenticationRouter.post(
-  "/register",
+  '/register',
   registerGamerArgumentsValidator(),
   validate,
   async (req: Request, res: Response) => {
@@ -52,14 +52,14 @@ authenticationRouter.post(
   }
 );
 
-authenticationRouter.get("/isAuthenticated", (req: Request, res: Response) => {
+authenticationRouter.get('/isAuthenticated', (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
   if (!authorization) {
-    return res.status(500).json("No authorization header");
+    return res.status(500).json('No authorization header');
   }
-  const accessToken = authorization.replace("AccessToken ", "");
+  const accessToken = authorization.replace('AccessToken ', '');
   if (!accessToken) {
-    return res.status(500).send("No access token");
+    return res.status(500).send('No access token');
   }
   return res.status(200).send(isValidJWT(accessToken));
 });

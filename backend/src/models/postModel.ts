@@ -1,6 +1,6 @@
-import Post, { IPost } from "../models/Post";
-import Gamer, { IGamer } from "../models/Gamer";
-import { CreatePostArgs } from "./post.types";
+import Post, { IPost } from '../schema/Post';
+import Gamer, { IGamer } from '../schema/Gamer';
+import { CreatePostArgs } from '../types/post.types';
 
 export async function createPostDB(
   createPostArgs: CreatePostArgs & { createdAt: Date }
@@ -16,7 +16,7 @@ export async function deletePostDB(postId: string): Promise<IPost | null> {
 }
 
 export async function getPostsDB(): Promise<IPost[]> {
-  return Post.find().populate("writer");
+  return Post.find().populate('writer');
 }
 
 export async function getWriterDB(post: IPost): Promise<IGamer | null> {

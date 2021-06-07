@@ -1,7 +1,5 @@
-import Gamer, { IGamer } from "../models/Gamer";
-import { CreateGamerArgs, UpdateGamerArgs } from "./gamer.types";
-
-// Gamer management
+import Gamer, { IGamer } from '../schema/Gamer';
+import { CreateGamerArgs, UpdateGamerArgs } from '../types/gamer.types';
 
 export function createGamerDB(
   gamerArgs: CreateGamerArgs & { createdAt: Date }
@@ -41,11 +39,7 @@ export async function changePasswordDB(
   id: string,
   password: string
 ): Promise<IGamer | null> {
-  return Gamer.findByIdAndUpdate(
-    id,
-    { $set: { password: password } },
-    { new: true }
-  );
+  return Gamer.findByIdAndUpdate(id, { $set: { password: password } }, { new: true });
 }
 
 // Following system
@@ -54,22 +48,14 @@ export async function addToFollowingDB(
   id: string,
   idToFollow: string
 ): Promise<IGamer | null> {
-  return Gamer.findByIdAndUpdate(
-    id,
-    { $push: { following: idToFollow } },
-    { new: true }
-  );
+  return Gamer.findByIdAndUpdate(id, { $push: { following: idToFollow } }, { new: true });
 }
 
 export async function addToFollowersDB(
   id: string,
   followerId: string
 ): Promise<IGamer | null> {
-  return Gamer.findByIdAndUpdate(
-    id,
-    { $push: { followers: followerId } },
-    { new: true }
-  );
+  return Gamer.findByIdAndUpdate(id, { $push: { followers: followerId } }, { new: true });
 }
 
 export async function deleteFromFollowingDB(
@@ -87,9 +73,5 @@ export async function deleteFromFollowersDB(
   id: string,
   followerId: string
 ): Promise<IGamer | null> {
-  return Gamer.findByIdAndUpdate(
-    id,
-    { $pull: { followers: followerId } },
-    { new: true }
-  );
+  return Gamer.findByIdAndUpdate(id, { $pull: { followers: followerId } }, { new: true });
 }

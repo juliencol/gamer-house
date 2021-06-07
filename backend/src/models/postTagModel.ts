@@ -1,8 +1,6 @@
-import PostTag, { IPostTag } from "../models/PostTag";
+import PostTag, { IPostTag } from '../schema/PostTag';
 
-export async function createPostTagDB(data: {
-  name: string;
-}): Promise<IPostTag> {
+export async function createPostTagDB(data: { name: string }): Promise<IPostTag> {
   const postTag = new PostTag(data);
   return postTag.save();
 }
