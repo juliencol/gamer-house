@@ -6,15 +6,11 @@ import PostServices from '../Services/PostServices';
 import PostTagServices from '../Services/PostTagServices';
 import { IPost } from '../../../backend/src/models/Post';
 import Meta from 'antd/lib/card/Meta';
-import { IGamer } from '../../../backend/src/models/Gamer';
 import { IPostTag } from '../../../backend/src/models/PostTag';
-
-const TAGS = ['League of Legends', 'Animal Crossing', 'APEX:Legends', 'Valorant'];
 
 function Feed() {
   const [filterState, setFilterState] = useState<Array<string>>([]);
   const [posts, setPosts] = useState<Array<IPost>>([]);
-  const [writers, setWriters] = useState<Array<IGamer>>([]);
   const [postTags, setPostTags] = useState<Array<IPostTag>>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -59,9 +55,6 @@ function Feed() {
     handleOk();
     PostServices.getPosts().then((posts) => {
       setPosts(posts.data);
-    });
-    PostServices.getWriters().then((writers) => {
-      setWriters(writers.data);
     });
   };
 
