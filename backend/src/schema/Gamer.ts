@@ -1,10 +1,10 @@
-import { Schema, model, Model, Document } from "mongoose";
-import { IPost } from "./Post";
-import { IGame } from "./Game";
-import { IGroup } from "./Group";
+import { Schema, model, Model, Document } from 'mongoose';
+import { IPost } from './Post';
+import { IGame } from './Game';
+import { IGroup } from './Group';
 
-export const gamerSchemaName = "Gamer";
-const gamerCollectionName = "gamers";
+export const gamerSchemaName = 'Gamer';
+const gamerCollectionName = 'gamers';
 
 export const GamerSchema = new Schema({
   pseudo: { type: String, required: true },
@@ -19,11 +19,11 @@ export const GamerSchema = new Schema({
   statusMessage: { type: String, required: false },
   description: { type: String, required: false },
   createdAt: { type: Date, required: false },
-  posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
-  followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
-  following: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
+  followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   gamesWithRanks: [{ type: Object, required: false }],
-  group: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
+  group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
 });
 
 GamerSchema.methods.getID = function () {
@@ -43,14 +43,14 @@ interface IGamerSchema extends Document {
   statusMessage: string;
   description: string;
   createdAt: Date;
-  posts: Array<IPost["id"]>;
-  followers: Array<IGamer["id"]>;
-  following: Array<IGamer["id"]>;
+  posts: Array<IPost['id']>;
+  followers: Array<IGamer['id']>;
+  following: Array<IGamer['id']>;
   gamesWithRanks: Array<{
-    game: IGame["id"];
+    game: IGame['id'];
     rank: string;
   }>;
-  group: Array<IGroup["id"]>;
+  group: Array<IGroup['id']>;
 }
 
 interface IGamerBase extends IGamerSchema {

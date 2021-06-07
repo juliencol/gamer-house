@@ -1,4 +1,4 @@
-import Group, { IGroup } from "../models/Group";
+import Group, { IGroup } from '../schema/Group';
 
 export async function createGroupDB(data: {
   name: string;
