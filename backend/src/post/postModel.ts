@@ -16,7 +16,7 @@ export async function deletePostDB(postId: string): Promise<IPost | null> {
 }
 
 export async function getPostsDB(): Promise<IPost[]> {
-  return Post.find();
+  return Post.find().populate("writer");
 }
 
 export async function getWriterDB(post: IPost): Promise<IGamer | null> {

@@ -22,9 +22,6 @@ function Feed() {
     PostServices.getPosts().then((posts) => {
       setPosts(posts.data);
     });
-    PostServices.getWriters().then((writers) => {
-      setWriters(writers.data);
-    });
     PostTagServices.getPostTags().then((postTags) => {
       setPostTags(postTags.data);
     });
@@ -84,7 +81,7 @@ function Feed() {
     const result: Array<JSX.Element> = [];
     for (let i = 0; i < posts.length; i++) {
       result.push(
-        <Card key={i} className="post" bordered={false} title={writers[i]?.pseudo}>
+        <Card key={i} className="post" bordered={false} title={posts[i].writer.pseudo}>
           <Meta
             avatar={
               <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU" />

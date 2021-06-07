@@ -22,7 +22,7 @@ export const GamerSchema = new Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: false }],
   followers: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
   following: [{ type: Schema.Types.ObjectId, ref: "Gamer", required: true }],
-  /*gamesWithRanks: [{ type: Object, required: false }],*/
+  gamesWithRanks: [{ type: Object, required: false }],
   group: [{ type: Schema.Types.ObjectId, ref: "Game", required: true }],
 });
 
@@ -46,10 +46,10 @@ interface IGamerSchema extends Document {
   posts: Array<IPost["id"]>;
   followers: Array<IGamer["id"]>;
   following: Array<IGamer["id"]>;
-  /*gamesWithRanks: Array<{
+  gamesWithRanks: Array<{
     game: IGame["id"];
     rank: string;
-  }>;*/
+  }>;
   group: Array<IGroup["id"]>;
 }
 

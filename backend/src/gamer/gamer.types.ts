@@ -1,3 +1,4 @@
+import { IGame } from "../models/Game";
 import { IGamer } from "../models/Gamer";
 
 export interface CreateGamerArgs {
@@ -26,6 +27,10 @@ export interface UpdateGamerArgs {
   birthDate: IGamer["birthDate"];
   country?: IGamer["country"];
   city?: IGamer["city"];
+  gamesWithRanks?: Array<{
+    game: IGame["id"];
+    rank: string;
+  }>;
   statusMessage?: IGamer["statusMessage"];
   description?: IGamer["description"];
 }
