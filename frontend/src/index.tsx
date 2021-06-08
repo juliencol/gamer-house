@@ -5,6 +5,7 @@ import AuthenticationPage from 'Pages/Authentication/Authentication';
 import ProfilePage from 'Pages/Profil/Profil';
 import FeedPage from 'Pages/Feed/Feed';
 import reportWebVitals from './reportWebVitals';
+import 'antd/dist/antd.css';
 
 
 
