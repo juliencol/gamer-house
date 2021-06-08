@@ -1,10 +1,17 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { IGamer } from '../schema/Gamer';
 >>>>>>> 09fa6fe (Solved import issues)
 import { IPost } from '../schema/Post';
 import { getPostTagByName } from '../controllers/postTagController';
 import { CreatePostArgs } from '../types/post.types';
+=======
+import { IGamer } from "../models/Gamer";
+import { IPost } from "../models/Post";
+import { getPostTagByName } from "../postTag/postTag";
+import { CreatePostArgs } from "./post.types";
+>>>>>>> c86750e (Post, post tag back, feed updated)
 import {
   addPostToGamerDB,
   createPostDB,
@@ -13,6 +20,7 @@ import {
   getPostsDB,
 } from '../models/postModel';
 
+<<<<<<< HEAD
 export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
 <<<<<<< HEAD
   const postTagsIds = await Promise.all(
@@ -25,6 +33,11 @@ export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost>
   });
   await addPostToGamer(createPostArgs.writer, post.id);
 =======
+=======
+export async function createPost(
+  createPostArgs: CreatePostArgs
+): Promise<IPost> {
+>>>>>>> c86750e (Post, post tag back, feed updated)
   for (let i = 0; i < createPostArgs.tags.length; i++) {
     console.log(await getPostTagByName(createPostArgs.tags[i]));
   }
