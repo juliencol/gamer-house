@@ -1,5 +1,17 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar } from 'antd';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import {
+  Affix,
+  Button,
+  Card,
+  Modal,
+  Form,
+  Input,
+  Row,
+  Col,
+  Avatar,
+  Tag,
+  Select,
+} from 'antd';
 import './Feed.css';
 import GamerServices from '../../services/GamerServices';
 import PostServices from '../../services/PostServices';
@@ -88,6 +100,31 @@ function Feed() {
     return result;
   }
 
+  const options = postTags.map((postTag) => {
+    return {
+      value: postTag.name,
+    };
+  });
+
+  function tagRender(props: any) {
+    const { label, value, closable, onClose } = props;
+    const onPreventMouseDown = (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        color="gold"
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{ marginRight: 3 }}
+      >
+        {label}
+      </Tag>
+    );
+  }
+
   return (
     <>
       <br />
@@ -166,6 +203,25 @@ function Feed() {
               ]}
             >
               <Input.TextArea />
+            </Form.Item>
+
+            <Form.Item
+              label="Tags"
+              name="tags"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select at least a tag for your post!',
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                showArrow
+                tagRender={tagRender}
+                style={{ width: '100%' }}
+                options={options}
+              />
             </Form.Item>
 
             <Form.Item {...tailLayout}>
