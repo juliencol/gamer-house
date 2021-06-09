@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Category, IPostTag } from '../schema/PostTag';
+=======
+import { IPostTag } from '../schema/PostTag';
+>>>>>>> 09fa6fe (Solved import issues)
 import {
   createPostTagDB,
   deletePostTagDB,
@@ -21,7 +25,11 @@ export async function getPostTags(): Promise<IPostTag[]> {
 
 export async function getPostTagByName(name: string): Promise<IPostTag> {
   const postTag = await getPostTagByNameDB(name);
+<<<<<<< HEAD
   if (!postTag) throw new Error('The requested post tag does not exist');
+=======
+  if (!postTag) throw new Error('The request post tag does not exist');
+>>>>>>> 09fa6fe (Solved import issues)
   return postTag;
 }
 

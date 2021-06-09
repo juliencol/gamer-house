@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { IGamer } from '../schema/Gamer';
+>>>>>>> 09fa6fe (Solved import issues)
 import { IPost } from '../schema/Post';
 import { getPostTagByName } from '../controllers/postTagController';
 import { CreatePostArgs } from '../types/post.types';
@@ -10,6 +14,7 @@ import {
 } from '../models/postModel';
 
 export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
+<<<<<<< HEAD
   const postTagsIds = await Promise.all(
     createPostArgs.tags.map(async (tagName) => (await getPostTagByName(tagName)).id)
   );
@@ -19,6 +24,13 @@ export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost>
     createdAt: new Date(),
   });
   await addPostToGamer(createPostArgs.writer, post.id);
+=======
+  for (let i = 0; i < createPostArgs.tags.length; i++) {
+    console.log(await getPostTagByName(createPostArgs.tags[i]));
+  }
+  const post = await createPostDB({ ...createPostArgs, createdAt: new Date() });
+  const test = await addPostToGamer(createPostArgs.writer, post.id);
+>>>>>>> 09fa6fe (Solved import issues)
   return post;
 }
 
