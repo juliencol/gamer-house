@@ -30,8 +30,13 @@ import PostTagServices from '../../Services/PostTagServices';
 >>>>>>> 3cd3394 (Solved import issues)
 >>>>>>> 09fa6fe (Solved import issues)
 import Meta from 'antd/lib/card/Meta';
+<<<<<<< HEAD
 import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
+=======
+import { Post } from '../../types/Post';
+import { PostTag } from '../../types/PostTag';
+>>>>>>> 83e6ba3 (Solved import configs)
 
 import './Feed.css';
 
