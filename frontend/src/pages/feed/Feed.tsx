@@ -64,10 +64,16 @@ import {
   Select,
 } from 'antd';
 import './Feed.css';
+<<<<<<< HEAD
 import GamerServices from '../../services/GamerServices';
 import PostServices from '../../services/PostServices';
 import PostTagServices from '../../services/PostTagServices';
 >>>>>>> 05fd3a0 (Post, post tag back, feed updated)
+=======
+import GamerServices from '../../Services/GamerServices';
+import PostServices from '../../Services/PostServices';
+import PostTagServices from '../../Services/PostTagServices';
+>>>>>>> 3cd3394 (Solved import issues)
 import Meta from 'antd/lib/card/Meta';
 import { Post } from 'types/Post';
 import { PostTag } from 'types/PostTag';

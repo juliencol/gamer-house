@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Category, IPostTag } from '../schema/PostTag';
 =======
 import { IPostTag } from '../schema/PostTag';
@@ -7,16 +8,23 @@ import { IPostTag } from '../schema/PostTag';
 =======
 import { IPostTag } from "../models/PostTag";
 >>>>>>> c86750e (Post, post tag back, feed updated)
+=======
+import { IPostTag } from '../schema/PostTag';
+>>>>>>> be4fedc (Solved import issues)
 import {
   createPostTagDB,
   deletePostTagDB,
   getPostTagByNameDB,
   getPostTagsDB,
 <<<<<<< HEAD
+<<<<<<< HEAD
 } from '../models/postTagModel';
 =======
 } from "./postTagModel";
 >>>>>>> c86750e (Post, post tag back, feed updated)
+=======
+} from '../models/postTagModel';
+>>>>>>> be4fedc (Solved import issues)
 
 export async function createPostTag(data: {
   name: string;
@@ -35,6 +43,7 @@ export async function getPostTagByName(name: string): Promise<IPostTag> {
   const postTag = await getPostTagByNameDB(name);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (!postTag) throw new Error('The requested post tag does not exist');
 =======
   if (!postTag) throw new Error('The request post tag does not exist');
@@ -42,6 +51,9 @@ export async function getPostTagByName(name: string): Promise<IPostTag> {
 =======
   if (!postTag) throw new Error("The request post tag does not exist");
 >>>>>>> c86750e (Post, post tag back, feed updated)
+=======
+  if (!postTag) throw new Error('The request post tag does not exist');
+>>>>>>> be4fedc (Solved import issues)
   return postTag;
 }
 

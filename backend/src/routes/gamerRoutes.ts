@@ -211,6 +211,7 @@ router.post('/post', async (req: Request, res: Response) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.post('/post/:id/', async (req: Request, res: Response) => {
   try {
     const postArgs: CreatePostArgs = {
@@ -230,6 +231,9 @@ router.post('/post/:id/', async (req: Request, res: Response) => {
 router.delete('/:id/post', async (req: Request, res: Response) => {
 =======
 router.post("/post/:id/", async (req: Request, res: Response) => {
+=======
+router.post('/post/:id/', async (req: Request, res: Response) => {
+>>>>>>> be4fedc (Solved import issues)
   try {
     const postArgs: CreatePostArgs = {
       writer: req.params.id,
@@ -238,14 +242,11 @@ router.post("/post/:id/", async (req: Request, res: Response) => {
     const post = await createPost(postArgs);
     res.status(201).json(post);
   } catch (e) {
-    res
-      .status(500)
-      .json({ error: `The post could not be created: ${e.message}` });
+    res.status(500).json({ error: `The post could not be created: ${e.message}` });
   }
 });
 
-router.delete("/:id/post", async (req: Request, res: Response) => {
->>>>>>> Post, post tag back, feed updated:backend/src/gamer/gamerRoutes.ts
+router.delete('/:id/post', async (req: Request, res: Response) => {
   try {
     const post = await deletePost(req.params.id, req.body.postId);
     res.status(201).json(post);
