@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Authentication from 'Authentication/Authentication';
-import useFetch from 'Components/Fetch/useFetch';
-import { authReq } from 'Components/Fetch/request';
-import Feed from 'Feed/Feed';
-import Header from 'Components/Header/Header';
+import Authentication from 'pages/authentication/Authentication';
+import useFetch from 'components/use-fetch/useFetch';
+import { authReq } from 'services/AuthenticationService';
+import Feed from 'pages/feed/Feed';
+import Header from 'components/header/Header';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(

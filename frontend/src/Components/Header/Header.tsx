@@ -1,6 +1,6 @@
-import { userInfo } from 'Components/Fetch/request';
-import useFetch from 'Components/Fetch/useFetch';
-import React, { useEffect, useState } from 'react';
+import { userInfo } from 'services/AuthenticationService';
+import useFetch from 'components/use-fetch/useFetch';
+import { useEffect, useState } from 'react';
 import './Header.css';
 import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
@@ -51,6 +51,7 @@ function Header(props: { logOut: () => void }) {
           <img
             className="avatar"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
+            alt=""
           />
         </Col>
         <Col className="pseudo" span={21}>

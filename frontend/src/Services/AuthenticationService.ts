@@ -1,5 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { formMaximalFields, formMinimalFields } from 'Authentication/Authentication';
+import {
+  formMaximalFields,
+  formMinimalFields,
+} from 'pages/authentication/Authentication';
 
 axios.interceptors.request.use(
   (config) => {

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar, Switch } from 'antd';
 import './Feed.css';
-import GamerServices from '../Services/GamerServices';
-import PostServices from '../Services/PostServices';
-import PostTagServices from '../Services/PostTagServices';
+import GamerServices from '../../services/GamerServices';
+import PostServices from '../../services/PostServices';
+import PostTagServices from '../../services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
 
 function Feed() {
