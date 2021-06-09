@@ -75,9 +75,14 @@ import PostServices from '../../Services/PostServices';
 import PostTagServices from '../../Services/PostTagServices';
 >>>>>>> 3cd3394 (Solved import issues)
 import Meta from 'antd/lib/card/Meta';
+<<<<<<< HEAD
 import { Post } from 'types/Post';
 import { PostTag } from 'types/PostTag';
 >>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
+=======
+import { Post } from '../../types/Post';
+import { PostTag } from '../../types/PostTag';
+>>>>>>> 7ec57d9 (Solved import configs)
 
 import './Feed.css';
 

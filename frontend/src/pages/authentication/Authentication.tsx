@@ -1,10 +1,18 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+<<<<<<< HEAD
 import Input from 'Components/Input/Input';
 import Button from 'Components/Button/Button';
 import useFetch from 'Components/use-fetch/useFetch';
 import { authReq } from 'Services/AuthenticationServices';
 
 import './Authentication.css';
+=======
+import Input from '../../Components/Input/Input';
+import Button from '../../Components/Button/Button';
+import './Authentication.css';
+import useFetch from '../../Components/use-fetch/useFetch';
+import { authReq } from '../../Services/AuthenticationServices';
+>>>>>>> c3e566b (Solved import configs)
 
 interface propsAuthentication {
   setAuthentication: (state: boolean) => void;

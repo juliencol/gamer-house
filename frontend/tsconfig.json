@@ -6,7 +6,10 @@
       "dom.iterable",
       "esnext"
     ],
+<<<<<<< HEAD
     "baseUrl": "src",
+=======
+>>>>>>> 7ec57d9 (Solved import configs)
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
