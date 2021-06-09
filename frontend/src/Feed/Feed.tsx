@@ -4,14 +4,12 @@ import './Feed.css';
 import GamerServices from '../Services/GamerServices';
 import PostServices from '../Services/PostServices';
 import PostTagServices from '../Services/PostTagServices';
-import { IPost } from '../../../backend/src/models/Post';
 import Meta from 'antd/lib/card/Meta';
-import { IPostTag } from '../../../backend/src/models/PostTag';
 
 function Feed() {
   const [filterState, setFilterState] = useState<Array<string>>([]);
-  const [posts, setPosts] = useState<Array<IPost>>([]);
-  const [postTags, setPostTags] = useState<Array<IPostTag>>([]);
+  const [posts, setPosts] = useState<Array<any>>([]);
+  const [postTags, setPostTags] = useState<Array<any>>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
