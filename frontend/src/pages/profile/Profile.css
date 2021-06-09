@@ -1,0 +1,96 @@
+html{
+    height: 1080px;
+}
+.Profile {
+    display: block;
+    height: 100%;
+    background-color: #28dce95b;
+}
+
+.ant-layout-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 900px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background: #139da7ab;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+.Profile p,.MainContent p{
+    text-align: center;
+    width: 100%;
+}
+
+.Content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
+
+.LeftColumm,.RightColumm{
+    width: 20%;
+}
+
+.LeftColumm input{
+    visibility: hidden;
+}
+
+.MainColumm{
+    width: 60%;
+}
+
+.MainContent{
+    position: relative;
+    height: 100%;
+    border:solid;
+    border-color: green;
+    justify-content: center;
+    padding: 4px;
+}
+
+.Avatar,.RemoveGame{
+    position: relative;
+    height: 30%;
+    border:solid;
+    border-color: red;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+}
+
+.Avatar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.UserName,.AddGame,.AddFollow{
+    position: relative;
+    height: 30%;
+    border:solid;
+    justify-content: center;
+    text-align: center;
+}
+
+.MainContent{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.Description,.GamePlayed,.Event,.Follow{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 30%;
+    border :solid;
+    border-color: blueviolet;
+    text-align: center;
+}
+
+

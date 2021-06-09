@@ -49,6 +49,26 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+router.get("/getAuthenticatedGamer", async (req: Request, res: Response) => {
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json("No authorization header");
+    }
+    const accessToken = authorization.replace("AccessToken ", "");
+    if (!accessToken) {
+      return res.status(500).send("No access token");
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await getGamer(payload.id);
+    console.log(gamer);
+    res.status(200).json(gamer);
+
+  } catch (e) {
+    res.status(500).json({ error: `Could not find any gamer: ${e.message}` });
+  }
+});
+
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const gamer = await getGamer(req.params.id);
