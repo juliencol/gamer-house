@@ -1,15 +1,17 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar, Switch } from 'antd';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar } from 'antd';
 import './Feed.css';
 import GamerServices from '../../services/GamerServices';
 import PostServices from '../../services/PostServices';
 import PostTagServices from '../../services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
+import { Post } from 'types/Post';
+import { PostTag } from 'types/PostTag';
 
 function Feed() {
   const [filterState, setFilterState] = useState<Array<string>>([]);
-  const [posts, setPosts] = useState<Array<any>>([]);
-  const [postTags, setPostTags] = useState<Array<any>>([]);
+  const [posts, setPosts] = useState<Array<Post>>([]);
+  const [postTags, setPostTags] = useState<Array<PostTag>>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
