@@ -50,6 +50,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+<<<<<<< HEAD
 router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
   try {
     const authorization = req.headers.authorization;
@@ -63,6 +64,23 @@ router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
     const payload: PayloadJWT = getPayload(accessToken);
     const gamer = await getGamer(payload.id);
     res.status(200).json(gamer);
+=======
+router.get("/getAuthenticatedGamer", async (req: Request, res: Response) => {
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json("No authorization header");
+    }
+    const accessToken = authorization.replace("AccessToken ", "");
+    if (!accessToken) {
+      return res.status(500).send("No access token");
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await getGamer(payload.id);
+    console.log(gamer);
+    res.status(200).json(gamer);
+
+>>>>>>> 8b4e604 ( profile Page front + route back)
   } catch (e) {
     res.status(500).json({ error: `Could not find any gamer: ${e.message}` });
   }
