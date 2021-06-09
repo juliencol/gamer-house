@@ -5,8 +5,8 @@ import { DB_CONNECTION_STRING } from '../constants';
 export let database: mongoose.Connection;
 
 /** Connect database to our backend **/
-export const connectDatabase = async (): Promise<void> => {
-  await mongoose
+export const connectDatabase = async (): Promise<mongoose.Connection> => {
+  return await mongoose
     .connect(DB_CONNECTION_STRING, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -14,9 +14,7 @@ export const connectDatabase = async (): Promise<void> => {
       useCreateIndex: true,
     })
     .then(() => (database = mongoose.connection))
-    .then((database: mongoose.Connection) =>
-      console.log(`Successfully connected to ${database.name} database.`)
-    )
+    .then((database: mongoose.Connection) => database)
     .catch((error: Error) => {
       console.error('Could not connect to the database. Exiting now...', error);
       process.exit();

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { createGamer } from '../controllers/gamerController';
-import { createServer } from '../server';
+import { createServer } from '../server/createServer';
 import {
   generateJWT,
   getPayload,
