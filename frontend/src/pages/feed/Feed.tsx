@@ -5,8 +5,8 @@ import GamerServices from 'Services/GamerServices';
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
-import { Post } from 'types/Post';
-import { PostTag } from 'types/PostTag';
+import { Post } from '../../types/Post';
+import { PostTag } from '../../types/PostTag';
 
 import './Feed.css';
 

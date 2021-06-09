@@ -9,7 +9,7 @@ export const DB_CONNECTION_STRING: string = process.env.DB_CONNECTION_STRING!;
 /** Secret token to sign JWT */
 export const SECRET_ACCESS_TOKEN: string = process.env.SECRET_ACCESS_TOKEN!;
 
-/** Secret token to sign JWT */
+/** Default App URL */
 export const DEFAULT_APP_URL: string = process.env.DEFAULT_APP_URL!;
 
 /** Default port */
