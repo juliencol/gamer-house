@@ -1,5 +1,5 @@
-import { userInfo } from 'Services/AuthenticationService';
-import useFetch from 'Components/use-fetch/useFetch';
+import { userInfo } from '../../Services/AuthenticationServices';
+import useFetch from '../use-fetch/useFetch';
 import { useEffect, useState } from 'react';
 import './Header.css';
 import { Layout, Menu, Row, Col } from 'antd';
