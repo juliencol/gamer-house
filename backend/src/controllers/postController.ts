@@ -1,7 +1,7 @@
-import { IGamer } from "../models/Gamer";
-import { IPost } from "../models/Post";
-import { getPostTagByName } from "../postTag/postTag";
-import { CreatePostArgs } from "./post.types";
+import { IGamer } from '../schema/Gamer';
+import { IPost } from '../schema/Post';
+import { getPostTagByName } from '../controllers/postTagController';
+import { CreatePostArgs } from '../types/post.types';
 import {
   addPostToGamerDB,
   createPostDB,
@@ -11,9 +11,7 @@ import {
   getWriterDB,
 } from '../models/postModel';
 
-export async function createPost(
-  createPostArgs: CreatePostArgs
-): Promise<IPost> {
+export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
   for (let i = 0; i < createPostArgs.tags.length; i++) {
     console.log(await getPostTagByName(createPostArgs.tags[i]));
   }
