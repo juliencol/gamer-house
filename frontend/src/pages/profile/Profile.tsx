@@ -20,7 +20,21 @@ function Profile(){
     function onFileUpload(event : ChangeEvent<HTMLInputElement>){
         
     }
+
+
+    function createCarouselGame(){
+      const result : Array<JSX.Element> = [];
+      for(let i=0; i<3;i++){
+        result.push(
+          <div className="CarouselImg">
+            <h3>Carousel Photo</h3>
+          </div>
+        )
+      }
+      return result;
+    }
     
+
     const {Paragraph} = Typography;
     const [editableStr, setEditableStr] = useState('This is an editable text.');
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -107,6 +121,12 @@ function Profile(){
                             <form action=""></form>
                             </Modal>
                           </div>
+                        </div>
+
+                        <div className = "Event">Upcoming events
+                          <Carousel effect="scrollx">
+                            {createCarouselGame()}
+                          </Carousel>
                         </div>
                         
                         <div className = "Follow">I Follow</div>
