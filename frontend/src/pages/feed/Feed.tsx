@@ -1,12 +1,24 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar } from 'antd';
+import {
+  Affix,
+  Button,
+  Card,
+  Modal,
+  Form,
+  Input,
+  Row,
+  Col,
+  Avatar,
+  Tag,
+  Select,
+} from 'antd';
 
 import GamerServices from 'Services/GamerServices';
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
-import { Post } from '../../types/Post';
-import { PostTag } from '../../types/PostTag';
+import { Post } from 'types/Post';
+import { PostTag } from 'types/PostTag';
 
 import './Feed.css';
 
@@ -53,11 +65,12 @@ function Feed() {
   };
 
   const onFinish = (values: any) => {
-    GamerServices.createPost(values);
-    handleOk();
-    PostServices.getPosts().then((posts) => {
-      setPosts(posts.data);
+    GamerServices.createPost(values).then(() => {
+      PostServices.getPosts().then((posts) => {
+        setPosts(posts.data);
+      });
     });
+    handleOk();
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -74,19 +87,37 @@ function Feed() {
 
   function displayPosts() {
     const result: Array<JSX.Element> = [];
-    for (let i = 0; i < posts.length; i++) {
+    posts.forEach((post) => {
+      const postTags = displayPostTags(post.tags);
       result.push(
-        <Card key={i} className="post" bordered={false} title={posts[i].writer.pseudo}>
+        <Card
+          className="post"
+          bordered={false}
+          title={
+            <div className="title">
+              {post.writer.pseudo}
+              <div>{postTags}</div>
+            </div>
+          }
+        >
           <Meta
             avatar={
               <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU" />
             }
-            title={posts[i].name}
-            description={posts[i].content}
+            title={post.name}
+            description={post.content}
           />
         </Card>
       );
-    }
+    });
+    return result;
+  }
+
+  function displayPostTags(postTags: PostTag[]) {
+    const result: Array<JSX.Element> = [];
+    postTags.forEach((postTag) => {
+      result.push(<Tag color={postTag.category}>{postTag.name}</Tag>);
+    });
     return result;
   }
 

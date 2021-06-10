@@ -12,11 +12,15 @@ import {
 } from '../models/postModel';
 
 export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
-  for (let i = 0; i < createPostArgs.tags.length; i++) {
-    console.log(await getPostTagByName(createPostArgs.tags[i]));
-  }
-  const post = await createPostDB({ ...createPostArgs, createdAt: new Date() });
-  const test = await addPostToGamer(createPostArgs.writer, post.id);
+  const postTagsIds = await Promise.all(
+    createPostArgs.tags.map(async (tagName) => (await getPostTagByName(tagName)).id)
+  );
+  const post = await createPostDB({
+    ...createPostArgs,
+    tags: postTagsIds,
+    createdAt: new Date(),
+  });
+  await addPostToGamer(createPostArgs.writer, post.id);
   return post;
 }
 

@@ -21,7 +21,6 @@ export function createServer() {
   app.use('/comment', mustBeAuthenticated, commentRouter);
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/user', userInfoRouter);
-  app.use('/gamers', gamerRoutes);
   app.use('/posts', postRoutes);
   app.use('/postTags', postTagRoutes);
   return app;
