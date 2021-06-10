@@ -1,5 +1,5 @@
 import './Profile.css';
-import {Layout, Modal, Button, Upload, Typography, Avatar, Carousel, Result} from 'antd';
+import {Layout, Modal, Button, Upload, Typography, Avatar, Carousel, Popconfirm} from 'antd';
 import { UploadOutlined,UserOutlined } from '@ant-design/icons';
 import GamerServices from '../../Services/GamerServices';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -38,22 +38,38 @@ function Profile(){
     const {Paragraph} = Typography;
     const [editableStr, setEditableStr] = useState('This is an editable text.');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const showModal = () => {
-        setIsModalVisible(true);
+    const [isRGModalVisible, setIsRGModalVisible] = useState(false);
+    const [popConfirm, setPopConfirmVisible] = useState(false);
+    const showRGModal = () => {
+        setIsRGModalVisible(true);
     };
-    const handleOk = () => {
-        setIsModalVisible(false);
-      };
+
+    const showPopConfim = () =>{
+      setPopConfirmVisible(true);
+    };
+    const handleOkRG = () => {
+        setPopConfirmVisible(false);
+        setTimeout(() => {
+          setIsRGModalVisible(false);
+        }, 500);
+        
+    };
     
-    const handleCancel = () => {
-    setIsModalVisible(false);
+    const handleCancelRG = () => {
+      setPopConfirmVisible(false);
+        setTimeout(() => {
+          setIsRGModalVisible(false);
+        }, 500);
     };
+
+    
 
     function getBase64(img:any, callback:any) {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
       reader.readAsDataURL(img);
     }
+
 
     const props = {
         name: 'file',
@@ -96,30 +112,41 @@ function Profile(){
                           <Button icon={<UploadOutlined />}>Click to Upload</Button>
                       </Upload>
                     </div>
-                    <div className="RemoveGame">RemoveGame</div>
+                    <div className="RemoveGame">
+                      <Button onClick={showRGModal}>RemoveGame</Button>
+                      <Modal title="Remove Game Modal" visible={isRGModalVisible}
+                      footer={[
+                        <Popconfirm title="Are you sure to Remove these Games ?" 
+                        okText="Yes" cancelText="No" visible={popConfirm} onConfirm={handleOkRG} onCancel={handleCancelRG}>
+                        </Popconfirm>,
+                        <Button danger key="remove" onClick={showPopConfim}>
+                          Remove 
+                        </Button>,
+                        <Button key="cancel" onClick={handleCancelRG}>
+                          Cancel 
+                        </Button>
+                        
+                        
+                      ]}>
+                        
+                      </Modal>
+                    </div>
                 </div>
 
                 <div className="MainColumm">
                     <div className="MainContent">
                         <div className = "Description">Description 
-                        
                           <div className="DescriptionTextWrapper">
                             <Paragraph editable={{ onChange: setEditableStr }}>{editableStr}</Paragraph>
                           </div>
-                        
-                        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                            <form action=""></form>
-                        </Modal>
                         </div>
                         
                         <div className = "GamePlayed">I Play the Following games
-                        <div className="Button-wrapper">
-                            <Button type="dashed" size ="large" onClick={showModal}>
+                          <div className="Button-wrapper">
+                            <Button type="dashed" size ="large" onClick={showRGModal}>
                               Add Games
                             </Button>
-                            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                            <form action=""></form>
-                            </Modal>
+                
                           </div>
                         </div>
 
