@@ -1,6 +1,8 @@
 import { ChangeEvent } from 'react';
+
 import { formMaximalFields } from 'pages/authentication/Authentication';
-import Errors from 'components/errors/Errors';
+import Errors from 'Components/Errors/Errors';
+
 import './Input.css';
 
 interface propsInput {
