@@ -11,7 +11,7 @@ html{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 900px;
+    height:1080px;
     width: 100%;
     color: rgb(255, 255, 255);
     background: #139da7ab;
@@ -55,42 +55,65 @@ html{
 
 .Avatar,.RemoveGame{
     position: relative;
-    height: 30%;
+    height: 25%;
     border:solid;
     border-color: red;
     justify-content: center;
     text-align: center;
     align-content: center;
+    margin-left : 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
 }
 
 .Avatar{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    
 }
 
 .UserName,.AddGame,.AddFollow{
     position: relative;
-    height: 30%;
+    height: 25%;
     border:solid;
     justify-content: center;
     text-align: center;
+    margin-left : 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
 }
 
 .MainContent{
-    display: flex;
+    display:flex;
     flex-direction: column;
-    text-align: center;
 }
 
 .Description,.GamePlayed,.Event,.Follow{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 30%;
+    height: 100%;
     border :solid;
     border-color: blueviolet;
     text-align: center;
 }
 
+.DescriptionTextWrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.ant-typography{
+    color: white;
+    width: 80%;
+}
+
+.CarouselImg{
+    height: 160px;
+    color: #fff;
+    line-height: 160px;
+    text-align: center;
+    background: #364d79;
+}
 

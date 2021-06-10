@@ -1,5 +1,5 @@
 import './Profile.css';
-import {Layout, Modal, Button, Upload, message, Avatar} from 'antd';
+import {Layout, Modal, Button, Upload, Typography, Avatar, Carousel, Result} from 'antd';
 import { UploadOutlined,UserOutlined } from '@ant-design/icons';
 import GamerServices from '../../Services/GamerServices';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -20,6 +20,9 @@ function Profile(){
     function onFileUpload(event : ChangeEvent<HTMLInputElement>){
         
     }
+    
+    const {Paragraph} = Typography;
+    const [editableStr, setEditableStr] = useState('This is an editable text.');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
         setIsModalVisible(true);
@@ -32,7 +35,7 @@ function Profile(){
     setIsModalVisible(false);
     };
 
-    function getBase64(img, callback) {
+    function getBase64(img:any, callback:any) {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
       reader.readAsDataURL(img);
@@ -83,13 +86,11 @@ function Profile(){
                 </div>
 
                 <div className="MainColumm">
-                    <div className="MainContent"><p>Main Content</p>
-
+                    <div className="MainContent">
                         <div className = "Description">Description 
-                          <div className="Button-wrapper">
-                            <Button type="dashed" size ="large" onClick={showModal}>
-                              Add Description
-                            </Button>
+                        
+                          <div className="DescriptionTextWrapper">
+                            <Paragraph editable={{ onChange: setEditableStr }}>{editableStr}</Paragraph>
                           </div>
                         
                         <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -107,10 +108,6 @@ function Profile(){
                             </Modal>
                           </div>
                         </div>
-
-                        <div className = "Event">Upcoming events
-                        <button>Add Events</button>
-                        </div>
                         
                         <div className = "Follow">I Follow</div>
                 </div>
@@ -121,8 +118,8 @@ function Profile(){
                     <div className="UserName">Username
                     <p>{gamer?.pseudo}</p>
                     </div>
-                    <div className="AddFollow">Follow</div>
-                    <div className="AddGame">AddGame</div>
+                    <div className="AddGame">Add Game +</div>
+                    <div className="AddFollow">Follow +</div>
                 </div>
                     
             </div>
