@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Authentication from 'pages/authentication/Authentication';
-import useFetch from 'components/use-fetch/useFetch';
-import { authReq } from 'services/AuthenticationService';
+import useFetch from 'Components/use-fetch/useFetch';
+import { authReq } from 'Services/AuthenticationService';
 import Feed from 'pages/feed/Feed';
-import Header from 'components/header/Header';
+import Header from 'Components/Header/Header';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(

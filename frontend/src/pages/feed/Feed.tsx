@@ -1,12 +1,14 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar } from 'antd';
-import './Feed.css';
-import GamerServices from '../../services/GamerServices';
-import PostServices from '../../services/PostServices';
-import PostTagServices from '../../services/PostTagServices';
+
+import GamerServices from 'Services/GamerServices';
+import PostServices from 'Services/PostServices';
+import PostTagServices from 'Services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
 import { Post } from 'types/Post';
 import { PostTag } from 'types/PostTag';
+
+import './Feed.css';
 
 function Feed() {
   const [filterState, setFilterState] = useState<Array<string>>([]);

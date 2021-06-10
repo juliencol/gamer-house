@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import Input from 'components/Input/Input';
-import Button from 'components/button/Button';
+import Input from 'Components/Input/Input';
+import Button from 'Components/Button/Button';
+import useFetch from 'Components/use-fetch/useFetch';
+import { authReq } from 'Services/AuthenticationService';
+
 import './Authentication.css';
-import useFetch from 'components/use-fetch/useFetch';
-import { authReq } from 'services/AuthenticationService';
 
 interface propsAuthentication {
   setAuthentication: (state: boolean) => void;
