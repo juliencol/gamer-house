@@ -2,6 +2,7 @@ import { Schema, model, Model, Document } from 'mongoose';
 import { IPost } from './Post';
 import { IGame } from './Game';
 import { IGroup } from './Group';
+import { IComment } from './Comment';
 
 export const gamerSchemaName = 'Gamer';
 const gamerCollectionName = 'gamers';
@@ -24,6 +25,7 @@ export const GamerSchema = new Schema({
   following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   gamesWithRanks: [{ type: Object, required: false }],
   group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }],
 });
 
 GamerSchema.methods.getID = function () {
@@ -51,6 +53,7 @@ interface IGamerSchema extends Document {
     rank: string;
   }>;
   group: Array<IGroup['id']>;
+  comments: Array<IComment['id']>;
 }
 
 interface IGamerBase extends IGamerSchema {

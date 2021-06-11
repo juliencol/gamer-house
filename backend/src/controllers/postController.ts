@@ -12,13 +12,13 @@ import {
 
 export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
   const post = await createPostDB({ ...createPostArgs, createdAt: new Date() });
-  addPostToGamer(createPostArgs.writer, post.id);
+  const test = await addPostToGamer(createPostArgs.writer, post.id);
   return post;
 }
 
 export async function deletePost(writerId: string, postId: string): Promise<IPost> {
   const post = await deletePostDB(postId);
-  deletePostFromGamer(writerId, postId);
+  await deletePostFromGamer(writerId, postId);
   if (!post) throw new Error('The requested post does not exist');
   return post;
 }
@@ -40,7 +40,7 @@ export async function getWriter(post: IPost): Promise<IGamer> {
   return writer;
 }
 
-export async function addPostToGamer(writerId: string, postId: string) {
+async function addPostToGamer(writerId: string, postId: string) {
   const gamer = await addPostToGamerDB(writerId, postId);
   if (!gamer) throw new Error('The requested gamer does not exist');
   return gamer;

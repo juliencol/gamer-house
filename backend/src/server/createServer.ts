@@ -8,19 +8,21 @@ import gamerRoutes from '../routes/gamerRoutes';
 import mustBeAuthenticated from '../middleware/authenticationMiddleware';
 import postRoutes from '../routes/postRoutes';
 import postTagRoutes from '../routes/postTagRoutes';
+import commentRouter from '../routes/postCommentRoutes';
 
 /** Create express app and open backend endpoints */
-export const createServer = async (): Promise<express.Application> => {
+export function createServer() {
   const app: express.Application = express();
   app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
   app.use(cors({ origin: DEFAULT_APP_URL, credentials: true }));
 
   // Backend endpoints
   app.use('/authentication', authenticationRouter);
+  app.use('/comment', mustBeAuthenticated, commentRouter);
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/user', userInfoRouter);
   app.use('/gamers', gamerRoutes);
   app.use('/posts', postRoutes);
   app.use('/postTags', postTagRoutes);
   return app;
-};
+}

@@ -2,6 +2,7 @@ import { Schema, model, Model, Document } from 'mongoose';
 import { IGamer } from './Gamer';
 import { IGame } from './Game';
 import { IPostTag } from './PostTag';
+import { IComment } from './Comment';
 
 export const postSchemaName = 'Post';
 const postCollectionName = 'posts';
@@ -13,6 +14,7 @@ export const PostSchema = new Schema({
   createdAt: { type: Date, required: false },
   game: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
   tags: [{ type: Schema.Types.ObjectId, ref: 'PostTag', required: true }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }],
 });
 
 PostSchema.methods.getID = function () {
@@ -26,6 +28,7 @@ interface IPostSchema extends Document {
   createdAt: Date;
   game: IGame['id'];
   tags: Array<IPostTag['id']>;
+  comments: Array<IComment['id']>;
 }
 
 interface IPostBase extends IPostSchema {
