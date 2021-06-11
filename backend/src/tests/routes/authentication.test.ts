@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { createGamer } from '../controllers/gamerController';
-import { createServer } from '../server/createServer';
+import { createGamer } from '../../controllers/gamerController';
+import { createServer } from '../../server/createServer';
 import {
   generateJWT,
   getPayload,
   isValidJWT,
   PayloadJWT,
-} from '../services/authenticationService';
-import { TestDataForLogin, TestDataForRegister } from '../types/gamer.types';
+} from '../../services/authenticationService';
+import { TestDataForLogin, TestDataForRegister } from '../../types/gamer.types';
 
 const DEV_DB_CONNECTION_STRING = process.env.DEV_DB_CONNECTION_STRING;
 
@@ -136,7 +136,7 @@ describe('POST/ login', () => {
     };
     const jwtPlayload = getPayload(jwt);
 
-    expect(jwtPlayload).toBe(expectedPlayload);
+    expect(jwtPlayload).toStrictEqual(expectedPlayload);
   });
 });
 
