@@ -7,11 +7,19 @@ class GamerServices {}
 =======
 class GamerServices {
   createPost(data: { name: string; content: string }) {
-    return axios.post(USER_BASE_URL + '/post', data);
+    return axios.post(GAMER_BASE_URL + '/post', data);
   }
 
-  getAuthenticatedGamer(){
-    return axios.get(USER_BASE_URL + '/getAuthenticatedGamer');
+  getAuthenticatedGamer() {
+    return axios.get(GAMER_BASE_URL + '/getAuthenticatedGamer');
+  }
+
+  updateGamer(data: any) {
+    return axios.put(GAMER_BASE_URL + '/update', data);
+  }
+
+  searchGamers(pseudo: string) {
+    return axios.get(GAMER_BASE_URL + '/search/' + pseudo);
   }
 }
 >>>>>>> 5281ac0 ( profile Page front + route back)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import {
   Affix,
@@ -37,6 +38,17 @@ import { Category, PostTag } from 'types/PostTag';
 import { Post } from '../../types/Post';
 import { PostTag } from '../../types/PostTag';
 >>>>>>> 83e6ba3 (Solved import configs)
+=======
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar,Tag,Select } from 'antd';
+
+import GamerServices from 'Services/GamerServices';
+import PostServices from 'Services/PostServices';
+import PostTagServices from 'Services/PostTagServices';
+import Meta from 'antd/lib/card/Meta';
+import { Post } from 'types/Post';
+import { PostTag } from 'types/PostTag';
+>>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
 
 import './Feed.css';
 

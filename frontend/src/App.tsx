@@ -1,23 +1,12 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-<<<<<<< HEAD
 import Authentication from 'pages/authentication/Authentication';
 import useFetch from 'Components/use-fetch/useFetch';
 import { authReq } from 'Services/AuthenticationServices';
 import Feed from 'pages/feed/Feed';
 import Header from 'Components/Header/Header';
-=======
-import Authentication from './pages/authentication/Authentication';
-import useFetch from './Components/use-fetch/useFetch';
-import { authReq } from './Services/AuthenticationServices';
-import Feed from './pages/feed/Feed';
-import Header from './Components/Header/Header';
-<<<<<<< HEAD
->>>>>>> c3e566b (Solved import configs)
-=======
-import Profile from './pages/profile/Profile';
->>>>>>> a24ff37 ( profile Page front + route back)
+import Profile from 'pages/profile/Profile';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(
@@ -59,11 +48,11 @@ function App() {
           <h1>You are now connected</h1>
           <button onClick={() => logOut()}>Log out</button>
         </Route>
-        <Route exact={true} path="/profile">
-          <Profile/>
-        </Route>
         <Route exact={true} path="/feed">
           <Feed />
+        </Route>
+        <Route exact={true} path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </Router>

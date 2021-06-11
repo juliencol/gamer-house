@@ -1,13 +1,8 @@
 import { ChangeEvent } from 'react';
-<<<<<<< HEAD
 
 import { formMaximalFields } from 'pages/authentication/Authentication';
 import Errors from 'Components/Errors/Errors';
 
-=======
-import { formMaximalFields } from '../../pages/authentication/Authentication';
-import Errors from '../Errors/Errors';
->>>>>>> c3e566b (Solved import configs)
 import './Input.css';
 
 interface propsInput {

@@ -11,6 +11,7 @@ import {
   deleteGamerDB,
   getGamerDB,
   getGamerByEmailDB,
+  getGamersByPseudoDB,
   getGamersDB,
   updateGamerDB,
 } from '../models/gamerModel';
@@ -78,6 +79,15 @@ export async function unfollowGamer(id: string, idToUnfollow: string): Promise<I
   const gamer = await deleteFromFollowingDB(id, idToUnfollow);
   if (!gamer) throw new Error('The requested gamer does not exist');
   return gamer;
+}
+
+export async function getGamersByPseudo(
+  userId: string,
+  pseudo: string
+): Promise<IGamer[]> {
+  const gamers = await getGamersByPseudoDB(userId, pseudo);
+  if (!gamers) throw new Error('The requested gamers do not exist');
+  return gamers;
 }
 
 const isFollowable = async (id: string, idToFollow: string) => {

@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { userInfo } from '../../Services/AuthenticationServices';
 import useFetch from '../use-fetch/useFetch';
 =======
@@ -21,6 +22,14 @@ import useFetch from '../use-fetch/useFetch';
 import { useEffect, useState } from 'react';
 import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
+=======
+import { userInfo } from 'Services/AuthenticationServices';
+import useFetch from 'Components/use-fetch/useFetch';
+import { useEffect, useState } from 'react';
+import { Layout, Menu, Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
+
+>>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
 import './Header.css';
 
 function Header(props: { logOut: () => void }) {
@@ -69,7 +78,7 @@ function Header(props: { logOut: () => void }) {
           <img
             className="avatar"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-            alt=""
+            alt="avatar"
           />
         </Col>
         <Col className="pseudo" span={21}>

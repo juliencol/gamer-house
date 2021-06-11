@@ -24,6 +24,16 @@ export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
   });
 }
 
+export async function getGamersByPseudoDB(
+  userId: string,
+  pseudo: string
+): Promise<IGamer[] | null> {
+  return Gamer.find({
+    pseudo: pseudo,
+    _id: { $ne: userId },
+  });
+}
+
 export async function deleteGamerDB(id: string): Promise<IGamer | null> {
   return Gamer.findByIdAndDelete(id);
 }
