@@ -51,6 +51,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
   try {
     const authorization = req.headers.authorization;
@@ -66,21 +67,26 @@ router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
     res.status(200).json(gamer);
 =======
 router.get("/getAuthenticatedGamer", async (req: Request, res: Response) => {
+=======
+router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
   try {
     const authorization = req.headers.authorization;
     if (!authorization) {
-      return res.status(500).json("No authorization header");
+      return res.status(500).json('No authorization header');
     }
-    const accessToken = authorization.replace("AccessToken ", "");
+    const accessToken = authorization.replace('AccessToken ', '');
     if (!accessToken) {
-      return res.status(500).send("No access token");
+      return res.status(500).send('No access token');
     }
     const payload: PayloadJWT = getPayload(accessToken);
     const gamer = await getGamer(payload.id);
-    console.log(gamer);
     res.status(200).json(gamer);
+<<<<<<< HEAD
 
 >>>>>>> 8b4e604 ( profile Page front + route back)
+=======
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
   } catch (e) {
     res.status(500).json({ error: `Could not find any gamer: ${e.message}` });
   }
@@ -177,8 +183,11 @@ router.delete('/unfollow/:id', async (req: Request, res: Response) => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
+=======
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 // Search System
 
 router.get('/search/:pseudo', async (req: Request, res: Response) => {
@@ -201,7 +210,10 @@ router.get('/search/:pseudo', async (req: Request, res: Response) => {
   }
 });
 
+<<<<<<< HEAD
 >>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
+=======
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 // Post System
 
 router.post('/post', async (req: Request, res: Response) => {

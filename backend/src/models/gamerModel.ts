@@ -35,7 +35,11 @@ export async function getGamersByPseudoDB(
   return Gamer.find({
     pseudo: pseudo,
     _id: { $ne: userId },
+<<<<<<< HEAD
   }).populate('following');
+=======
+  });
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 }
 
 export async function deleteGamerDB(id: string): Promise<IGamer | null> {

@@ -7,9 +7,13 @@
       "esnext"
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
     "baseUrl": "src",
 =======
 >>>>>>> 7ec57d9 (Solved import configs)
+=======
+    "baseUrl": "src",
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

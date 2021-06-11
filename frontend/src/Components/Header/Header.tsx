@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { userInfo } from '../../Services/AuthenticationServices';
 import useFetch from '../use-fetch/useFetch';
 =======
@@ -45,6 +46,14 @@ import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 
 >>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
+=======
+import { userInfo } from 'Services/AuthenticationServices';
+import useFetch from 'Components/use-fetch/useFetch';
+import { useEffect, useState } from 'react';
+import { Layout, Menu, Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
+
+>>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 import './Header.css';
 
 function Header(props: { logOut: () => void }) {
