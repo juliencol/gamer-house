@@ -139,12 +139,21 @@ router.put('/follow', async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:id/unfollow', async (req: Request, res: Response) => {
+router.delete('/unfollow/:id', async (req: Request, res: Response) => {
   try {
-    const gamer = await unfollowGamer(req.params.id, req.body.idToUnfollow);
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await unfollowGamer(payload.id, req.params.id);
     res.status(201).json(gamer);
   } catch (e) {
-    res.status(500).json({ error: `The gamer could not be followed: ${e.message}` });
+    res.status(500).json({ error: `The gamer could not be unfollowed: ${e.message}` });
   }
 });
 

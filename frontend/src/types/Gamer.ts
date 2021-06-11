@@ -2,6 +2,7 @@ import { Group } from './Group';
 import { Post } from './Post';
 
 export interface Gamer {
+  _id: string;
   pseudo: string;
   firstName: string;
   lastName: string;

@@ -10,6 +10,7 @@ import {
   Popconfirm,
   Input,
   Row,
+  Col,
 } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import GamerServices from '../../Services/GamerServices';
@@ -21,14 +22,65 @@ const { Header, Footer, Content } = Layout;
 function Profile() {
   const [gamer, setGamer] = useState<Gamer>();
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
+  const [idToUnfollow, setIdToUnfollow] = useState('');
+  const { Paragraph } = Typography;
+  const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
+  const [isRGModalVisible, setIsRGModalVisible] = useState(false);
+  const [popConfirm, setPopConfirmVisible] = useState(false);
+  const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
+  const [description, setDescription] = useState('');
+  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
+  const { Search } = Input;
+  const props = {
+    name: 'file',
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    headers: {
+      authorization: 'authorization-text',
+    },
+  };
+  const showRGModal = () => {
+    setIsRGModalVisible(true);
+  };
+
+  const showPopConfim = () => {
+    setPopConfirmVisible(true);
+  };
+  const handleOkRG = () => {
+    setPopConfirmVisible(false);
+    setTimeout(() => {
+      setIsRGModalVisible(false);
+    }, 500);
+  };
+
+  const handleOkUnfollow = () => {
+    setPopUnfollowConfirm(false);
+    GamerServices.unfollowGamer(idToUnfollow).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data));
+    });
+    setTimeout(() => {
+      setIsUnfollowModalVisible(false);
+    }, 500);
+  };
+
+  const handleCancelUnfollow = () => {
+    setPopUnfollowConfirm(false);
+    setTimeout(() => {
+      setIsUnfollowModalVisible(false);
+    }, 500);
+  };
+
+  const handleCancelRG = () => {
+    setPopConfirmVisible(false);
+    setTimeout(() => {
+      setIsRGModalVisible(false);
+    }, 500);
+  };
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
       setDescription(gamer.data.description);
     });
   }, []);
-
-  const { Search } = Input;
 
   function onSearch(value: string) {
     GamerServices.searchGamers(value).then((gamers) => {
@@ -37,21 +89,77 @@ function Profile() {
     });
   }
 
+  function changeDescription(e: any) {
+    GamerServices.updateGamer({ description: description }).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+        setDescription(gamer.data.description);
+      });
+    });
+  }
+
+  function followGamer(gamerId: string) {
+    GamerServices.followGamer({ idToFollow: gamerId }).then(() =>
+      GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+    );
+  }
+
   function displaySearchGamersResult() {
-    console.log('Toto');
-    return gamersSearchResult?.map((gamer) => (
+    return gamersSearchResult?.map((searchedGamer) => (
       <Row>
         <img
           className="avatar"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
           alt="avatar"
         />
-        <h1>{gamer.pseudo}</h1>
-        <strong>{gamer.statusMessage}</strong>
-        <br />
-        <span>Number of followers: {gamer.followers.length}</span>
+        <div>
+          <h1>{searchedGamer.pseudo}</h1>
+          <strong>{searchedGamer.statusMessage}</strong>
+          <br />
+          <span>Number of followers: {searchedGamer.followers.length}</span>
+        </div>
+        <Button onClick={() => followGamer(searchedGamer._id)}>Follow</Button>
       </Row>
     ));
+  }
+
+  function displayFollowedGamers() {
+    return gamer?.following?.map((followedGamer) => (
+      <Row>
+        <Col span={2}>
+          <img
+            className="avatar"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
+            alt="avatar"
+          />
+          <h1>{followedGamer.pseudo}</h1>
+          <strong>{followedGamer.statusMessage}</strong>
+        </Col>
+      </Row>
+    ));
+  }
+
+  function displaySelectUnfollowGamer() {
+    return (
+      <select
+        name="idToUnfollow"
+        className="form-control"
+        onChange={handleSelectUnfollowGamer}
+      >
+        <option hidden disabled selected>
+          {' '}
+          -- Select a gamer to unfollow --{' '}
+        </option>
+        {gamer?.following?.map((followedGamer) => (
+          <option value="">{followedGamer}</option>
+        ))}
+      </select>
+    );
+  }
+
+  function handleSelectUnfollowGamer(e: ChangeEvent<HTMLSelectElement>) {
+    const value: string = e.target.value;
+    setIdToUnfollow(value);
   }
 
   const profilePicture = File;
@@ -69,72 +177,11 @@ function Profile() {
     return result;
   }
 
-  const { Paragraph } = Typography;
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isRGModalVisible, setIsRGModalVisible] = useState(false);
-  const [popConfirm, setPopConfirmVisible] = useState(false);
-  const [description, setDescription] = useState('');
-  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
-  const showRGModal = () => {
-    setIsRGModalVisible(true);
-  };
-
-  const showPopConfim = () => {
-    setPopConfirmVisible(true);
-  };
-  const handleOkRG = () => {
-    setPopConfirmVisible(false);
-    setTimeout(() => {
-      setIsRGModalVisible(false);
-    }, 500);
-  };
-
-  const handleCancelRG = () => {
-    setPopConfirmVisible(false);
-    setTimeout(() => {
-      setIsRGModalVisible(false);
-    }, 500);
-  };
-
-  function changeDescription(e: any) {
-    GamerServices.updateGamer({ description: description }).then(() => {
-      GamerServices.getAuthenticatedGamer().then((gamer) => {
-        setGamer(gamer.data);
-        setDescription(gamer.data.description);
-      });
-    });
-  }
-
   function getBase64(img: any, callback: any) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
   }
-
-  const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-      authorization: 'authorization-text',
-    },
-
-    /* onChange(info:any) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-          getBase64(info.file.originFileObj, imageUrl =>
-            this.setState({
-              imageUrl,
-              loading: false,
-            }),
-          );
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      }, */
-  };
 
   return (
     <div className="Profile">
@@ -219,8 +266,41 @@ function Profile() {
             </div>
 
             <div className="FourthRow">
-              <div className="Unfollow">Unfollow</div>
-              <div className="Follow">I Follow</div>
+              <div className="Unfollow">
+                <Button onClick={() => setIsUnfollowModalVisible(true)}>
+                  Unfollow -
+                </Button>
+                <Modal
+                  title="Unfollow"
+                  visible={isUnfollowModalVisible}
+                  footer={[
+                    <Popconfirm
+                      title="Are you sure you want to unfollow this gamer?"
+                      okText="Yes"
+                      cancelText="No"
+                      visible={popUnfollowConfirm}
+                      onConfirm={handleOkUnfollow}
+                      onCancel={handleCancelUnfollow}
+                    ></Popconfirm>,
+                    <Button
+                      danger
+                      key="remove"
+                      onClick={() => setPopUnfollowConfirm(true)}
+                    >
+                      Remove
+                    </Button>,
+                    <Button key="cancel" onClick={() => setIsUnfollowModalVisible(false)}>
+                      Cancel
+                    </Button>,
+                  ]}
+                >
+                  {displaySelectUnfollowGamer()}
+                </Modal>
+              </div>
+              <div className="Follow">
+                I Follow
+                {displayFollowedGamers()}
+              </div>
               <div className="AddFollow">
                 <Button onClick={() => setIsFollowModalVisible(true)}>Follow +</Button>
                 <Modal

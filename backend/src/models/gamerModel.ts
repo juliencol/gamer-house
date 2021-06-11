@@ -11,7 +11,7 @@ export function createGamerDB(
 }
 
 export async function getGamersDB(): Promise<IGamer[]> {
-  return Gamer.find();
+  return Gamer.find().populate('following');
 }
 
 export async function getGamerDB(id: string): Promise<IGamer | null> {

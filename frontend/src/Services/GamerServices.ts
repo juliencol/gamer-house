@@ -21,6 +21,14 @@ class GamerServices {
   searchGamers(pseudo: string) {
     return axios.get(GAMER_BASE_URL + '/search/' + pseudo);
   }
+
+  followGamer(data: { idToFollow: string }) {
+    return axios.put(GAMER_BASE_URL + '/follow', data);
+  }
+
+  unfollowGamer(idToUnfollow: string) {
+    return axios.delete(GAMER_BASE_URL + '/unfollow/' + idToUnfollow);
+  }
 }
 >>>>>>> 5281ac0 ( profile Page front + route back)
 
