@@ -8,6 +8,7 @@ import gamerRoutes from '../routes/gamerRoutes';
 import mustBeAuthenticated from '../middleware/authenticationMiddleware';
 import postRoutes from '../routes/postRoutes';
 import postTagRoutes from '../routes/postTagRoutes';
+import commentRouter from '../routes/postCommentRoutes';
 
 /** Create express app and open backend endpoints */
 export function createServer() {
@@ -17,6 +18,7 @@ export function createServer() {
 
   // Backend endpoints
   app.use('/authentication', authenticationRouter);
+  app.use('/comment', mustBeAuthenticated, commentRouter);
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/user', userInfoRouter);
   app.use('/gamers', gamerRoutes);

@@ -16,8 +16,8 @@ export async function createComment(
   createCommentArgs: CreateCommentArgs
 ): Promise<IComment> {
   const comment = await createCommentDB({ ...createCommentArgs, createdAt: new Date() });
-  addCommentToGamer(createCommentArgs.writer, comment.id);
-  addCommentToPost(createCommentArgs.post, comment.id);
+  await addCommentToGamer(createCommentArgs.writer, comment.id);
+  await addCommentToPost(createCommentArgs.post, comment.id);
   return comment;
 }
 
@@ -32,22 +32,22 @@ export async function deleteComment(
   commentId: string
 ): Promise<IComment> {
   const comment = await deleteCommentDB(commentId);
-  deleteCommentFromGamer(writerId, commentId);
-  deleteCommentFromPost(postId, commentId);
-  if (!comment) throw new Error('The requested post does not exist');
+  await deleteCommentFromGamer(writerId, commentId);
+  await deleteCommentFromPost(postId, commentId);
+  if (!comment) throw new Error('The requested comment does not exist');
   return comment;
 }
 
 async function addCommentToPost(postId: string, commentId: string) {
-  const gamer = await addCommentToPostDB(postId, commentId);
-  if (!gamer) throw new Error('The requested post does not exist');
-  return gamer;
+  const post = await addCommentToPostDB(postId, commentId);
+  if (!post) throw new Error('The requested post does not exist');
+  return post;
 }
 
 async function deleteCommentFromPost(postId: string, commentId: string) {
-  const gamer = await deleteCommentFromPostDB(postId, commentId);
-  if (!gamer) throw new Error('The requested post does not exist');
-  return gamer;
+  const post = await deleteCommentFromPostDB(postId, commentId);
+  if (!post) throw new Error('The requested post does not exist');
+  return post;
 }
 
 export async function getCommentWriter(comment: IComment): Promise<IGamer> {

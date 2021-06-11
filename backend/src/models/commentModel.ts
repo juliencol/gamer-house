@@ -4,7 +4,7 @@ import Comment, { IComment } from '../schema/Comment';
 import { CreateCommentArgs } from '../types/comment.types';
 
 export async function getCommentDB(commentId: string): Promise<IComment | null> {
-  return Comment.findOne({ id: commentId });
+  return Comment.findById(commentId);
 }
 
 export async function createCommentDB(
