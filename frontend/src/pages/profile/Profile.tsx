@@ -15,6 +15,7 @@ import {
   Input,
   Row,
 <<<<<<< HEAD
+<<<<<<< HEAD
   Col,
 } from 'antd';
 import {
@@ -31,6 +32,9 @@ import { Gamer } from 'types/Gamer';
 import {Layout, Modal, Button, Upload, Typography, Avatar, Carousel, Popconfirm} from 'antd';
 import { UploadOutlined,UserOutlined } from '@ant-design/icons';
 =======
+=======
+  Col,
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
 } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
@@ -45,6 +49,9 @@ function Profile() {
   const [gamer, setGamer] = useState<Gamer>();
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   const [idToUnfollow, setIdToUnfollow] = useState('');
   const { Paragraph } = Typography;
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
@@ -72,6 +79,7 @@ function Profile() {
     setPopConfirmVisible(false);
     setTimeout(() => {
       setIsRGModalVisible(false);
+<<<<<<< HEAD
     }, 200);
   };
 
@@ -80,6 +88,9 @@ function Profile() {
     setTimeout(() => {
       setIsRGModalVisible(false);
     }, 100);
+=======
+    }, 500);
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   };
 
   const handleOkUnfollow = () => {
@@ -89,18 +100,34 @@ function Profile() {
     });
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
+<<<<<<< HEAD
     }, 200);
+=======
+    }, 500);
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   };
 
   const handleCancelUnfollow = () => {
     setPopUnfollowConfirm(false);
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
+<<<<<<< HEAD
     }, 100);
   };
 
 =======
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+    }, 500);
+  };
+
+  const handleCancelRG = () => {
+    setPopConfirmVisible(false);
+    setTimeout(() => {
+      setIsRGModalVisible(false);
+    }, 500);
+  };
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
@@ -109,10 +136,13 @@ function Profile() {
   }, []);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const { Search } = Input;
 
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   function onSearch(value: string) {
     GamerServices.searchGamers(value).then((gamers) => {
       setGamersSearchResult(gamers.data);
@@ -121,6 +151,9 @@ function Profile() {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   function changeDescription(e: any) {
     GamerServices.updateGamer({ description: description }).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
@@ -136,6 +169,7 @@ function Profile() {
     );
   }
 
+<<<<<<< HEAD
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
 =======
@@ -143,6 +177,10 @@ function Profile() {
     console.log('Toto');
     return gamersSearchResult?.map((gamer) => (
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+  function displaySearchGamersResult() {
+    return gamersSearchResult?.map((searchedGamer) => (
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
       <Row>
         <img
           className="avatar"
@@ -150,12 +188,16 @@ function Profile() {
           alt="avatar"
         />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
         <div>
           <h1>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>
           <br />
           <span>Number of followers: {searchedGamer.followers.length}</span>
         </div>
+<<<<<<< HEAD
         {createFollowButton(searchedGamer._id)}
       </Row>
     ));
@@ -187,27 +229,56 @@ function Profile() {
         <br />
         <span>Number of followers: {gamer.followers.length}</span>
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+        <Button onClick={() => followGamer(searchedGamer._id)}>Follow</Button>
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
       </Row>
     ));
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  function displayFollowedGamers() {
+    return gamer?.following?.map((followedGamer) => (
+      <Row>
+        <Col span={2}>
+          <img
+            className="avatar"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
+            alt="avatar"
+          />
+          <h1>{followedGamer.pseudo}</h1>
+          <strong>{followedGamer.statusMessage}</strong>
+        </Col>
+      </Row>
+    ));
+  }
+
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   function displaySelectUnfollowGamer() {
     return (
       <select
         name="idToUnfollow"
         className="form-control"
         onChange={handleSelectUnfollowGamer}
+<<<<<<< HEAD
         style={{ textAlign: 'center' }}
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
       >
         <option hidden disabled selected>
           {' '}
           -- Select a gamer to unfollow --{' '}
         </option>
         {gamer?.following?.map((followedGamer) => (
+<<<<<<< HEAD
           <option value={followedGamer._id}>
             {followedGamer.pseudo} {followedGamer.statusMessage}
           </option>
+=======
+          <option value="">{followedGamer}</option>
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
         ))}
       </select>
     );
@@ -218,8 +289,11 @@ function Profile() {
     setIdToUnfollow(value);
   }
 
+<<<<<<< HEAD
 =======
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   const profilePicture = File;
   function onFileUpload(event: ChangeEvent<HTMLInputElement>) {}
 
@@ -289,6 +363,7 @@ function Profile() {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const { Paragraph } = Typography;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -327,12 +402,15 @@ function Profile() {
   }
 
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   function getBase64(img: any, callback: any) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
   }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -434,6 +512,8 @@ function Profile() {
       }, */
   };
 
+=======
+>>>>>>> 0c59915 (added follow feature, unfollow in progress)
   return (
     <div className="Profile">
       <Layout>
@@ -674,8 +754,41 @@ function Profile() {
             </div>
 
             <div className="FourthRow">
-              <div className="Unfollow">Unfollow</div>
-              <div className="Follow">I Follow</div>
+              <div className="Unfollow">
+                <Button onClick={() => setIsUnfollowModalVisible(true)}>
+                  Unfollow -
+                </Button>
+                <Modal
+                  title="Unfollow"
+                  visible={isUnfollowModalVisible}
+                  footer={[
+                    <Popconfirm
+                      title="Are you sure you want to unfollow this gamer?"
+                      okText="Yes"
+                      cancelText="No"
+                      visible={popUnfollowConfirm}
+                      onConfirm={handleOkUnfollow}
+                      onCancel={handleCancelUnfollow}
+                    ></Popconfirm>,
+                    <Button
+                      danger
+                      key="remove"
+                      onClick={() => setPopUnfollowConfirm(true)}
+                    >
+                      Remove
+                    </Button>,
+                    <Button key="cancel" onClick={() => setIsUnfollowModalVisible(false)}>
+                      Cancel
+                    </Button>,
+                  ]}
+                >
+                  {displaySelectUnfollowGamer()}
+                </Modal>
+              </div>
+              <div className="Follow">
+                I Follow
+                {displayFollowedGamers()}
+              </div>
               <div className="AddFollow">
                 <Button onClick={() => setIsFollowModalVisible(true)}>Follow +</Button>
                 <Modal
