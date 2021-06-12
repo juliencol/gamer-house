@@ -22,6 +22,7 @@ import {
   UploadOutlined,
   UserOutlined,
 <<<<<<< HEAD
+<<<<<<< HEAD
   CheckOutlined,
   PlusCircleTwoTone,
   DeleteOutlined,
@@ -41,8 +42,11 @@ import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 =======
   PlusCircleOutlined,
+=======
+>>>>>>> b359b63 (Added button Icons)
   CheckOutlined,
   PlusCircleTwoTone,
+  DeleteOutlined,
 } from '@ant-design/icons';
 >>>>>>> a5aac7c (refonte front + feature followed)
 import GamerServices from '../../Services/GamerServices';
@@ -87,6 +91,9 @@ function Profile() {
     setTimeout(() => {
       setIsRGModalVisible(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b359b63 (Added button Icons)
     }, 200);
   };
 
@@ -95,9 +102,12 @@ function Profile() {
     setTimeout(() => {
       setIsRGModalVisible(false);
     }, 100);
+<<<<<<< HEAD
 =======
     }, 500);
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+>>>>>>> b359b63 (Added button Icons)
   };
 
   const handleOkUnfollow = () => {
@@ -108,16 +118,21 @@ function Profile() {
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
     }, 200);
 =======
     }, 500);
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+    }, 200);
+>>>>>>> b359b63 (Added button Icons)
   };
 
   const handleCancelUnfollow = () => {
     setPopUnfollowConfirm(false);
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
+<<<<<<< HEAD
 <<<<<<< HEAD
     }, 100);
   };
@@ -135,6 +150,11 @@ function Profile() {
     }, 500);
   };
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+    }, 100);
+  };
+
+>>>>>>> b359b63 (Added button Icons)
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
@@ -727,7 +747,13 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <h1>Remove a game</h1>
             <div className="ButtonWrapper">
-              <Button shape="round" type="dashed" size="large" onClick={showRGModal}>
+              <Button
+                shape="round"
+                type="default"
+                size="large"
+                icon={<DeleteOutlined />}
+                onClick={showRGModal}
+              >
                 Remove
               </Button>
             </div>
@@ -763,10 +789,14 @@ function Profile() {
               <Button
                 shape="round"
 <<<<<<< HEAD
+<<<<<<< HEAD
                 type="default"
 =======
                 type="dashed"
 >>>>>>> a5aac7c (refonte front + feature followed)
+=======
+                type="default"
+>>>>>>> b359b63 (Added button Icons)
                 size="large"
                 onClick={showRGModal}
                 icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
@@ -908,6 +938,7 @@ function Profile() {
                 shape="round"
                 onClick={() => setIsFollowModalVisible(true)}
                 size="large"
+                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
               >
                 Follow +
               </Button>
