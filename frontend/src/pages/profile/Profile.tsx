@@ -21,6 +21,7 @@ import {
 import {
   UploadOutlined,
   UserOutlined,
+<<<<<<< HEAD
   CheckOutlined,
   PlusCircleTwoTone,
   DeleteOutlined,
@@ -38,6 +39,12 @@ import { UploadOutlined,UserOutlined } from '@ant-design/icons';
 } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+  PlusCircleOutlined,
+  CheckOutlined,
+  PlusCircleTwoTone,
+} from '@ant-design/icons';
+>>>>>>> a5aac7c (refonte front + feature followed)
 import GamerServices from '../../Services/GamerServices';
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { Gamer } from '../../types/Gamer';
@@ -198,6 +205,7 @@ function Profile() {
           <span>Number of followers: {searchedGamer.followers.length}</span>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
         {createFollowButton(searchedGamer._id)}
       </Row>
     ));
@@ -232,17 +240,30 @@ function Profile() {
 =======
         <Button onClick={() => followGamer(searchedGamer._id)}>Follow</Button>
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+        {createFollowButton(searchedGamer._id)}
+>>>>>>> a5aac7c (refonte front + feature followed)
       </Row>
     ));
   }
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+  function createFollowButton(id: string) {
+    if (gamer?.following?.find((followedGamer) => followedGamer._id === id)) {
+      return <Button disabled> Already Followed </Button>;
+    }
+    return <Button onClick={() => followGamer(id)}>Follow</Button>;
+  }
+
+>>>>>>> a5aac7c (refonte front + feature followed)
   function displayFollowedGamers() {
     return gamer?.following?.map((followedGamer) => (
       <Row>
-        <Col span={2}>
+        <Col span={1}>
           <img
             className="avatar"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
@@ -263,9 +284,13 @@ function Profile() {
         className="form-control"
         onChange={handleSelectUnfollowGamer}
 <<<<<<< HEAD
+<<<<<<< HEAD
         style={{ textAlign: 'center' }}
 =======
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+        style={{ textAlign: 'center' }}
+>>>>>>> a5aac7c (refonte front + feature followed)
       >
         <option hidden disabled selected>
           {' '}
@@ -521,6 +546,7 @@ function Profile() {
 =======
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
   return (
+<<<<<<< HEAD
     <div className="Profile">
       <Layout>
         <Content>
@@ -556,8 +582,43 @@ function Profile() {
                 Username
                 <p>{gamer?.pseudo}</p>
               </div>
+=======
+    <Layout>
+      <Content>
+        <Row className="mainRow">
+          <Col className="mainColumn" span={6}>
+            <h1>Avatar</h1>
+            <div>
+              <Avatar size={64} icon={<UserOutlined />} />
+>>>>>>> a5aac7c (refonte front + feature followed)
             </div>
+            <Upload {...props}>
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
+          </Col>
+          <Col span={12} className="mainColumn">
+            <h1>Description</h1>
+            <div className="descriptionTextWrapper">
+              <Paragraph editable={{ onChange: setDescription }}>{description}</Paragraph>
+            </div>
+            <div>
+              <Button
+                shape="round"
+                type="primary"
+                size="small"
+                onClick={changeDescription}
+              >
+                Change description
+              </Button>
+            </div>
+          </Col>
+          <Col span={6} className="mainColumn">
+            <h1>Username</h1>
+            <p>{gamer?.pseudo}</p>
+          </Col>
+        </Row>
 
+<<<<<<< HEAD
             <div className="SecondRow">
               <div className="RemoveGame">
                 <Button onClick={showRGModal}>RemoveGame</Button>
@@ -661,6 +722,38 @@ function Profile() {
             ></Modal>
           </Col>
 
+=======
+        <Row className="mainRow">
+          <Col span={6} className="mainColumn">
+            <h1>Remove a game</h1>
+            <div className="ButtonWrapper">
+              <Button shape="round" type="dashed" size="large" onClick={showRGModal}>
+                Remove
+              </Button>
+            </div>
+            <Modal
+              title="Remove Game Modal"
+              visible={isRGModalVisible}
+              footer={[
+                <Popconfirm
+                  title="Are you sure to Remove these Games ?"
+                  okText="Yes"
+                  cancelText="No"
+                  visible={popConfirm}
+                  onConfirm={handleOkRG}
+                  onCancel={handleCancelRG}
+                ></Popconfirm>,
+                <Button key="cancel" onClick={handleCancelRG}>
+                  Cancel
+                </Button>,
+                <Button danger key="remove" onClick={showPopConfim}>
+                  Remove
+                </Button>,
+              ]}
+            ></Modal>
+          </Col>
+
+>>>>>>> a5aac7c (refonte front + feature followed)
           <Col span={12} className="mainColumn">
             <h1>I play the following games</h1>
           </Col>
@@ -669,13 +762,18 @@ function Profile() {
             <div className="ButtonWrapper">
               <Button
                 shape="round"
+<<<<<<< HEAD
                 type="default"
+=======
+                type="dashed"
+>>>>>>> a5aac7c (refonte front + feature followed)
                 size="large"
                 onClick={showRGModal}
                 icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
               >
                 Add
               </Button>
+<<<<<<< HEAD
             </div>
           </Col>
         </Row>
@@ -757,67 +855,89 @@ function Profile() {
                   <Carousel effect="scrollx">{createCarouselGame()}</Carousel>
                 </div>
               </div>
+=======
+>>>>>>> a5aac7c (refonte front + feature followed)
             </div>
+          </Col>
+        </Row>
 
-            <div className="FourthRow">
-              <div className="Unfollow">
-                <Button onClick={() => setIsUnfollowModalVisible(true)}>
-                  Unfollow -
-                </Button>
-                <Modal
-                  title="Unfollow"
-                  visible={isUnfollowModalVisible}
-                  footer={[
-                    <Popconfirm
-                      title="Are you sure you want to unfollow this gamer?"
-                      okText="Yes"
-                      cancelText="No"
-                      visible={popUnfollowConfirm}
-                      onConfirm={handleOkUnfollow}
-                      onCancel={handleCancelUnfollow}
-                    ></Popconfirm>,
-                    <Button
-                      danger
-                      key="remove"
-                      onClick={() => setPopUnfollowConfirm(true)}
-                    >
-                      Remove
-                    </Button>,
-                    <Button key="cancel" onClick={() => setIsUnfollowModalVisible(false)}>
-                      Cancel
-                    </Button>,
-                  ]}
-                >
-                  {displaySelectUnfollowGamer()}
-                </Modal>
-              </div>
-              <div className="Follow">
-                I Follow
-                {displayFollowedGamers()}
-              </div>
-              <div className="AddFollow">
-                <Button onClick={() => setIsFollowModalVisible(true)}>Follow +</Button>
-                <Modal
-                  title="Follow a gamer"
-                  visible={isFollowModalVisible}
-                  onOk={() => setIsFollowModalVisible(false)}
-                  onCancel={() => setIsFollowModalVisible(false)}
-                >
-                  <Search
-                    placeholder="input search text"
-                    onSearch={onSearch}
-                    style={{ width: 200 }}
-                  />
-                  {displaySearchGamersResult()}
-                </Modal>
-              </div>
+        <Row className="mainRow">
+          <Col span={6} className="mainColumn">
+            <h1>Unfollow a gamer</h1>
+            <div className="ButtonWrapper">
+              <Button shape="round" onClick={() => setIsUnfollowModalVisible(true)}>
+                Unfollow -
+              </Button>
             </div>
+            <Modal
+              title="Unfollow"
+              visible={isUnfollowModalVisible}
+              footer={[
+                <Popconfirm
+                  title="Are you sure you want to unfollow this gamer?"
+                  okText="Yes"
+                  cancelText="No"
+                  visible={popUnfollowConfirm}
+                  onConfirm={handleOkUnfollow}
+                  onCancel={handleCancelUnfollow}
+                ></Popconfirm>,
+                <Button key="cancel" onClick={() => setIsUnfollowModalVisible(false)}>
+                  Cancel
+                </Button>,
+                <Button
+                  danger
+                  key="remove"
+                  onClick={() => setPopUnfollowConfirm(true)}
+                  icon={<CheckOutlined />}
+                >
+                  Remove
+                </Button>,
+              ]}
+            >
+              {displaySelectUnfollowGamer()}
+            </Modal>
+          </Col>
+          <Col span={12} className="mainColumn">
+            <h1>I Follow</h1>
+            {displayFollowedGamers()}
+          </Col>
+          <Col span={6} className="mainColumn">
+            <h1>Follow a gamer</h1>
+            <div className="ButtonWrapper">
+              <Button
+                shape="round"
+                onClick={() => setIsFollowModalVisible(true)}
+                size="large"
+              >
+                Follow +
+              </Button>
+            </div>
+<<<<<<< HEAD
           </div>
         </Content>
         <Footer>Footer</Footer>
       </Layout>
     </div>
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+            <Modal
+              title="Follow a gamer"
+              visible={isFollowModalVisible}
+              onOk={() => setIsFollowModalVisible(false)}
+              onCancel={() => setIsFollowModalVisible(false)}
+            >
+              <Search
+                placeholder="input search text"
+                onSearch={onSearch}
+                style={{ width: 200 }}
+              />
+              {displaySearchGamersResult()}
+            </Modal>
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
+>>>>>>> a5aac7c (refonte front + feature followed)
   );
 }
 export default Profile;

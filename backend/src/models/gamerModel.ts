@@ -25,6 +25,10 @@ export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
 >>>>>>> abc670d (Added Unfollow Feature)
 }
 
+export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
+  return Gamer.findById(id);
+}
+
 export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
   return Gamer.findOne({
     email: email,
