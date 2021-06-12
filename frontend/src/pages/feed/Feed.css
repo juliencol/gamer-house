@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.postTag {
+  border-radius: var(--normal-radius);
+}
+
 .date {
   margin-top: 10px;
   margin-left: 70%;
@@ -12,4 +16,13 @@
 .title {
   display: flex;
   justify-content: space-between;
+}
+
+.affix {
+  justify-content: center;
+  text-align: center;
+}
+
+.affix h3 {
+  color: white;
 }

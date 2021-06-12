@@ -23,7 +23,6 @@ PostTagSchema.methods.getID = function () {
 
 interface IPostTagSchema extends Document {
   name: string;
-  color: string;
   category: Category;
 }
 

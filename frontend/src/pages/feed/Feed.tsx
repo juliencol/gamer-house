@@ -18,12 +18,11 @@ import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
 import { Post } from 'types/Post';
-import { PostTag } from 'types/PostTag';
+import { Category, PostTag } from 'types/PostTag';
 
 import './Feed.css';
 
 function Feed() {
-  const [filterState, setFilterState] = useState<Array<string>>([]);
   const [posts, setPosts] = useState<Array<Post>>([]);
   const [postTags, setPostTags] = useState<Array<PostTag>>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -77,17 +76,10 @@ function Feed() {
     console.log('Failed:', errorInfo);
   };
 
-  function onFilterButtonClick(event: ChangeEvent<HTMLInputElement>) {
-    if (filterState.some((tag) => event.target.name === tag)) {
-      setFilterState(filterState.filter((tag) => event.target.name !== tag));
-    } else {
-      setFilterState([...filterState, event.target.name]);
-    }
-  }
-
   function displayPosts() {
     const result: Array<JSX.Element> = [];
-    posts.forEach((post) => {
+    const reversedPosts = [...posts].reverse();
+    reversedPosts.forEach((post) => {
       const postTags = displayPostTags(post.tags);
       result.push(
         <Card
@@ -115,8 +107,21 @@ function Feed() {
 
   function displayPostTags(postTags: PostTag[]) {
     const result: Array<JSX.Element> = [];
+    postTags.sort(function (a, b) {
+      if (a.category === b.category) {
+        return a.name > b.name ? 1 : -1;
+      }
+      if (a.category === Category.Event) {
+        return 1;
+      }
+      return -1;
+    });
     postTags.forEach((postTag) => {
-      result.push(<Tag color={postTag.category}>{postTag.name}</Tag>);
+      result.push(
+        <Tag className="postTag" color={postTag.category}>
+          {postTag.name}
+        </Tag>
+      );
     });
     return result;
   }
@@ -146,29 +151,28 @@ function Feed() {
     );
   }
 
+  function handleFilter(value: string[]) {
+    PostServices.filterPosts(value).then((posts) => {
+      setPosts(posts.data);
+    });
+  }
+
   return (
     <>
       <br />
       <Row justify="space-around">
         <Col span={4}>
-          <Affix>
-            {postTags.map((tag) => (
-              <div key={tag.name}>
-                <label htmlFor={tag.name}>{tag.name} </label>
-                <input
-                  type="checkbox"
-                  name={tag.name}
-                  id={tag.name}
-                  onChange={onFilterButtonClick}
-                  checked={filterState.some((selectedTag) => tag.name === selectedTag)}
-                />
-                <br />
-              </div>
-            ))}
-            <p>{filterState}</p>
-            <Button onClick={() => setFilterState([])} shape="round">
-              Reset
-            </Button>
+          <Affix offsetTop={40} className="affix">
+            <h3>Filter</h3>
+            <Select
+              mode="multiple"
+              allowClear
+              showArrow
+              onChange={handleFilter}
+              tagRender={tagRender}
+              style={{ width: '100%' }}
+              options={options}
+            />
           </Affix>
         </Col>
 
@@ -177,7 +181,7 @@ function Feed() {
         </Col>
 
         <Col span={4}>
-          <Affix>
+          <Affix offsetTop={40} className="affix">
             <h3>Share something</h3>
             <Button size="large" onClick={showModal} shape="round">
               Add a post

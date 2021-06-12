@@ -7,8 +7,8 @@ class PostServices {
     return axios.get(POST_BASE_URL);
   }
 
-  getWriters() {
-    return axios.get(POST_BASE_URL + '/writers');
+  filterPosts(tagsNames: string[]) {
+    return axios.post(POST_BASE_URL + '/filter', tagsNames);
   }
 }
 
