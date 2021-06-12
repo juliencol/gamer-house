@@ -36,7 +36,6 @@ export async function getPosts(): Promise<IPost[]> {
 
 export async function filterPosts(tagsNames: string[]): Promise<IPost[]> {
   const posts = await getPostsDB();
-  console.log(tagsNames);
   if (tagsNames.length > 0) {
     const filteredPosts = await Promise.all(
       posts.filter((post) => {
@@ -49,7 +48,6 @@ export async function filterPosts(tagsNames: string[]): Promise<IPost[]> {
         return match;
       })
     );
-    console.log(filteredPosts);
     return filteredPosts;
   }
   return posts;
