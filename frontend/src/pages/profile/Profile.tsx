@@ -15,9 +15,9 @@ import {
 import {
   UploadOutlined,
   UserOutlined,
-  PlusCircleOutlined,
   CheckOutlined,
   PlusCircleTwoTone,
+  DeleteOutlined,
 } from '@ant-design/icons';
 import GamerServices from '../../Services/GamerServices';
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
@@ -55,7 +55,14 @@ function Profile() {
     setPopConfirmVisible(false);
     setTimeout(() => {
       setIsRGModalVisible(false);
-    }, 500);
+    }, 200);
+  };
+
+  const handleCancelRG = () => {
+    setPopConfirmVisible(false);
+    setTimeout(() => {
+      setIsRGModalVisible(false);
+    }, 100);
   };
 
   const handleOkUnfollow = () => {
@@ -65,22 +72,16 @@ function Profile() {
     });
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
-    }, 500);
+    }, 200);
   };
 
   const handleCancelUnfollow = () => {
     setPopUnfollowConfirm(false);
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
-    }, 500);
+    }, 100);
   };
 
-  const handleCancelRG = () => {
-    setPopConfirmVisible(false);
-    setTimeout(() => {
-      setIsRGModalVisible(false);
-    }, 500);
-  };
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
@@ -238,7 +239,13 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <h1>Remove a game</h1>
             <div className="ButtonWrapper">
-              <Button shape="round" type="dashed" size="large" onClick={showRGModal}>
+              <Button
+                shape="round"
+                type="default"
+                size="large"
+                icon={<DeleteOutlined />}
+                onClick={showRGModal}
+              >
                 Remove
               </Button>
             </div>
@@ -272,7 +279,7 @@ function Profile() {
             <div className="ButtonWrapper">
               <Button
                 shape="round"
-                type="dashed"
+                type="default"
                 size="large"
                 onClick={showRGModal}
                 icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
@@ -330,6 +337,7 @@ function Profile() {
                 shape="round"
                 onClick={() => setIsFollowModalVisible(true)}
                 size="large"
+                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
               >
                 Follow +
               </Button>
