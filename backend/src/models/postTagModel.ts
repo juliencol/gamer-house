@@ -9,6 +9,12 @@ export async function getPostTagsDB(): Promise<IPostTag[]> {
   return PostTag.find();
 }
 
+export async function getPostTagByNameDB(name: string): Promise<IPostTag | null> {
+  return PostTag.findOne({
+    name: name,
+  });
+}
+
 export async function deletePostTagDB(id: string): Promise<IPostTag | null> {
   return PostTag.findByIdAndDelete(id);
 }

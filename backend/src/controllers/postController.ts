@@ -1,5 +1,5 @@
-import { IGamer } from '../schema/Gamer';
 import { IPost } from '../schema/Post';
+import { getPostTagByName } from '../controllers/postTagController';
 import { CreatePostArgs } from '../types/post.types';
 import {
   addPostToGamerDB,
@@ -7,19 +7,25 @@ import {
   deletePostDB,
   deletePostFromGamerDB,
   getPostsDB,
-  getWriterDB,
 } from '../models/postModel';
 
 export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost> {
-  const post = await createPostDB({ ...createPostArgs, createdAt: new Date() });
-  const test = await addPostToGamer(createPostArgs.writer, post.id);
+  const postTagsIds = await Promise.all(
+    createPostArgs.tags.map(async (tagName) => (await getPostTagByName(tagName)).id)
+  );
+  const post = await createPostDB({
+    ...createPostArgs,
+    tags: postTagsIds,
+    createdAt: new Date(),
+  });
+  await addPostToGamer(createPostArgs.writer, post.id);
   return post;
 }
 
-export async function deletePost(writerId: string, postId: string): Promise<IPost> {
+export async function deletePost(postId: string): Promise<IPost> {
   const post = await deletePostDB(postId);
-  await deletePostFromGamer(writerId, postId);
   if (!post) throw new Error('The requested post does not exist');
+  await deletePostFromGamer(post.writer, post.id);
   return post;
 }
 
@@ -28,16 +34,23 @@ export async function getPosts(): Promise<IPost[]> {
   return posts;
 }
 
-export async function getWriters(): Promise<IGamer[]> {
-  const posts = await getPosts();
-  const writers = Promise.all(posts.map((post) => getWriter(post)));
-  return writers;
-}
-
-export async function getWriter(post: IPost): Promise<IGamer> {
-  const writer = await getWriterDB(post);
-  if (!writer) throw new Error('The requested post does not exist');
-  return writer;
+export async function filterPosts(tagsNames: string[]): Promise<IPost[]> {
+  const posts = await getPostsDB();
+  if (tagsNames.length > 0) {
+    const filteredPosts = await Promise.all(
+      posts.filter((post) => {
+        let match = false;
+        for (let i = 0; i < post.tags.length; i++) {
+          if (tagsNames.includes(post.tags[i].name)) {
+            match = true;
+          }
+        }
+        return match;
+      })
+    );
+    return filteredPosts;
+  }
+  return posts;
 }
 
 async function addPostToGamer(writerId: string, postId: string) {

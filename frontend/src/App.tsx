@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Authentication from 'pages/authentication/Authentication';
 import useFetch from 'Components/use-fetch/useFetch';
-import { authReq } from 'Services/AuthenticationService';
+import { authReq } from 'Services/AuthenticationServices';
 import Feed from 'pages/feed/Feed';
 import Header from 'Components/Header/Header';
 

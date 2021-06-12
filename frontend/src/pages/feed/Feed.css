@@ -1,9 +1,41 @@
 .post {
   margin: var(--normal-margin);
   border-radius: var(--normal-radius);
+  height: 100%;
+}
+
+.postTag {
+  border-radius: var(--normal-radius);
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.postTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.writer {
+  margin-right: 50px;
 }
 
 .date {
   margin-top: 10px;
   margin-left: 70%;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.affix {
+  justify-content: center;
+  text-align: center;
+}
+
+.affix h3 {
+  color: white;
 }

@@ -1,11 +1,10 @@
+import { userInfo } from '../../Services/AuthenticationServices';
+import useFetch from '../use-fetch/useFetch';
 import { useEffect, useState } from 'react';
 import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
-
-import { userInfo } from 'Services/AuthenticationService';
-import useFetch from 'Components/use-fetch/useFetch';
-
 import './Header.css';
+
 function Header(props: { logOut: () => void }) {
   const { data } = useFetch({ pseudo: '' }, userInfo().pseudo());
   const [pseudo, setPseudo] = useState('');

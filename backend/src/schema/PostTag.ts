@@ -5,7 +5,17 @@ const postTagCollectionName = 'postsTags';
 
 export const PostTagSchema = new Schema({
   name: { type: String, required: true, unique: true },
+  category: {
+    type: String,
+    enum: ['#f50', '#2db7f5'],
+    required: true,
+  },
 });
+
+export enum Category {
+  Game = '#f50',
+  Event = '#2db7f5',
+}
 
 PostTagSchema.methods.getID = function () {
   return this._id ? this._id.toString() : null;
@@ -13,6 +23,7 @@ PostTagSchema.methods.getID = function () {
 
 interface IPostTagSchema extends Document {
   name: string;
+  category: Category;
 }
 
 interface IPostTagBase extends IPostTagSchema {
