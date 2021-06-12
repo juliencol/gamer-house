@@ -1,5 +1,10 @@
 import { Request, Response, Router } from 'express';
-import { createPost, deletePost, filterPosts, getPosts } from '../controllers/postController';
+import {
+  createPost,
+  deletePost,
+  filterPosts,
+  getPosts,
+} from '../controllers/postController';
 import { getPayload, PayloadJWT } from '../services/authenticationService';
 import { CreatePostArgs } from '../types/post.types';
 
@@ -32,25 +37,25 @@ router.post('/', async (req: Request, res: Response) => {
 router.get('/', async (req: Request, res: Response) => {
   try {
     const posts = await getPosts();
-    res.status(201).json(posts);
+    res.status(200).json(posts);
   } catch (e) {
-    res.status(500).json({ error: `There aren't any existing posts: ${e.message}` });
+    res.status(500).json({ error: `There isn't any existing post` });
   }
 });
 
 router.post('/filter', async (req: Request, res: Response) => {
   try {
     const posts = await filterPosts(req.body);
-    res.status(201).json(posts);
+    res.status(200).json(posts);
   } catch (e) {
-    res.status(500).json({ error: `There aren't any matching posts: ${e.message}` });
+    res.status(500).json({ error: `There isn't any matching post` });
   }
 });
 
-router.delete('/post/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   try {
     const post = await deletePost(req.params.id);
-    res.status(201).json(post);
+    res.status(204).json(post);
   } catch (e) {
     res.status(500).json({ error: `The post could not be deleted: ${e.message}` });
   }

@@ -18,6 +18,7 @@ import Comment from 'Components/Comment/Comment';
 
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
+import './Feed.css';
 import Meta from 'antd/lib/card/Meta';
 import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
@@ -68,6 +69,7 @@ function Feed() {
   };
 
   const onFinish = (values: any) => {
+    console.log(values);
     PostServices.createPost(values).then(() => {
       PostServices.getPosts().then((posts) => {
         setPosts(posts.data);

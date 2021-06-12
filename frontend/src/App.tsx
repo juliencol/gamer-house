@@ -6,6 +6,7 @@ import useFetch from 'Components/use-fetch/useFetch';
 import { authReq } from 'Services/AuthenticationServices';
 import Feed from 'pages/feed/Feed';
 import Header from 'Components/Header/Header';
+import Profile from 'pages/profile/Profile';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(
@@ -44,8 +45,14 @@ function App() {
           <h1>You are now connected</h1>
           <button onClick={() => logOut()}>Log out</button>
         </Route>
+        <Route exact={true} path="/profile">
+          <Profile />
+        </Route>
         <Route exact={true} path="/feed">
           <Feed />
+        </Route>
+        <Route exact={true} path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </Router>

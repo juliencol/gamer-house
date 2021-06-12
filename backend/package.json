@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "tsc && nodemon src/app.ts -L",
     "start": "tsc && nodemon src/app.ts -L",
-    "test": "jest"
+    "test": "jest -i"
   },
   "author": "Julien Colombain",
   "license": "ISC",
@@ -31,6 +31,7 @@
     "@types/supertest": "^2.0.11",
     "jest": "^27.0.3",
     "nodemon": "^2.0.7",
+    "prettier": "2.3.1",
     "supertest": "^6.1.3",
     "ts": "^0.2.2",
     "ts-jest": "^27.0.1",

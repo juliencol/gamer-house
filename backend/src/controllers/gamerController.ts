@@ -11,6 +11,7 @@ import {
   deleteGamerDB,
   getGamerDB,
   getGamerByEmailDB,
+  getGamersByPseudoDB,
   getGamersDB,
   updateGamerDB,
 } from '../models/gamerModel';
@@ -80,12 +81,21 @@ export async function unfollowGamer(id: string, idToUnfollow: string): Promise<I
   return gamer;
 }
 
+export async function getGamersByPseudo(
+  userId: string,
+  pseudo: string
+): Promise<IGamer[]> {
+  const gamers = await getGamersByPseudoDB(userId, pseudo);
+  if (!gamers) throw new Error('The requested gamers do not exist');
+  return gamers;
+}
+
 const isFollowable = async (id: string, idToFollow: string) => {
   if (id === idToFollow) {
     throw new Error("One can't follow themselves");
   }
   const gamer = await getGamer(id);
-  if (gamer.following.find(() => idToFollow)) {
+  if (gamer.following.find((followedGamer) => followedGamer.id === idToFollow)) {
     throw new Error('The gamer is already being followed');
   }
 };

@@ -13,8 +13,10 @@ import {
   unfollowGamer,
   updateGamer,
   changePassword,
+  getGamersByPseudo,
 } from '../controllers/gamerController';
 import { CreateGamerArgs } from '../types/gamer.types';
+import { getPayload, PayloadJWT } from '../services/authenticationService';
 
 const router = Router();
 
@@ -39,6 +41,24 @@ router.post(
     }
   }
 );
+
+router.get('/getAuthenticatedGamer', async (req: Request, res: Response) => {
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await getGamer(payload.id);
+    res.status(200).json(gamer);
+  } catch (e) {
+    res.status(500).json({ error: `Could not find any gamer: ${e.message}` });
+  }
+});
 
 router.get('/', async (req: Request, res: Response) => {
   try {
@@ -67,10 +87,19 @@ router.delete('/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/update', async (req: Request, res: Response) => {
   try {
     delete req.body.password;
-    const gamer = await updateGamer(req.params.id, req.body);
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await updateGamer(payload.id, req.body);
     res.status(201).json(gamer);
   } catch (e) {
     res.status(500).json({ error: `The gamer could not be updated: ${e.message}` });
@@ -91,23 +120,63 @@ router.patch(
   }
 );
 
+// Search System
+
+router.get('/search/:pseudo', async (req: Request, res: Response) => {
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamers = await getGamersByPseudo(payload.id, req.params.pseudo);
+    res.status(201).json(gamers);
+  } catch (e) {
+    res
+      .status(500)
+      .json({ error: `No gamer using this pseudo could be found: ${e.message}` });
+  }
+});
+
 // Following System
 
-router.put('/:id/follow', async (req: Request, res: Response) => {
+router.put('/follow', async (req: Request, res: Response) => {
   try {
-    const gamer = await followGamer(req.params.id, req.body.idToFollow);
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await followGamer(payload.id, req.body.idToFollow);
     res.status(201).json(gamer);
   } catch (e) {
     res.status(500).json({ error: `The gamer could not be followed: ${e.message}` });
   }
 });
 
-router.delete('/:id/unfollow', async (req: Request, res: Response) => {
+router.delete('/unfollow/:id', async (req: Request, res: Response) => {
   try {
-    const gamer = await unfollowGamer(req.params.id, req.body.idToUnfollow);
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await unfollowGamer(payload.id, req.params.id);
     res.status(201).json(gamer);
   } catch (e) {
-    res.status(500).json({ error: `The gamer could not be followed: ${e.message}` });
+    res.status(500).json({ error: `The gamer could not be unfollowed: ${e.message}` });
   }
 });
 

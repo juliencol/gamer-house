@@ -1,4 +1,4 @@
-import { body, check, validationResult } from 'express-validator';
+import { body, check } from 'express-validator';
 
 const MINIMUM_AGE = 18;
 const MINIMUM_DATE = '1900-01-01';

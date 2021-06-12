@@ -9,7 +9,7 @@ const router = Router();
 
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const postTag = await createPostTag({ name: req.body.name });
+    const postTag = await createPostTag(req.body);
     res.status(201).json(postTag);
   } catch (e) {
     res.status(500).json({ error: `The post tag could not be created: ${e.message}` });

@@ -3,7 +3,9 @@ import request from 'supertest';
 import { createComment } from '../../controllers/commentController';
 import { createGamer } from '../../controllers/gamerController';
 import { createPost } from '../../controllers/postController';
+import { createPostTag } from '../../controllers/postTagController';
 import { IGamer } from '../../schema/Gamer';
+import { Category } from '../../schema/PostTag';
 import { createServer } from '../../server/createServer';
 import { generateJWT } from '../../services/authenticationService';
 import { CreateCommentArgs } from '../../types/comment.types';
@@ -27,6 +29,10 @@ beforeEach((done) => {
         password: 'Password0',
         pseudo: 'pseudo',
         birthDate: new Date('1999-01-01'),
+      });
+      await createPostTag({
+        name: 'Event',
+        category: Category.Event,
       });
       jwt = generateJWT({ id: gamer.id, pseudo: gamer.pseudo });
       done();
@@ -55,6 +61,7 @@ describe('Post/ comment/', () => {
     const post = await createPost({
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
+      tags: ['Event'],
       writer: gamer.id,
       tags: [],
     });
@@ -78,6 +85,7 @@ describe('Post/ comment/', () => {
     const post = await createPost({
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
+      tags: ['Event'],
       writer: gamer.id,
       tags: [],
     });
@@ -101,6 +109,7 @@ describe('Post/ comment/', () => {
     const post = await createPost({
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
+      tags: ['Event'],
       writer: gamer.id,
       tags: [],
     });
@@ -133,6 +142,7 @@ describe('Get/ comment/:id/user', () => {
     const post = await createPost({
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
+      tags: ['Event'],
       writer: gamer.id,
       tags: [],
     });
@@ -185,6 +195,7 @@ describe('Delete/ comment/', () => {
     const post = await createPost({
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
+      tags: ['Event'],
       writer: gamer.id,
       tags: [],
     });
