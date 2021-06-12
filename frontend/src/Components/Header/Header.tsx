@@ -1,59 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { userInfo } from '../../Services/AuthenticationServices';
 import useFetch from '../use-fetch/useFetch';
-=======
-=======
->>>>>>> 83e6ba3 (Solved import configs)
-<<<<<<< HEAD
-=======
->>>>>>> be4fedc (Solved import issues)
-=======
->>>>>>> 7ec57d9 (Solved import configs)
-=======
-import { userInfo } from 'Services/AuthenticationService';
-import useFetch from 'Components/use-fetch/useFetch';
->>>>>>> 3cd3394 (Solved import issues)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 09fa6fe (Solved import issues)
-=======
-=======
->>>>>>> 7ec57d9 (Solved import configs)
-=======
-import { userInfo } from '../../Services/AuthenticationServices';
-import useFetch from '../use-fetch/useFetch';
->>>>>>> c3e566b (Solved import configs)
-<<<<<<< HEAD
->>>>>>> 83e6ba3 (Solved import configs)
-=======
->>>>>>> be4fedc (Solved import issues)
-=======
->>>>>>> 7ec57d9 (Solved import configs)
 import { useEffect, useState } from 'react';
 import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
-=======
-import { userInfo } from 'Services/AuthenticationServices';
-import useFetch from 'Components/use-fetch/useFetch';
-import { useEffect, useState } from 'react';
-import { Layout, Menu, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
-
->>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
-=======
-import { userInfo } from 'Services/AuthenticationServices';
-import useFetch from 'Components/use-fetch/useFetch';
-import { useEffect, useState } from 'react';
-import { Layout, Menu, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
-
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 import './Header.css';
 
 function Header(props: { logOut: () => void }) {
@@ -102,7 +51,7 @@ function Header(props: { logOut: () => void }) {
           <img
             className="avatar"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-            alt="avatar"
+            alt=""
           />
         </Col>
         <Col className="pseudo" span={21}>

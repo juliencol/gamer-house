@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import {
   Affix,
@@ -15,56 +12,12 @@ import {
   Tag,
   Select,
 } from 'antd';
-<<<<<<< HEAD
-
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
-=======
 import './Feed.css';
-<<<<<<< HEAD
-import GamerServices from '../../services/GamerServices';
-import PostServices from '../../services/PostServices';
-import PostTagServices from '../../services/PostTagServices';
->>>>>>> 05fd3a0 (Post, post tag back, feed updated)
-=======
-import GamerServices from '../../Services/GamerServices';
-import PostServices from '../../Services/PostServices';
-import PostTagServices from '../../Services/PostTagServices';
->>>>>>> 3cd3394 (Solved import issues)
->>>>>>> 09fa6fe (Solved import issues)
 import Meta from 'antd/lib/card/Meta';
-<<<<<<< HEAD
 import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
-=======
-import { Post } from '../../types/Post';
-import { PostTag } from '../../types/PostTag';
->>>>>>> 83e6ba3 (Solved import configs)
-=======
-=======
->>>>>>> c86750e (Post, post tag back, feed updated)
-=======
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Affix, Button, Card, Modal, Form, Input, Row, Col, Avatar,Tag,Select } from 'antd';
-
-import GamerServices from 'Services/GamerServices';
-import PostServices from 'Services/PostServices';
-import PostTagServices from 'Services/PostTagServices';
-import Meta from 'antd/lib/card/Meta';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Post } from 'types/Post';
-import { PostTag } from 'types/PostTag';
->>>>>>> 91e3dc5 (follow + recherche user + description relié au back + refonte front)
-=======
-import { Post } from '../../types/Post';
-import { PostTag } from '../../types/PostTag';
->>>>>>> 7ec57d9 (Solved import configs)
-=======
-import { Post } from 'types/Post';
-import { PostTag } from 'types/PostTag';
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
 
 import './Feed.css';
 
@@ -152,7 +105,6 @@ function Feed() {
     return result;
   }
 
-<<<<<<< HEAD
   function displayPostTags(postTags: PostTag[]) {
     const result: Array<JSX.Element> = [];
     postTags.sort(function (a, b) {
@@ -174,8 +126,6 @@ function Feed() {
     return result;
   }
 
-=======
->>>>>>> c86750e (Post, post tag back, feed updated)
   const options = postTags.map((postTag) => {
     return {
       value: postTag.name,
@@ -201,15 +151,12 @@ function Feed() {
     );
   }
 
-<<<<<<< HEAD
   function handleFilter(value: string[]) {
     PostServices.filterPosts(value).then((posts) => {
       setPosts(posts.data);
     });
   }
 
-=======
->>>>>>> c86750e (Post, post tag back, feed updated)
   return (
     <>
       <br />

@@ -1,36 +1,15 @@
 html {
   height: 1080px;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-.Profile {
-  display: block;
-  height: 100%;
-  background-color: #28dce95b;
-}
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
-=======
->>>>>>> a5aac7c (refonte front + feature followed)
 
 .ant-layout-content {
   height: 1080px;
   color: rgb(255, 255, 255);
-<<<<<<< HEAD
-<<<<<<< HEAD
   background: #6f4071;
-=======
-  background: #139da7ab;
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
-=======
-  background: #6f4071;
->>>>>>> a5aac7c (refonte front + feature followed)
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .ant-carousel {
   width: 60%;
   height: 100%;
@@ -68,65 +47,4 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: center;
-=======
-.Profile p,
-.MainContent p {
-  text-align: center;
-  width: 100%;
-=======
-.ant-carousel {
-  width: 60%;
-  height: 100%;
->>>>>>> a5aac7c (refonte front + feature followed)
 }
-
-.avatar {
-  height: 100px;
-  width: auto;
-}
-
-.ant-typography {
-  color: white;
-  width: 80%;
-}
-
-.mainRow {
-  min-height: 300px;
-  justify-content: space-around;
-  margin-top: 30px;
-  border: solid;
-}
-
-.mainColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.mainColumn h1 {
-  color: white;
-}
-
-.descriptionTextWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-<<<<<<< HEAD
-
-.ant-typography {
-  color: white;
-  width: 80%;
-}
-
-.CarouselImg {
-  height: 160px;
-  color: #fff;
-  line-height: 160px;
-  text-align: center;
-  background: #364d79;
->>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
-}
-=======
->>>>>>> a5aac7c (refonte front + feature followed)
