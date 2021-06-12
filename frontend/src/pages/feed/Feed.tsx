@@ -11,7 +11,10 @@ import {
   Avatar,
   Tag,
   Select,
+  Collapse,
 } from 'antd';
+
+import Comment from 'Components/Comment/Comment';
 
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
@@ -20,6 +23,8 @@ import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
 
 import './Feed.css';
+import AddComment from 'Components/Comment/AddComment';
+import CommentCollapse from 'Components/Comment/CommentCollapse';
 
 function Feed() {
   const [posts, setPosts] = useState<Array<Post>>([]);
@@ -98,6 +103,8 @@ function Feed() {
             title={post.name}
             description={post.content}
           />
+          <br />
+          <CommentCollapse post={post} />
         </Card>
       );
     });
