@@ -1,5 +1,5 @@
 .background {
-  background-image: url('background.png');
+  background-image: url('../../Images/backgroundHeader.png');
   border-radius: 0 0 50px 50px;
   padding: 20px 0 0 30px;
   height: 300px;
@@ -28,4 +28,56 @@
 .userRow {
   margin-top: 40px;
   margin-left: 40px;
+}
+
+.navBar{
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+}
+
+.linkDisconnected{
+  display : inline;
+  position: relative;
+  justify-self: flex-end;
+}
+.linkDisconnected::after{
+  content: "";
+  position: absolute;
+  left : 0;
+  width: 0;
+  border-radius: 30px;
+  height: 5px;
+  bottom: -8px;
+  transition:.5s;
+ }
+
+.linkDisconnected:hover::after{
+  background: #9485f2;
+  width: 100%;
+}
+.currentLink{
+  display : inline;
+  position: relative;
+  justify-self: flex-end;
+}
+.currentLink::after{
+  content: "";
+  position: absolute;
+  left : 0;
+  height: 5px;
+  border-radius: 30px;
+  bottom: -8px;
+  background: #9485f2;
+  width: 100%;
+}
+
+.subNavBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width:100%;
 }
