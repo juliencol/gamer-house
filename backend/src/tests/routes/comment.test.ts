@@ -151,6 +151,28 @@ describe('Get/ comment/:id/user', () => {
   });
 });
 
+describe('Get/ comment/comments/post/:postId', () => {
+  it('should return the comments for a post', async () => {
+    const post = await createPost({
+      name: 'Mon beau post',
+      content: 'Avec du contenu de qualité',
+      writer: gamer.id,
+      tags: [],
+    });
+
+    const comment = await createComment({
+      writer: gamer.id,
+      post: post.id,
+      content: 'Un commentaire de haute précision',
+    });
+
+    await request(app)
+      .get(`/comment/comments/post/${post.id}`)
+      .set('Authorization', `AccessToken ${jwt}`)
+      .expect(200);
+  });
+});
+
 describe('Delete/ comment/', () => {
   it('should respond with an error for an unexisting comment', async () => {
     await request(app)

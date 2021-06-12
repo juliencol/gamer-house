@@ -4,23 +4,24 @@ import {
   createComment,
   deleteComment,
   getCommentWriter,
+  getCommentsOfPost,
 } from '../controllers/commentController';
-import { getPayload } from '../services/authenticationService';
+import { getPayload, PayloadJWT } from '../services/authenticationService';
 import { CreateCommentArgs } from '../types/comment.types';
 
 const commentRouter = Router();
 
 commentRouter.post('/', async (req: Request, res: Response) => {
-  const writer = getPayload(req.accessToken);
+  const writer = getPayload(req.accessToken).id;
   const commentArgs: CreateCommentArgs = {
     writer,
     ...req.body,
   };
   createComment(commentArgs)
     .then((comment) => res.status(201).json(comment))
-    .catch((e: Error) =>
-      res.status(500).json({ error: `The comment could not be created: ${e.message}` })
-    );
+    .catch((e: Error) => {
+      res.status(500).json({ error: `The comment could not be created: ${e.message}` });
+    });
 });
 
 commentRouter.get('/:id/user', async (req: Request, res: Response) => {
@@ -32,6 +33,15 @@ commentRouter.get('/:id/user', async (req: Request, res: Response) => {
 
   getCommentWriter(comment)
     .then((commentWritter) => res.status(200).json({ id: commentWritter.id }))
+    .catch((e: Error) =>
+      res.status(500).json({ error: `The writer was not found: ${e.message}` })
+    );
+});
+
+commentRouter.get('/comments/post/:postId', async (req: Request, res: Response) => {
+  const postId: string = req.params.postId;
+  getCommentsOfPost(postId)
+    .then((comments) => res.status(200).json(comments))
     .catch((e: Error) =>
       res.status(500).json({ error: `The writer was not found: ${e.message}` })
     );
