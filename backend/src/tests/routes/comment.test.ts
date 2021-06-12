@@ -56,6 +56,7 @@ describe('Post/ comment/', () => {
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
       writer: gamer.id,
+      tags: [],
     });
 
     const data: CreateCommentArgs = {
@@ -78,6 +79,7 @@ describe('Post/ comment/', () => {
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
       writer: gamer.id,
+      tags: [],
     });
 
     const data: CreateCommentArgs = {
@@ -100,6 +102,7 @@ describe('Post/ comment/', () => {
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
       writer: gamer.id,
+      tags: [],
     });
 
     const data: CreateCommentArgs = {
@@ -131,6 +134,7 @@ describe('Get/ comment/:id/user', () => {
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
       writer: gamer.id,
+      tags: [],
     });
 
     const comment = await createComment({
@@ -160,6 +164,7 @@ describe('Delete/ comment/', () => {
       name: 'Mon beau post',
       content: 'Avec du contenu de qualité',
       writer: gamer.id,
+      tags: [],
     });
 
     const comment = await createComment({

@@ -16,7 +16,7 @@ authenticationRouter.post(
   loginGamerArgumentsValidator(),
   validate,
   (req: Request, res: Response) => {
-    getGamerByEmail(req.body.email)
+    getGamerByEmail(req.body.email.toLowerCase())
       .then((gamer) => {
         if (!bcrypt.compareSync(req.body.password, gamer.password)) {
           throw Error('Wrong password and email combination');
