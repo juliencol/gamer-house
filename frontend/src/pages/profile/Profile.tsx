@@ -21,40 +21,46 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import GamerServices from 'Services/GamerServices';
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
+import GameServices from 'Services/GameServices';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Gamer } from 'types/Gamer';
+import { Game } from 'types/Game';
+import { stringify } from 'querystring';
+
+export type gameWithRank = 'gameId' | 'rank';
 
 function Profile() {
+  const defaultGameWithRank: { [key in gameWithRank]: string } = {
+    gameId: '',
+    rank: '',
+  };
   const [gamer, setGamer] = useState<Gamer>();
+  const [games, setGames] = useState<Array<Game>>();
+  const [gameToAdd, setGameToAdd] = useState(defaultGameWithRank);
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
   const [idToUnfollow, setIdToUnfollow] = useState('');
+  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
-  const [isRGModalVisible, setIsRGModalVisible] = useState(false);
+  const [isRemoveGameModalVisible, setIsRemoveGameModalVisible] = useState(false);
+  const [isAddGameModalVisible, setIsAddGameModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
-  const [description, setDescription] = useState('');
-  const [pseudo, setPseudo] = useState('');
-  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
   const [avatar, setAvatar] = useState<string>('');
-
-  const showRGModal = () => {
-    setIsRGModalVisible(true);
-  };
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
   };
-  const handleOkRG = () => {
+  const handleOkRemoveGame = () => {
     setPopConfirmVisible(false);
     setTimeout(() => {
-      setIsRGModalVisible(false);
+      setIsRemoveGameModalVisible(false);
     }, 200);
   };
 
-  const handleCancelRG = () => {
+  const handleCancelRemoveGame = () => {
     setPopConfirmVisible(false);
     setTimeout(() => {
-      setIsRGModalVisible(false);
+      setIsRemoveGameModalVisible(false);
     }, 100);
   };
 
@@ -78,32 +84,28 @@ function Profile() {
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
-      setDescription(gamer.data.description);
-      setPseudo(gamer.data.pseudo);
+    });
+    GameServices.getGames().then((games) => {
+      setGames(games.data);
     });
   }, []);
 
   function onSearch(value: string) {
     GamerServices.searchGamers(value).then((gamers) => {
       setGamersSearchResult(gamers.data);
-      console.log(gamers.data);
     });
   }
 
-  function changeDescription(e: any) {
-    GamerServices.updateGamer({ description: description }).then(() => {
-      GamerServices.getAuthenticatedGamer().then((gamer) => {
-        setGamer(gamer.data);
-        setDescription(gamer.data.description);
-      });
+  function handleChangeDescription(value: string) {
+    GamerServices.updateGamer({ description: value }).then((gamer) => {
+      setGamer(gamer.data);
     });
   }
 
-  function changePseudo(e: any) {
-    GamerServices.updateGamer({ pseudo: pseudo }).then(() => {
+  function handleChangePseudo(value: string) {
+    GamerServices.updateGamer({ pseudo: value }).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
         setGamer(gamer.data);
-        setPseudo(gamer.data.pseudo);
       });
     });
   }
@@ -169,7 +171,16 @@ function Profile() {
           alt="avatar"
         />
         <h1>{gamer.pseudo}</h1>
-        <strong>{gamer.statusMessage}</strong>
+        {gamer.statusMessage}
+      </Col>
+    ));
+  }
+
+  function displayGames() {
+    return gamer?.gamesWithRanks?.map((gameWithRank) => (
+      <Col>
+        <h1>{gameWithRank.game}</h1>
+        {gameWithRank.rank}
       </Col>
     ));
   }
@@ -195,9 +206,50 @@ function Profile() {
     );
   }
 
+  function displaySelectAddGame() {
+    return (
+      <select
+        name="addGame"
+        className="form-control"
+        onChange={handleSelectAddGame}
+        style={{ textAlign: 'center' }}
+      >
+        <option hidden disabled selected>
+          {' '}
+          -- Select a game to add --{' '}
+        </option>
+        {games?.map((game) => (
+          <option value={game._id}>{game.name}</option>
+        ))}
+      </select>
+    );
+  }
+
   function handleSelectUnfollowGamer(e: ChangeEvent<HTMLSelectElement>) {
     const value: string = e.target.value;
     setIdToUnfollow(value);
+  }
+
+  function handleSelectAddGame(e: ChangeEvent<HTMLSelectElement>) {
+    const value: string = e.target.value;
+    setGameToAdd({
+      ...gameToAdd,
+      gameId: value,
+    });
+  }
+
+  function handleChangeAddGame(e: ChangeEvent<HTMLInputElement>) {
+    const value: string = e.target.value;
+    setGameToAdd({
+      ...gameToAdd,
+      rank: value,
+    });
+  }
+
+  function handleOkAddGame() {
+    GameServices.addGameToGamer({ game: gameToAdd.gameId, rank: gameToAdd.rank }).then(
+      () => GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+    );
   }
 
   function createCarouselGame() {
@@ -235,33 +287,18 @@ function Profile() {
             <h1>Description</h1>
             <div className="descriptionTextWrapper">
               <Typography.Paragraph
-                editable={{ onChange: setDescription, maxLength: 200 }}
+                editable={{ onChange: handleChangeDescription, maxLength: 200 }}
               >
-                {description}
+                {gamer?.description}
               </Typography.Paragraph>
-            </div>
-            <div>
-              <Button
-                shape="round"
-                type="primary"
-                size="small"
-                onClick={changeDescription}
-              >
-                Confirm description changes
-              </Button>
             </div>
           </Col>
           <Col span={6} className="mainColumn">
             <div>
               <h1>Username</h1>
-              <Typography.Text editable={{ onChange: setPseudo, maxLength: 15 }}>
-                {pseudo}
+              <Typography.Text editable={{ onChange: handleChangePseudo, maxLength: 15 }}>
+                {gamer?.pseudo}
               </Typography.Text>
-            </div>
-            <div>
-              <Button shape="round" type="primary" size="small" onClick={changePseudo}>
-                Confirm pseudo changes
-              </Button>
             </div>
           </Col>
         </Row>
@@ -275,24 +312,24 @@ function Profile() {
                 type="default"
                 size="large"
                 icon={<DeleteOutlined />}
-                onClick={showRGModal}
+                onClick={() => setIsRemoveGameModalVisible(true)}
               >
                 Remove
               </Button>
             </div>
             <Modal
               title="Remove Game Modal"
-              visible={isRGModalVisible}
+              visible={isRemoveGameModalVisible}
               footer={[
                 <Popconfirm
-                  title="Are you sure to Remove these Games ?"
+                  title="Are you sure to Remove this game ?"
                   okText="Yes"
                   cancelText="No"
                   visible={popConfirm}
-                  onConfirm={handleOkRG}
-                  onCancel={handleCancelRG}
+                  onConfirm={handleOkRemoveGame}
+                  onCancel={handleCancelRemoveGame}
                 ></Popconfirm>,
-                <Button key="cancel" onClick={handleCancelRG}>
+                <Button key="cancel" onClick={handleCancelRemoveGame}>
                   Cancel
                 </Button>,
                 <Button danger key="remove" onClick={showPopConfim}>
@@ -304,6 +341,7 @@ function Profile() {
 
           <Col span={12} className="mainColumn">
             <h1>I play the following games</h1>
+            {displayGames()}
           </Col>
           <Col span={6} className="mainColumn">
             <h1>Add a game</h1>
@@ -312,11 +350,26 @@ function Profile() {
                 shape="round"
                 type="default"
                 size="large"
-                onClick={showRGModal}
+                onClick={() => setIsAddGameModalVisible(true)}
                 icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
               >
                 Add
               </Button>
+              <Modal
+                title="Add a game to your game list"
+                visible={isAddGameModalVisible}
+                okText="Add Game"
+                onOk={handleOkAddGame}
+                onCancel={() => setIsAddGameModalVisible(false)}
+              >
+                {displaySelectAddGame()}
+                <Input
+                  id="rank"
+                  name="rank"
+                  onChange={handleChangeAddGame}
+                  value={gameToAdd.rank}
+                ></Input>
+              </Modal>
             </div>
           </Col>
         </Row>
@@ -358,7 +411,7 @@ function Profile() {
             </Modal>
           </Col>
           <Col span={12} className="mainColumn">
-            <h1>I Follow</h1>
+            <h1>I follow</h1>
             <Row className="gamersRow">{displayGamers(gamer?.following)}</Row>
           </Col>
           <Col span={6} className="mainColumn">
@@ -390,7 +443,7 @@ function Profile() {
         </Row>
         <Row className="mainRow">
           <Col span={12} className="mainColumn">
-            <h1>Followed By</h1>
+            <h1>Followed by</h1>
             <Row className="gamersRow">{displayGamers(gamer?.followers)}</Row>
           </Col>
         </Row>

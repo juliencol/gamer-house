@@ -4,7 +4,7 @@ html {
 
 .ant-layout-content {
   height: 1080px;
-  color: rgb(255, 255, 255);
+  color: black;
   background: #6f4071;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -24,17 +24,12 @@ html {
   width: auto;
 }
 
-.ant-typography {
-  color: white;
-  width: 80%;
-}
-
 .mainRow {
   min-height: 300px;
   justify-content: space-around;
   margin-top: 250px;
   margin-bottom: -200px;
-  background: hsl(155, 57%, 56%);
+  background: white;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   border-radius: 100px;
@@ -49,7 +44,7 @@ html {
 }
 
 .mainColumn h1 {
-  color: white;
+  color: black;
 }
 
 .descriptionTextWrapper {
@@ -63,7 +58,7 @@ html {
 }
 
 .avatarImage:hover {
-  border: solid white 2px;
+  border: solid gray 2px;
   cursor: pointer;
 }
 

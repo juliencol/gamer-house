@@ -1,3 +1,4 @@
+import { Game } from './Game';
 import { Group } from './Group';
 import { Post } from './Post';
 
@@ -18,6 +19,11 @@ export interface Gamer {
   posts: [Post];
   followers: [Gamer];
   following: [Gamer];
-  gamesWithRanks: [Object];
+  gamesWithRanks: [GameWithRank];
   group: [Group];
+}
+
+export interface GameWithRank {
+  game: Game;
+  rank: string;
 }
