@@ -26,6 +26,9 @@
 .PurpleText {
   color: var(--purple);
 }
+#root {
+  height: 100%;
+}
 
 body {
   margin: 0;
