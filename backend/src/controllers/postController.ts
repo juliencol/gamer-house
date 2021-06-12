@@ -22,10 +22,10 @@ export async function createPost(createPostArgs: CreatePostArgs): Promise<IPost>
   return post;
 }
 
-export async function deletePost(writerId: string, postId: string): Promise<IPost> {
+export async function deletePost(postId: string): Promise<IPost> {
   const post = await deletePostDB(postId);
-  await deletePostFromGamer(writerId, postId);
   if (!post) throw new Error('The requested post does not exist');
+  await deletePostFromGamer(post.writer, post.id);
   return post;
 }
 
@@ -47,14 +47,6 @@ export async function filterPosts(tagsNames: string[]): Promise<IPost[]> {
           }
         }
         return match;
-        /*
-          for (let i = 0; i < post.tags.length; i++) {
-            if (tagsNames.includes(post.tags[i].name)) return true;
-          }
-          */
-        /*post.tags.forEach((tag) => {
-          if (tagsNames.includes(tag.name)) return true;
-        */
       })
     );
     console.log(filteredPosts);

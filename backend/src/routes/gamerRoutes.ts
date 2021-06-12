@@ -1,6 +1,4 @@
 import { Request, Response, Router } from 'express';
-import { createPost, deletePost } from '../controllers/postController';
-import { CreatePostArgs } from '../types/post.types';
 import {
   changePasswordArgumentsValidator,
   registerGamerArgumentsValidator,
@@ -17,7 +15,6 @@ import {
   changePassword,
 } from '../controllers/gamerController';
 import { CreateGamerArgs } from '../types/gamer.types';
-import { getPayload, PayloadJWT } from '../services/authenticationService';
 
 const router = Router();
 
@@ -111,54 +108,6 @@ router.delete('/:id/unfollow', async (req: Request, res: Response) => {
     res.status(201).json(gamer);
   } catch (e) {
     res.status(500).json({ error: `The gamer could not be followed: ${e.message}` });
-  }
-});
-
-// Post System
-
-router.post('/post', async (req: Request, res: Response) => {
-  try {
-    const authorization = req.headers.authorization;
-    if (!authorization) {
-      return res.status(500).json('No authorization header');
-    }
-    const accessToken = authorization.replace('AccessToken ', '');
-    if (!accessToken) {
-      return res.status(500).send('No access token');
-    }
-    const payload: PayloadJWT = getPayload(accessToken);
-
-    const postArgs: CreatePostArgs = {
-      writer: payload.id,
-      ...req.body,
-    };
-
-    const post = await createPost(postArgs);
-    res.status(201).json(post);
-  } catch (e) {
-    res.status(500).json({ error: `The post could not be created: ${e.message}` });
-  }
-});
-
-router.post('/post/:id/', async (req: Request, res: Response) => {
-  try {
-    const postArgs: CreatePostArgs = {
-      writer: req.params.id,
-      ...req.body,
-    };
-    const post = await createPost(postArgs);
-    res.status(201).json(post);
-  } catch (e) {
-    res.status(500).json({ error: `The post could not be created: ${e.message}` });
-  }
-});
-
-router.delete('/:id/post', async (req: Request, res: Response) => {
-  try {
-    const post = await deletePost(req.params.id, req.body.postId);
-    res.status(201).json(post);
-  } catch (e) {
-    res.status(500).json({ error: `The post could not be deleted: ${e.message}` });
   }
 });
 

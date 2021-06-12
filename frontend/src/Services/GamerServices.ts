@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-const USER_BASE_URL = 'http://localhost:5000/gamers';
+const GAMER_BASE_URL = 'http://localhost:5000/gamers';
 
-class GamerServices {
-  createPost(data: { name: string; content: string }) {
-    return axios.post(USER_BASE_URL + '/post', data);
-  }
-}
+class GamerServices {}
 
 export default new GamerServices();

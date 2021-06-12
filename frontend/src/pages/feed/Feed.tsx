@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Affix,
   Button,
@@ -13,7 +13,6 @@ import {
   Select,
 } from 'antd';
 
-import GamerServices from 'Services/GamerServices';
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
 import Meta from 'antd/lib/card/Meta';
@@ -64,7 +63,7 @@ function Feed() {
   };
 
   const onFinish = (values: any) => {
-    GamerServices.createPost(values).then(() => {
+    PostServices.createPost(values).then(() => {
       PostServices.getPosts().then((posts) => {
         setPosts(posts.data);
       });
