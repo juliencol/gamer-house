@@ -21,15 +21,15 @@ export async function deleteGroup(data: { groupId: string }) {
 }
 
 export async function addGamerToGroup(data: {
-  gamer: IGamer;
-  group: IGroup;
+  gamerId: string;
+  groupId: string;
 }): Promise<void> {
   await addGamerToGroupDB({ ...data });
 }
 
 export async function removeGamerFromGroup(data: {
-  gamer: IGamer;
-  group: IGroup;
+  gamerId: string;
+  groupId: string;
 }): Promise<void> {
   await removeGamerFromGroupDB({ ...data });
 }

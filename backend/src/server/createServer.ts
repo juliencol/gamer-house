@@ -24,6 +24,6 @@ export function createServer() {
   app.use('/user', mustBeAuthenticated, userInfoRouter);
   app.use('/posts', mustBeAuthenticated, postRoutes);
   app.use('/postTags', mustBeAuthenticated, postTagRoutes);
-  app.use('/groups', groupRoutes);
+  app.use('/groups', mustBeAuthenticated, groupRoutes);
   return app;
 }
