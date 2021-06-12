@@ -24,7 +24,7 @@ export const GamerSchema = new Schema({
   followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   gamesWithRanks: [{ type: Object, required: false }],
-  group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  groups: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }],
 });
 
@@ -52,7 +52,7 @@ interface IGamerSchema extends Document {
     game: IGame['id'];
     rank: string;
   }>;
-  group: Array<IGroup['id']>;
+  groups: Array<IGroup['id']>;
   comments: Array<IComment['id']>;
 }
 

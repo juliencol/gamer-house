@@ -9,6 +9,7 @@ import mustBeAuthenticated from '../middleware/authenticationMiddleware';
 import postRoutes from '../routes/postRoutes';
 import postTagRoutes from '../routes/postTagRoutes';
 import commentRouter from '../routes/postCommentRoutes';
+import groupRoutes from '../routes/groupRoutes';
 
 /** Create express app and open backend endpoints */
 export function createServer() {
@@ -23,5 +24,6 @@ export function createServer() {
   app.use('/user', mustBeAuthenticated, userInfoRouter);
   app.use('/posts', mustBeAuthenticated, postRoutes);
   app.use('/postTags', mustBeAuthenticated, postTagRoutes);
+  app.use('/groups', groupRoutes);
   return app;
 }

@@ -180,6 +180,4 @@ router.delete('/unfollow/:id', async (req: Request, res: Response) => {
   }
 });
 
-// Group System
-
 export default router;
