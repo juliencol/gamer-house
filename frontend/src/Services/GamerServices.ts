@@ -26,6 +26,10 @@ class GamerServices {
   unfollowGamer(idToUnfollow: string) {
     return axios.delete(GAMER_BASE_URL + '/unfollow/' + idToUnfollow);
   }
+
+  changeAvatar(data: { avatarToChange: string }) {
+    return axios.patch(GAMER_BASE_URL + '/avatar', data);
+  }
 }
 
 export default new GamerServices();

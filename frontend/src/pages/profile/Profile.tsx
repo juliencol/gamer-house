@@ -6,6 +6,7 @@ import {
   Upload,
   Typography,
   Avatar,
+  message,
   Carousel,
   Popconfirm,
   Input,
@@ -23,27 +24,19 @@ import GamerServices from 'Services/GamerServices';
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { Gamer } from 'types/Gamer';
 
-const { Header, Footer, Content } = Layout;
-
 function Profile() {
   const [gamer, setGamer] = useState<Gamer>();
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
   const [idToUnfollow, setIdToUnfollow] = useState('');
-  const { Paragraph } = Typography;
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
   const [isRGModalVisible, setIsRGModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
   const [description, setDescription] = useState('');
+  const [pseudo, setPseudo] = useState('');
   const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
-  const { Search } = Input;
-  const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-      authorization: 'authorization-text',
-    },
-  };
+  const [avatar, setAvatar] = useState<string>('');
+
   const showRGModal = () => {
     setIsRGModalVisible(true);
   };
@@ -86,6 +79,7 @@ function Profile() {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
       setDescription(gamer.data.description);
+      setPseudo(gamer.data.pseudo);
     });
   }, []);
 
@@ -105,10 +99,39 @@ function Profile() {
     });
   }
 
+  function changePseudo(e: any) {
+    GamerServices.updateGamer({ pseudo: pseudo }).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+        setPseudo(gamer.data.pseudo);
+      });
+    });
+  }
+
   function followGamer(gamerId: string) {
     GamerServices.followGamer({ idToFollow: gamerId }).then(() =>
       GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
     );
+  }
+
+  function uploadAvatar() {
+    if (avatar !== '') {
+      GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
+        GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+      );
+    }
+  }
+
+  function loadAvatar(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        setAvatar(reader.result as string);
+        console.log(reader.result);
+      };
+    }
   }
 
   function displaySearchGamersResult() {
@@ -137,19 +160,17 @@ function Profile() {
     return <Button onClick={() => followGamer(id)}>Follow</Button>;
   }
 
-  function displayFollowedGamers() {
-    return gamer?.following?.map((followedGamer) => (
-      <Row>
-        <Col span={1}>
-          <img
-            className="avatar"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-            alt="avatar"
-          />
-          <h1>{followedGamer.pseudo}</h1>
-          <strong>{followedGamer.statusMessage}</strong>
-        </Col>
-      </Row>
+  function displayGamers(gamers: [Gamer] | undefined) {
+    return gamers?.map((gamer) => (
+      <Col>
+        <img
+          className="avatar"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
+          alt="avatar"
+        />
+        <h1>{gamer.pseudo}</h1>
+        <strong>{gamer.statusMessage}</strong>
+      </Col>
     ));
   }
 
@@ -179,9 +200,6 @@ function Profile() {
     setIdToUnfollow(value);
   }
 
-  const profilePicture = File;
-  function onFileUpload(event: ChangeEvent<HTMLInputElement>) {}
-
   function createCarouselGame() {
     const result: Array<JSX.Element> = [];
     for (let i = 0; i < 3; i++) {
@@ -194,29 +212,33 @@ function Profile() {
     return result;
   }
 
-  function getBase64(img: any, callback: any) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  }
-
   return (
     <Layout>
-      <Content>
+      <Layout.Content>
         <Row className="mainRow">
           <Col className="mainColumn" span={6}>
             <h1>Avatar</h1>
-            <div>
-              <Avatar size={64} icon={<UserOutlined />} />
+            <div className="image-upload">
+              <label htmlFor="avatar">
+                <Avatar className="avatarImage" size={64} src={gamer?.profilePicture} />
+              </label>
+              <input type="file" id="avatar" onChange={loadAvatar} />
             </div>
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
+            <br />
+            <div className="ButtonWrapper">
+              <Button shape="round" onClick={() => uploadAvatar()}>
+                Confirm change
+              </Button>
+            </div>
           </Col>
           <Col span={12} className="mainColumn">
             <h1>Description</h1>
             <div className="descriptionTextWrapper">
-              <Paragraph editable={{ onChange: setDescription }}>{description}</Paragraph>
+              <Typography.Paragraph
+                editable={{ onChange: setDescription, maxLength: 200 }}
+              >
+                {description}
+              </Typography.Paragraph>
             </div>
             <div>
               <Button
@@ -225,13 +247,22 @@ function Profile() {
                 size="small"
                 onClick={changeDescription}
               >
-                Change description
+                Confirm description changes
               </Button>
             </div>
           </Col>
           <Col span={6} className="mainColumn">
-            <h1>Username</h1>
-            <p>{gamer?.pseudo}</p>
+            <div>
+              <h1>Username</h1>
+              <Typography.Text editable={{ onChange: setPseudo, maxLength: 15 }}>
+                {pseudo}
+              </Typography.Text>
+            </div>
+            <div>
+              <Button shape="round" type="primary" size="small" onClick={changePseudo}>
+                Confirm pseudo changes
+              </Button>
+            </div>
           </Col>
         </Row>
 
@@ -328,7 +359,7 @@ function Profile() {
           </Col>
           <Col span={12} className="mainColumn">
             <h1>I Follow</h1>
-            {displayFollowedGamers()}
+            <Row className="gamersRow">{displayGamers(gamer?.following)}</Row>
           </Col>
           <Col span={6} className="mainColumn">
             <h1>Follow a gamer</h1>
@@ -348,8 +379,8 @@ function Profile() {
               onOk={() => setIsFollowModalVisible(false)}
               onCancel={() => setIsFollowModalVisible(false)}
             >
-              <Search
-                placeholder="input search text"
+              <Input.Search
+                placeholder="Follow a player"
                 onSearch={onSearch}
                 style={{ width: 200 }}
               />
@@ -357,7 +388,13 @@ function Profile() {
             </Modal>
           </Col>
         </Row>
-      </Content>
+        <Row className="mainRow">
+          <Col span={12} className="mainColumn">
+            <h1>Followed By</h1>
+            <Row className="gamersRow">{displayGamers(gamer?.followers)}</Row>
+          </Col>
+        </Row>
+      </Layout.Content>
     </Layout>
   );
 }

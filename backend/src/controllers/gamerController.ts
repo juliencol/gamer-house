@@ -4,6 +4,7 @@ import { CreateGamerArgs, UpdateGamerArgs } from '../types/gamer.types';
 import {
   addToFollowersDB,
   addToFollowingDB,
+  changeAvatarDB,
   changePasswordDB,
   createGamerDB,
   deleteFromFollowersDB,
@@ -61,6 +62,12 @@ export async function updateGamer(id: string, args: UpdateGamerArgs): Promise<IG
 export async function changePassword(id: string, password: string): Promise<IGamer> {
   const hashedPassword = await hashPassword(password);
   const gamer = await changePasswordDB(id, hashedPassword);
+  if (!gamer) throw new Error('The requested gamer does not exist');
+  return gamer;
+}
+
+export async function changeAvatar(id: string, avatar: string): Promise<IGamer> {
+  const gamer = await changeAvatarDB(id, avatar);
   if (!gamer) throw new Error('The requested gamer does not exist');
   return gamer;
 }
