@@ -11,15 +11,18 @@ export function createGamerDB(
 }
 
 export async function getGamersDB(): Promise<IGamer[]> {
-  return Gamer.find().populate('following');
+  return Gamer.find();
 }
 
 export async function getGamerDB(id: string): Promise<IGamer | null> {
   return Gamer.findById(id).populate('following');
+<<<<<<< HEAD
 }
 
 export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
   return Gamer.findById(id);
+=======
+>>>>>>> abc670d (Added Unfollow Feature)
 }
 
 export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
@@ -36,10 +39,14 @@ export async function getGamersByPseudoDB(
     pseudo: pseudo,
     _id: { $ne: userId },
 <<<<<<< HEAD
+<<<<<<< HEAD
   }).populate('following');
 =======
   });
 >>>>>>> cce8a4a (follow + recherche user + description relié au back + refonte front)
+=======
+  }).populate('following');
+>>>>>>> abc670d (Added Unfollow Feature)
 }
 
 export async function deleteGamerDB(id: string): Promise<IGamer | null> {

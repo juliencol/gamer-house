@@ -273,12 +273,18 @@ function Profile() {
         </option>
         {gamer?.following?.map((followedGamer) => (
 <<<<<<< HEAD
+<<<<<<< HEAD
           <option value={followedGamer._id}>
             {followedGamer.pseudo} {followedGamer.statusMessage}
           </option>
 =======
           <option value="">{followedGamer}</option>
 >>>>>>> 0c59915 (added follow feature, unfollow in progress)
+=======
+          <option value={followedGamer._id}>
+            {followedGamer.pseudo} {followedGamer.statusMessage}
+          </option>
+>>>>>>> abc670d (Added Unfollow Feature)
         ))}
       </select>
     );
