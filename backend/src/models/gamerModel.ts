@@ -15,6 +15,10 @@ export async function getGamersDB(): Promise<IGamer[]> {
 }
 
 export async function getGamerDB(id: string): Promise<IGamer | null> {
+  return Gamer.findById(id).populate('following');
+}
+
+export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
   return Gamer.findById(id);
 }
 
@@ -22,6 +26,16 @@ export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
   return Gamer.findOne({
     email: email,
   });
+}
+
+export async function getGamersByPseudoDB(
+  userId: string,
+  pseudo: string
+): Promise<IGamer[] | null> {
+  return Gamer.find({
+    pseudo: pseudo,
+    _id: { $ne: userId },
+  }).populate('following');
 }
 
 export async function deleteGamerDB(id: string): Promise<IGamer | null> {

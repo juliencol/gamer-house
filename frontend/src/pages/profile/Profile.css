@@ -1,0 +1,50 @@
+html {
+  height: 1080px;
+}
+
+.ant-layout-content {
+  height: 1080px;
+  color: rgb(255, 255, 255);
+  background: #6f4071;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.ant-carousel {
+  width: 60%;
+  height: 100%;
+}
+
+.avatar {
+  height: 100px;
+  width: auto;
+}
+
+.ant-typography {
+  color: white;
+  width: 80%;
+}
+
+.mainRow {
+  min-height: 300px;
+  justify-content: space-around;
+  margin-top: 30px;
+  border: solid;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.mainColumn h1 {
+  color: white;
+}
+
+.descriptionTextWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
