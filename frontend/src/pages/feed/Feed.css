@@ -6,6 +6,19 @@
 
 .postTag {
   border-radius: var(--normal-radius);
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.postTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.writer {
+  margin-right: 50px;
 }
 
 .date {

@@ -87,8 +87,8 @@ function Feed() {
           bordered={false}
           title={
             <div className="title">
-              {post.writer.pseudo}
-              <div>{postTags}</div>
+              <div className="writer">{post.writer.pseudo}</div>
+              <div className="postTags">{postTags}</div>
             </div>
           }
         >
