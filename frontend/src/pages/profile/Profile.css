@@ -1,115 +1,23 @@
 html {
   height: 1080px;
 }
-.Profile {
-  display: block;
-  height: 100%;
-  background-color: #28dce95b;
-}
 
 .ant-layout-content {
   height: 1080px;
   color: rgb(255, 255, 255);
-  background: #139da7ab;
+  background: #6f4071;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-}
-
-.Profile p,
-.MainContent p {
-  text-align: center;
-  width: 100%;
-}
-
-.Content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
-
-.FirstRow,
-.SecondRow,
-.FourthRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  width: 100%;
-  height: 30%;
-}
-
-.Avatar,
-.Username,
-.RemoveGame,
-.AddGame,
-.AddFollow,
-.Unfollow {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  border: solid;
-  border-color: darkgoldenrod;
-  width: 15%;
-  margin: 15px;
-  border-radius: 10px;
-  background-color: #34495e;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-.Description,
-.GamePlayed,
-.Follow {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: auto;
-  margin: 15px;
-  width: 75%;
-  border-radius: 10px;
-  background-color: #34495e;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.ThirdRow {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 30%;
-}
-
-.Event {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  width: 90%;
-  height: 100%;
-  background-color: #34495e;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.CarouselContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  height: 100%;
 }
 
 .ant-carousel {
   width: 60%;
   height: 100%;
 }
-.DescriptionTextWrapper {
-  display: flex;
-  justify-content: center;
+
+.avatar {
+  height: 100px;
+  width: auto;
 }
 
 .ant-typography {
@@ -117,10 +25,26 @@ html {
   width: 80%;
 }
 
-.CarouselImg {
-  height: 160px;
-  color: #fff;
-  line-height: 160px;
+.mainRow {
+  min-height: 300px;
+  justify-content: space-around;
+  margin-top: 30px;
+  border: solid;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
-  background: #364d79;
+}
+
+.mainColumn h1 {
+  color: white;
+}
+
+.descriptionTextWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

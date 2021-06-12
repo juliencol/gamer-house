@@ -18,6 +18,10 @@ export async function getGamerDB(id: string): Promise<IGamer | null> {
   return Gamer.findById(id).populate('following');
 }
 
+export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
+  return Gamer.findById(id);
+}
+
 export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
   return Gamer.findOne({
     email: email,

@@ -95,7 +95,7 @@ const isFollowable = async (id: string, idToFollow: string) => {
     throw new Error("One can't follow themselves");
   }
   const gamer = await getGamer(id);
-  if (gamer.following.find(() => idToFollow)) {
+  if (gamer.following.find((followedGamer) => followedGamer.id === idToFollow)) {
     throw new Error('The gamer is already being followed');
   }
 };
