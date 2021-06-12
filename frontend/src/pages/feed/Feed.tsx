@@ -63,6 +63,7 @@ function Feed() {
   };
 
   const onFinish = (values: any) => {
+    console.log(values);
     PostServices.createPost(values).then(() => {
       PostServices.getPosts().then((posts) => {
         setPosts(posts.data);

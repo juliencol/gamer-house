@@ -1,4 +1,4 @@
-import { IPostTag } from '../schema/PostTag';
+import { Category, IPostTag } from '../schema/PostTag';
 import {
   createPostTagDB,
   deletePostTagDB,
@@ -6,7 +6,10 @@ import {
   getPostTagsDB,
 } from '../models/postTagModel';
 
-export async function createPostTag(data: { name: string }): Promise<IPostTag> {
+export async function createPostTag(data: {
+  name: string;
+  category: Category;
+}): Promise<IPostTag> {
   const postTag = await createPostTagDB(data);
   return postTag;
 }
@@ -18,12 +21,12 @@ export async function getPostTags(): Promise<IPostTag[]> {
 
 export async function getPostTagByName(name: string): Promise<IPostTag> {
   const postTag = await getPostTagByNameDB(name);
-  if (!postTag) throw new Error('The request post tag does not exist');
+  if (!postTag) throw new Error('The requested post tag does not exist');
   return postTag;
 }
 
 export async function deletePostTag(id: string): Promise<IPostTag> {
   const postTag = await deletePostTagDB(id);
-  if (!postTag) throw new Error('The request post tag does not exist');
+  if (!postTag) throw new Error('The requested post tag does not exist');
   return postTag;
 }
