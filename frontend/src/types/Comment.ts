@@ -2,7 +2,7 @@ import { Gamer } from './Gamer';
 
 export interface CreateCommentArgs {
   content: string;
-  postId: string;
+  post: string;
 }
 
 export interface Comment {

@@ -9,7 +9,7 @@ class CommentServices {
   }
 
   getComments(postId: string): AxiosPromise<Array<Comment>> {
-    return axios.get(`${POST_BASE_URL}/`);
+    return axios.get(`${POST_BASE_URL}/comments/post/${postId}`);
   }
 }
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import CommentServices from 'Services/CommentServices';
 import { CreateCommentArgs } from 'types/Comment';
 
-function AddComment(props: { postId: string }) {
+function AddComment(props: { post: string; refresh: () => void }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [commentData, setCommentData] = useState<CreateCommentArgs>({
     ...props,
@@ -12,17 +12,22 @@ function AddComment(props: { postId: string }) {
 
   function handleOk() {
     setIsModalVisible(false);
+    setCommentData({ ...commentData, content: '' });
   }
 
   function handleCancel() {
     setIsModalVisible(false);
+    setCommentData({ ...commentData, content: '' });
   }
 
   function onFinish() {
     if (commentData.content.length > 0) {
-      CommentServices.createComment(commentData).then(() => {
-        handleOk();
-      });
+      CommentServices.createComment(commentData)
+        .then(() => {
+          props.refresh();
+          handleOk();
+        })
+        .catch(() => alert("We can't save this comment yet, try again in a few minutes"));
     }
   }
 
@@ -37,13 +42,7 @@ function AddComment(props: { postId: string }) {
         onCancel={handleCancel}
         footer={[<Button onClick={handleCancel}>Cancel</Button>]}
       >
-        <Form
-          name="basic"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-        >
+        <Form name="basic" onFinish={onFinish}>
           <Form.Item
             label="Content"
             name="content"

@@ -12,7 +12,7 @@ function CommentCollapse(props: { post: Post }) {
 
   useEffect(() => {
     if (refresh) {
-      CommentServices.getComments(props.post.id)
+      CommentServices.getComments(props.post._id)
         .then((resp) => setComments(resp.data))
         .catch((err) => alert('Something wen wrong...\n' + err.message));
     }
@@ -24,19 +24,19 @@ function CommentCollapse(props: { post: Post }) {
 
   return (
     <Collapse bordered={false} onChange={refetch}>
-      <Collapse.Panel header="Comments" key={props.post.id}>
+      <Collapse.Panel header="Comments" key={props.post._id}>
         {comments.map((comment) => (
-          <Comment writer={props.post.writer} key={comment.commentId}>
+          <Comment writer={comment.writer} key={comment.commentId}>
             {comment.content}
           </Comment>
         ))}
-        <Comment writer={props.post.writer} key={'sdsdcomment.commentId'}>
-          {'cqsddsqsqdsqd'}
-        </Comment>
-        <Comment writer={props.post.writer} key={'comment.commentId'}>
-          {'sqddsqsdqsdq'}
-        </Comment>
-        <AddComment postId={props.post.id} />
+        <AddComment
+          post={props.post._id}
+          refresh={() => {
+            setRefresh(false);
+            setRefresh(true);
+          }}
+        />
       </Collapse.Panel>
     </Collapse>
   );

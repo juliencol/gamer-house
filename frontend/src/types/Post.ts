@@ -3,7 +3,7 @@ import { Gamer } from './Gamer';
 import { PostTag } from './PostTag';
 
 export interface Post {
-  id: string;
+  _id: string;
   name: string;
   content: string;
   writer: Gamer;
