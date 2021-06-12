@@ -11,11 +11,11 @@ export function createGamerDB(
 }
 
 export async function getGamersDB(): Promise<IGamer[]> {
-  return Gamer.find().populate('following');
+  return Gamer.find();
 }
 
 export async function getGamerDB(id: string): Promise<IGamer | null> {
-  return Gamer.findById(id);
+  return Gamer.findById(id).populate('following');
 }
 
 export async function getGamerByEmailDB(email: string): Promise<IGamer | null> {
@@ -31,7 +31,7 @@ export async function getGamersByPseudoDB(
   return Gamer.find({
     pseudo: pseudo,
     _id: { $ne: userId },
-  });
+  }).populate('following');
 }
 
 export async function deleteGamerDB(id: string): Promise<IGamer | null> {

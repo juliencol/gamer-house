@@ -151,7 +151,9 @@ function Profile() {
           -- Select a gamer to unfollow --{' '}
         </option>
         {gamer?.following?.map((followedGamer) => (
-          <option value="">{followedGamer}</option>
+          <option value={followedGamer._id}>
+            {followedGamer.pseudo} {followedGamer.statusMessage}
+          </option>
         ))}
       </select>
     );
