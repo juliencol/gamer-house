@@ -7,7 +7,6 @@ import { authReq } from 'Services/AuthenticationServices';
 import './Authentication.css';
 
 interface propsAuthentication {
-  setAuthentication: (state: boolean) => void;
   refresh: () => void;
 }
 

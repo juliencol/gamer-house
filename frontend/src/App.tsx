@@ -29,10 +29,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/">
-            <Authentication
-              setAuthentication={setIsAuthenticate}
-              refresh={() => setRequest(authReq().isAuthenticated())}
-            />
+            <Authentication refresh={() => setRequest(authReq().isAuthenticated())} />
           </Route>
         </Switch>
       </Router>
