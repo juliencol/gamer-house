@@ -7,6 +7,10 @@ class GamerServices {
     return axios.get(GAMER_BASE_URL + '/getAuthenticatedGamer');
   }
 
+  getGamer(id: string) {
+    return axios.get(GAMER_BASE_URL + '/' + id);
+  }
+
   updateGamer(data: any) {
     return axios.put(GAMER_BASE_URL + '/update', data);
   }

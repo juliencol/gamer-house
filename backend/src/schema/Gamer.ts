@@ -64,7 +64,7 @@ interface IGamerSchema extends Document {
   followers: Array<IGamer['id']>;
   following: Array<IGamer['id']>;
   gamesWithRank: Array<GameWithRank>;
-  group: Array<IGroup['id']>;
+  groups: Array<IGroup['id']>;
   comments: Array<IComment['id']>;
 }
 

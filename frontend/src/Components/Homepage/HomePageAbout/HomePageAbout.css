@@ -1,0 +1,32 @@
+.backgroundDiv{
+    background-color: #D6D6D6;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.textContainer{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.textPart{
+    border : solid 1px black;
+    border-radius: 20px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+}
+
+.titlehomePageAbout{
+    margin-bottom: 250px;
+    font-family: Heiti TC;
+    font-size: 3em;
+    font-weight: lighter;
+}

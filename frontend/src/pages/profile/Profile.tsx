@@ -23,6 +23,7 @@ import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Gamer, GameWithRank } from 'types/Gamer';
 import { Game } from 'types/Game';
+import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 
 export type gameWithRank = 'gameId' | 'rank';
 
@@ -167,8 +168,10 @@ function Profile() {
   }
 
   function handleChangeDescription(value: string) {
-    GamerServices.updateGamer({ description: value }).then((gamer) => {
-      setGamer(gamer.data);
+    GamerServices.updateGamer({ description: value }).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+      });
     });
   }
 
@@ -205,7 +208,7 @@ function Profile() {
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
       <Row>
-        <img className="avatar" src={searchedGamer.profilePicture} />
+        <GamerAvatar avatarStyle="avatar" gamer={searchedGamer} />
         <div>
           <h1 style={{ margin: '0px', padding: '0px' }}>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>
@@ -235,7 +238,7 @@ function Profile() {
   function displayGamers(gamers: [Gamer] | undefined) {
     return gamers?.map((gamer) => (
       <Col>
-        <img className="avatar" src={gamer.profilePicture} alt="avatar" />
+        <GamerAvatar avatarStyle="avatar" gamer={gamer} />
         <h1 style={{ margin: '0px' }}>{gamer.pseudo}</h1>
         {gamer.statusMessage}
       </Col>
@@ -291,8 +294,6 @@ function Profile() {
   }
 
   function displaySelectRemoveGame() {
-    let name = '';
-    let id = '';
     return (
       <select
         name="removeGame"
@@ -348,10 +349,6 @@ function Profile() {
       setIsAddGameModalVisible(false);
       setConfirmLoadingAddGame(false);
     }, 1000);
-  }
-
-  function handleCancelAddGame() {
-    setIsAddGameModalVisible(false);
   }
 
   return (
