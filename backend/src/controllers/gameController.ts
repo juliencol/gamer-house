@@ -1,4 +1,4 @@
-import { addGameToGamerDB, createGameDB } from '../models/gameModel';
+import { addGameToGamerDB, createGameDB, removeGameFromGamerDB } from '../models/gameModel';
 import { getGamesDB } from '../models/gameModel';
 import { IGame } from '../schema/Game';
 import { IGamer } from '../schema/Gamer';
@@ -15,6 +15,12 @@ export async function getGames(): Promise<IGame[]>{
 
 export async function addGameToGamer(id: string, gameWithRank: { game: string, rank: string }): Promise<IGamer> {
     const gamer = await addGameToGamerDB(id, gameWithRank);
+    if (!gamer) throw new Error('The requested gamer could not be found');
+    return gamer;
+}
+
+export async function removeGameFromGamer(id: string, game: string): Promise<IGamer> {
+    const gamer = await removeGameFromGamerDB(id, game);
     if (!gamer) throw new Error('The requested gamer could not be found');
     return gamer;
 }

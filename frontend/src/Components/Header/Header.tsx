@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 import { Gamer } from 'types/Gamer';
 import GamerServices from 'Services/GamerServices';
+import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 
 function Header(props: { logOut: () => void }) {
   const [gamer, setGamer] = useState<Gamer>();
@@ -97,7 +98,7 @@ function Header(props: { logOut: () => void }) {
       </Row>
       <Row align="middle" className="userRow">
         <Col span={2}>
-          <img className="avatar" src={gamer?.profilePicture} alt="" />
+          <GamerAvatar gamer={gamer} />
         </Col>
         <Col span={3}>
           <div className="pseudo">{gamer?.pseudo}</div>

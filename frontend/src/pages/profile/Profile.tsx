@@ -13,19 +13,12 @@ import {
   Row,
   Col,
 } from 'antd';
-import {
-  UploadOutlined,
-  UserOutlined,
-  CheckOutlined,
-  PlusCircleTwoTone,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import { CheckOutlined, PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import GamerServices from 'Services/GamerServices';
 import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Gamer } from 'types/Gamer';
+import { Gamer, GameWithRank } from 'types/Gamer';
 import { Game } from 'types/Game';
-import { stringify } from 'querystring';
 
 export type gameWithRank = 'gameId' | 'rank';
 
@@ -37,6 +30,7 @@ function Profile() {
   const [gamer, setGamer] = useState<Gamer>();
   const [games, setGames] = useState<Array<Game>>();
   const [gameToAdd, setGameToAdd] = useState(defaultGameWithRank);
+  const [gameToRemove, setGameToRemove] = useState('');
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
   const [idToUnfollow, setIdToUnfollow] = useState('');
   const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
@@ -52,6 +46,9 @@ function Profile() {
   };
   const handleOkRemoveGame = () => {
     setPopConfirmVisible(false);
+    GameServices.removeGameFromGamer(gameToRemove).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data));
+    });
     setTimeout(() => {
       setIsRemoveGameModalVisible(false);
     }, 200);
@@ -165,24 +162,21 @@ function Profile() {
   function displayGamers(gamers: [Gamer] | undefined) {
     return gamers?.map((gamer) => (
       <Col>
-        <img
-          className="avatar"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-          alt="avatar"
-        />
+        <img className="avatar" src={gamer.profilePicture} alt="avatar" />
         <h1>{gamer.pseudo}</h1>
         {gamer.statusMessage}
       </Col>
     ));
   }
 
-  function displayGames() {
-    return gamer?.gamesWithRanks?.map((gameWithRank) => (
+  function displayGame(gameWithRanks: GameWithRank) {
+    return (
       <Col>
-        <h1>{gameWithRank.game}</h1>
-        {gameWithRank.rank}
+        <Avatar shape="square" src={gameWithRanks.game.picture} size={64} />
+        <h4>{gameWithRanks.game.name}</h4>
+        <h6>{gameWithRanks.rank}</h6>
       </Col>
-    ));
+    );
   }
 
   function displaySelectUnfollowGamer() {
@@ -225,6 +219,29 @@ function Profile() {
     );
   }
 
+  function displaySelectRemoveGame() {
+    let name = '';
+    let id = '';
+    return (
+      <select
+        name="removeGame"
+        className="form-control"
+        onChange={handleSelectRemoveGame}
+        style={{ textAlign: 'center' }}
+      >
+        <option hidden disabled selected>
+          {' '}
+          -- Select a game to remove --{' '}
+        </option>
+        {gamer?.gamesWithRank.map((gameWithRanks) => {
+          return (
+            <option value={gameWithRanks.game._id}>{gameWithRanks.game.name}</option>
+          );
+        })}
+      </select>
+    );
+  }
+
   function handleSelectUnfollowGamer(e: ChangeEvent<HTMLSelectElement>) {
     const value: string = e.target.value;
     setIdToUnfollow(value);
@@ -236,6 +253,11 @@ function Profile() {
       ...gameToAdd,
       gameId: value,
     });
+  }
+
+  function handleSelectRemoveGame(e: ChangeEvent<HTMLSelectElement>) {
+    const value: string = e.target.value;
+    setGameToRemove(value);
   }
 
   function handleChangeAddGame(e: ChangeEvent<HTMLInputElement>) {
@@ -250,18 +272,6 @@ function Profile() {
     GameServices.addGameToGamer({ game: gameToAdd.gameId, rank: gameToAdd.rank }).then(
       () => GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
     );
-  }
-
-  function createCarouselGame() {
-    const result: Array<JSX.Element> = [];
-    for (let i = 0; i < 3; i++) {
-      result.push(
-        <div className="CarouselImg">
-          <h3>Carousel Photo</h3>
-        </div>
-      );
-    }
-    return result;
   }
 
   return (
@@ -318,11 +328,11 @@ function Profile() {
               </Button>
             </div>
             <Modal
-              title="Remove Game Modal"
+              title="Remove a game from your game list"
               visible={isRemoveGameModalVisible}
               footer={[
                 <Popconfirm
-                  title="Are you sure to Remove this game ?"
+                  title="Are you sure you want to remove this game ?"
                   okText="Yes"
                   cancelText="No"
                   visible={popConfirm}
@@ -336,13 +346,18 @@ function Profile() {
                   Remove
                 </Button>,
               ]}
-            ></Modal>
+            >
+              {displaySelectRemoveGame()}
+            </Modal>
           </Col>
 
           <Col span={12} className="mainColumn">
             <h1>I play the following games</h1>
-            {displayGames()}
+            <Row className="gamersRow">
+              {gamer?.gamesWithRank.map((gameWithRank) => displayGame(gameWithRank))}
+            </Row>
           </Col>
+
           <Col span={6} className="mainColumn">
             <h1>Add a game</h1>
             <div className="ButtonWrapper">
@@ -383,7 +398,7 @@ function Profile() {
               </Button>
             </div>
             <Modal
-              title="Unfollow"
+              title="Unfollow a gamer"
               visible={isUnfollowModalVisible}
               footer={[
                 <Popconfirm

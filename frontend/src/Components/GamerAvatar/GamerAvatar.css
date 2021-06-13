@@ -1,0 +1,11 @@
+.mainAvatar {
+  height: 128px;
+  width: auto;
+  border-radius: 150px;
+  cursor: pointer;
+}
+
+.subAvatar {
+  height: 64px;
+  width: auto;
+}

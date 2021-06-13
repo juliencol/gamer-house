@@ -10,6 +10,10 @@ class GameServices {
   addGameToGamer(data: { game: string; rank: string }) {
     return axios.put(GAME_BASE_URL, data);
   }
+
+  removeGameFromGamer(game: string) {
+    return axios.delete(GAME_BASE_URL + '/' + game);
+  }
 }
 
 export default new GameServices();

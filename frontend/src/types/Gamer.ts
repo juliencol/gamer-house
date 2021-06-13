@@ -19,7 +19,7 @@ export interface Gamer {
   posts: [Post];
   followers: [Gamer];
   following: [Gamer];
-  gamesWithRanks: [GameWithRank];
+  gamesWithRank: [GameWithRank];
   group: [Group];
 }
 

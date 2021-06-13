@@ -23,7 +23,7 @@ export const GamerSchema = new Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
   followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
-  gamesWithRanks: {
+  gamesWithRank: {
     type: [
       {
         game: {
@@ -33,7 +33,7 @@ export const GamerSchema = new Schema({
         },
         rank: {
           type: String,
-          required: true,
+          required: false,
         },
       },
     ],
@@ -63,7 +63,7 @@ interface IGamerSchema extends Document {
   posts: Array<IPost['id']>;
   followers: Array<IGamer['id']>;
   following: Array<IGamer['id']>;
-  gamesWithRanks: Array<GameWithRanks>;
+  gamesWithRank: Array<GameWithRank>;
   group: Array<IGroup['id']>;
   comments: Array<IComment['id']>;
 }
@@ -72,7 +72,7 @@ interface IGamerBase extends IGamerSchema {
   getID(): string;
 }
 
-export interface GameWithRanks {
+export interface GameWithRank {
   game: IGame['id'];
   rank: string;
 }
