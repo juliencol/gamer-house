@@ -1,39 +1,42 @@
 import { IGroup } from '../schema/Group';
+import { IGamer } from '../schema/Gamer';
 import {
   createGroupDB,
   addGamerToGroupDB,
   removeGamerFromGroupDB,
   deleteGroupDB,
-  getGroupsFromDB,
+  getGroupsForGamerFromDB,
+  addGroupToGamerDB,
+  removeGroupFromGamerDB,
+  getAllGroupsDB,
 } from '../models/groupModel';
-import { IGamer } from '../schema/Gamer';
 
-export async function createGroup(data: {
-  name: string;
-  owner: IGamer;
-}): Promise<IGroup> {
-  const group = await createGroupDB({ ...data, createdAt: new Date() });
+export async function createGroup(name: string, owner: string): Promise<IGroup> {
+  const group = await createGroupDB({ name, owner, createdAt: new Date() });
   return group;
 }
 
-export async function deleteGroup(data: { groupId: string }) {
-  return await deleteGroupDB({ ...data });
+export async function deleteGroup(groupId: string) {
+  return await deleteGroupDB(groupId);
 }
 
-export async function addGamerToGroup(data: {
-  gamerId: string;
-  groupId: string;
-}): Promise<void> {
-  await addGamerToGroupDB({ ...data });
+export async function addGamerToGroup(gamerId: string, groupId: string): Promise<void> {
+  await addGamerToGroupDB(gamerId, groupId);
+  await addGroupToGamerDB(gamerId, groupId);
 }
 
-export async function removeGamerFromGroup(data: {
-  gamerId: string;
-  groupId: string;
-}): Promise<void> {
-  await removeGamerFromGroupDB({ ...data });
+export async function removeGamerFromGroup(
+  gamerId: string,
+  groupId: string
+): Promise<void> {
+  await removeGamerFromGroupDB(gamerId, groupId);
+  await removeGroupFromGamerDB(gamerId, groupId);
 }
 
-export async function getGroups(data: { gamerId: string }) {
-  return await getGroupsFromDB({ ...data });
+export async function getGroups(gamerId: string) {
+  return await getGroupsForGamerFromDB(gamerId);
+}
+
+export async function getAllGroups() {
+  return await getAllGroupsDB();
 }

@@ -8,6 +8,7 @@ import Feed from 'pages/feed/Feed';
 import Header from 'Components/Header/Header';
 import Profile from 'pages/profile/Profile';
 import Home from '../src/pages/Home/Home';
+import GroupManagement from 'pages/group/GroupManagement';
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(
@@ -49,6 +50,9 @@ function App() {
       <Switch>
         <Route exact={true} path="/profile">
           <Profile />
+        </Route>
+        <Route exact={true} path="/group">
+          <GroupManagement />
         </Route>
         <Route path="/">
           <Feed />

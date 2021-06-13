@@ -118,7 +118,6 @@ function Profile() {
   };
 
   const onFinishEmailForm = (value: any) => {
-    console.log(value);
     setIsIconVisible('iconNotVisible');
     GamerServices.updateGamer(value).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
@@ -141,7 +140,6 @@ function Profile() {
       }).then(() => {
         GamerServices.getAuthenticatedGamer().then((gamer) => {
           setGamer(gamer.data);
-          console.log('Password Changed');
           setIsIconPasswordVisible('iconPasswordVisible');
         });
       });

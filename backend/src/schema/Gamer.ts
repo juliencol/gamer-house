@@ -39,7 +39,7 @@ export const GamerSchema = new Schema({
     ],
     required: false,
   },
-  group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  groups: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }],
 });
 

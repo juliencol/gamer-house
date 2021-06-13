@@ -1,0 +1,11 @@
+.group {
+  margin: 20px;
+  height: 100%;
+}
+
+.ant-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
