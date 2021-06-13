@@ -1,0 +1,23 @@
+.homePageLanding{
+    background: url("../../../Images/background.png") no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.homePageLandingTitleDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.homePageLandingTitle{
+    font-family: Heiti TC;
+    font-size: 7em;
+    font-weight: lighter;
+}
+
+
