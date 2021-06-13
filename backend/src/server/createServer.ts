@@ -8,6 +8,7 @@ import mustBeAuthenticated from '../middleware/authenticationMiddleware';
 import postRoutes from '../routes/postRoutes';
 import postTagRoutes from '../routes/postTagRoutes';
 import commentRouter from '../routes/postCommentRoutes';
+import groupRoutes from '../routes/groupRoutes';
 import gameRoutes from '../routes/gameRoutes';
 
 /** Create express app and open backend endpoints */
@@ -25,5 +26,6 @@ export function createServer() {
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/posts', mustBeAuthenticated, postRoutes);
   app.use('/postTags', mustBeAuthenticated, postTagRoutes);
+  app.use('/groups', mustBeAuthenticated, groupRoutes);
   return app;
 }
