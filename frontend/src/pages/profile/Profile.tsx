@@ -154,8 +154,10 @@ function Profile() {
   }
 
   function handleChangeDescription(value: string) {
-    GamerServices.updateGamer({ description: value }).then((gamer) => {
-      setGamer(gamer.data);
+    GamerServices.updateGamer({ description: value }).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+      });
     });
   }
 
@@ -335,10 +337,6 @@ function Profile() {
       setIsAddGameModalVisible(false);
       setConfirmLoadingAddGame(false);
     }, 1000);
-  }
-
-  function handleCancelAddGame() {
-    setIsAddGameModalVisible(false);
   }
 
   return (

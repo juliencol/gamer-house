@@ -54,19 +54,15 @@ describe('Routes gamers/', () => {
 });
 
 describe('GET gamers/', () => {
-  it('should respond with a non valid id', async () => {
+  it('should respond with an error with a non valid id', async () => {
     await request(app)
       .get('/gamers/testid')
       .set('Authorization', `AccessToken ${jwt}`)
       .send()
-      .expect(500)
-      .expect({
-        error:
-          'The gamer could not be found: Cast to ObjectId failed for value "testid" (type string) at path "_id" for model "Gamer"',
-      });
+      .expect(500);
   });
 
-  it('should respond with a nonexistent id', async () => {
+  it('should respond with an error with a nonexistent id', async () => {
     await request(app)
       .get('/gamers/60c5bda4320cf40be40c0000')
       .set('Authorization', `AccessToken ${jwt}`)

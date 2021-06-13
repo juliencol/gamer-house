@@ -20,9 +20,13 @@
 }
 
 .avatar {
-  border-radius: 50%;
-  width: 80%;
-  height: 80%;
+  height: 100px;
+  width: auto;
+}
+
+.headerAvatar {
+  height: 128px;
+  width: auto;
 }
 
 .userRow {
@@ -30,7 +34,7 @@
   margin-left: 40px;
 }
 
-.navBar{
+.navBar {
   position: absolute;
   width: 100%;
   z-index: 5;
@@ -39,28 +43,28 @@
   flex-direction: row;
 }
 
-.linkDisconnected{
-  display : inline;
+.linkDisconnected {
+  display: inline;
   position: relative;
   justify-self: flex-end;
 }
-.linkDisconnected::after{
-  content: "";
+.linkDisconnected::after {
+  content: '';
   position: absolute;
-  left : 0;
+  left: 0;
   width: 0;
   border-radius: 30px;
   height: 5px;
   bottom: -8px;
-  transition:.5s;
- }
+  transition: 0.5s;
+}
 
-.linkDisconnected:hover::after{
+.linkDisconnected:hover::after {
   background: #9485f2;
   width: 100%;
 }
-.currentLink{
-  display : inline;
+.currentLink {
+  display: inline;
   position: relative;
   justify-self: flex-end;
 }
@@ -73,10 +77,10 @@
   color: var(--white);
   font-size: 1em;
 }
-.currentLink::after{
-  content: "";
+.currentLink::after {
+  content: '';
   position: absolute;
-  left : 0;
+  left: 0;
   height: 5px;
   border-radius: 30px;
   bottom: -8px;
@@ -84,9 +88,9 @@
   width: 100%;
 }
 
-.subNavBar{
+.subNavBar {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  width:100%;
+  width: 100%;
 }
