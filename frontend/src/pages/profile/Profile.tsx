@@ -694,12 +694,6 @@ function Profile() {
             <Row className="gamersRow">{displayGamers(gamer?.followers)}</Row>
           </Col>
         </Row>
-        <Row className="mainRow">
-          <Col span={12} className="mainColumn">
-            <h1>My groups</h1>
-            <p>You don't have any groups</p>
-          </Col>
-        </Row>
       </Layout.Content>
     </Layout>
   );
