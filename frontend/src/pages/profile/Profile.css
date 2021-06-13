@@ -1,5 +1,6 @@
 html {
   height: 1080px;
+  background-color: #704071;
 }
 
 .ant-layout-content {
@@ -69,9 +70,14 @@ html {
   margin-left: 10px;
 }
 
+.firstRow {
+  margin-top: 500px;
+}
+
 .usernameTypography {
   width: 50%;
 }
+
 .usernameWrapper {
   display: flex;
   justify-content: center;
