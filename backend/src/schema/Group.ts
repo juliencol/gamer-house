@@ -9,7 +9,7 @@ export const GroupSchema = new Schema({
   createdAt: { type: Date, required: false },
   members: [{ type: Schema.Types.ObjectId, ref: 'Gamer', require: false }],
   banner: { type: String, required: false },
-  owner: { type: Schema.Types.ObjectId, required: false },
+  owner: { type: Schema.Types.ObjectId, ref: 'Gamer', required: false },
 });
 
 GroupSchema.methods.getID = function () {
@@ -21,7 +21,7 @@ interface IGroupSchema extends Document {
   createdAt: Date;
   members: Array<IGamer['id']>;
   banner: string;
-  owner: { type: IGamer['id']; required: true };
+  owner: IGamer['id'];
 }
 
 interface IGroupBase extends IGroupSchema {

@@ -1,5 +1,4 @@
 import Gamer, { IGamer } from '../schema/Gamer';
-import { IGroup } from '../schema/Group';
 import { CreateGamerArgs, UpdateGamerArgs } from '../types/gamer.types';
 
 export function createGamerDB(

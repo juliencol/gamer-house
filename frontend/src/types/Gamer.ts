@@ -20,7 +20,7 @@ export interface Gamer {
   followers: [Gamer];
   following: [Gamer];
   gamesWithRank: [GameWithRank];
-  group: [Group];
+  groups: [Group];
 }
 
 export interface GameWithRank {

@@ -66,6 +66,14 @@ function Header(props: { logOut: () => void; isAuthenticated: boolean }) {
                 Profile
               </Link>
             </Menu.Item>
+            <Menu.Item key="group">
+              <Link
+                to="/group"
+                style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+              >
+                Group
+              </Link>
+            </Menu.Item>
             <Menu.Item key="search">
               <Input
                 placeholder="Search player"
