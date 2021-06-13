@@ -51,3 +51,9 @@ export async function deleteCommentFromGamerDB(
 ): Promise<IGamer | null> {
   return Gamer.findByIdAndUpdate(writerId, { $pull: { comments: commentId } });
 }
+
+export async function getCommentsOfPostDB(
+  postId: string
+): Promise<Array<IComment> | null> {
+  return Comment.find().populate('writer').where('post').equals(postId);
+}

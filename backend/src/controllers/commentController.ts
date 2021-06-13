@@ -10,6 +10,7 @@ import {
   addCommentToGamerDB,
   deleteCommentFromGamerDB,
   getCommentDB,
+  getCommentsOfPostDB,
 } from '../models/commentModel';
 
 export async function createComment(
@@ -66,4 +67,10 @@ async function deleteCommentFromGamer(writerId: string, commentId: string) {
   const gamer = await deleteCommentFromGamerDB(writerId, commentId);
   if (!gamer) throw new Error('The requested gamer does not exist');
   return gamer;
+}
+
+export async function getCommentsOfPost(postId: string) {
+  const comments = await getCommentsOfPostDB(postId);
+  if (!comments) throw new Error('The requested gamer does not exist');
+  return comments;
 }
