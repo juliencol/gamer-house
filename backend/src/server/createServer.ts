@@ -24,6 +24,6 @@ export function createServer() {
   app.use('/games', gameRoutes);
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/posts', mustBeAuthenticated, postRoutes);
-  app.use('/postTags', postTagRoutes);
+  app.use('/postTags', mustBeAuthenticated, postTagRoutes);
   return app;
 }
