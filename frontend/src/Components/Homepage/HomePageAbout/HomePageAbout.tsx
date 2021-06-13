@@ -6,7 +6,7 @@ import src3 from "../../../Images/about03.png"
 function HomePageAbout(){
     return (
         <div className = "backgroundDiv">
-            <h1 className={"title"}>What is Gaming <span style={{color: "#9980fa"}}> House</span>?</h1>
+            <h1 className={"titlehomePageAbout"}>What is Gaming <span style={{color: "#9980fa"}}> House</span>?</h1>
             <div className = "textContainer">
                 <div className = "textPart" >
                     <img src={src1} style={{marginTop : "-53px"}}/>
