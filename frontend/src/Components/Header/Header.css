@@ -25,6 +25,11 @@
   height: 80%;
 }
 
+.headerAvatar {
+  height: 128px;
+  width: auto;
+}
+
 .pseudo {
   color: var(--white);
   font-size: 2em;

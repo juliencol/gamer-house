@@ -39,3 +39,9 @@
 .affix h3 {
   color: white;
 }
+
+.feedAvatar {
+  height: 32px;
+  width: auto;
+  margin-right: 4px;
+}

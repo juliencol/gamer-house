@@ -1,5 +1,7 @@
 import { Button, Card } from 'antd';
+import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 import { Gamer } from 'types/Gamer';
+import './Comment.css';
 
 interface propsComment {
   writer: Gamer;
@@ -12,10 +14,7 @@ function Comment(props: propsComment) {
       bordered={false}
       title={
         <div className="writer">
-          <img
-            style={{ height: '32px', width: 'auto' }}
-            src={props.writer.profilePicture}
-          />
+          <GamerAvatar avatarStyle="commentAvatar" gamer={props.writer} />
           {props.writer.pseudo}
         </div>
       }

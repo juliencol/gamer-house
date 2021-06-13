@@ -94,7 +94,7 @@ function Header(props: { logOut: () => void }) {
       </Row>
       <Row align="middle" className="userRow">
         <Col span={2}>
-          <GamerAvatar gamer={gamer} />
+          <GamerAvatar avatarStyle="headerAvatar" gamer={gamer} />
         </Col>
         <Col span={3}>
           <div className="pseudo">{gamer?.pseudo}</div>
