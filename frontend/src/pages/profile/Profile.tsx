@@ -9,6 +9,7 @@ import {
   Input,
   Row,
   Col,
+  Form,
 } from 'antd';
 import {
   CheckOutlined,
@@ -40,6 +41,7 @@ function Profile() {
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
   const [isRemoveGameModalVisible, setIsRemoveGameModalVisible] = useState(false);
   const [isAddGameModalVisible, setIsAddGameModalVisible] = useState(false);
+  const [isChangeInfoModalVisible, setIsChangeInfoModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
   const [confirmLoadingAddGame, setConfirmLoadingAddGame] = useState(false);
@@ -85,6 +87,54 @@ function Profile() {
     setTimeout(() => {
       setIsUnfollowModalVisible(false);
     }, 100);
+  };
+
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+  const tailLayout = {
+    wrapperCol: {
+      offset: 8,
+      span: 16,
+    },
+  };
+
+  const onFinishEmailForm = (value: any) => {
+    console.log(value);
+    GamerServices.updateGamer(value).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+      });
+    });
+    // handleOk();
+  };
+
+  const onFinishFailedEmailForm = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const onFinishPasswordForm = (value: any) => {
+    if (value.newPassword === value.confirmPassword) {
+      console.log(value);
+      GamerServices.changePassword({
+        currentPassword: value.currentPassword,
+        password: value.newPassword,
+      }).then(() => {
+        GamerServices.getAuthenticatedGamer().then((gamer) => {
+          setGamer(gamer.data);
+          console.log('Password Changed');
+        });
+      });
+    }
+  };
+
+  const onFinishFailedPasswordForm = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
   };
 
   useEffect(() => {
@@ -201,9 +251,7 @@ function Profile() {
           -- Select a gamer to unfollow --{' '}
         </option>
         {gamer?.following?.map((followedGamer) => (
-          <option value={followedGamer._id}>
-            {followedGamer.pseudo} {followedGamer.statusMessage}
-          </option>
+          <option value={followedGamer._id}>{followedGamer.pseudo}</option>
         ))}
       </select>
     );
@@ -321,10 +369,119 @@ function Profile() {
               <div className="usernameWrapper">
                 <Typography.Text
                   className="usernameTypography"
-                  editable={{ onChange: handleChangePseudo, maxLength: 15 }}
+                  editable={{ onChange: handleChangePseudo }}
                 >
                   {gamer?.pseudo}
                 </Typography.Text>
+              </div>
+              <div style={{ position: 'relative', bottom: '-30px' }}>
+                <Button
+                  type="default"
+                  shape="round"
+                  size="middle"
+                  onClick={() => setIsChangeInfoModalVisible(true)}
+                >
+                  Change more information
+                </Button>
+
+                <Modal
+                  title="Change your informations"
+                  visible={isChangeInfoModalVisible}
+                  closable={false}
+                  footer={[
+                    <Button
+                      type="primary"
+                      onClick={() => setIsChangeInfoModalVisible(false)}
+                    >
+                      Finish changes
+                    </Button>,
+                  ]}
+                >
+                  <div className="emailWrapper">
+                    <Form
+                      {...layout}
+                      name="basic"
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={onFinishEmailForm}
+                      onFinishFailed={onFinishFailedEmailForm}
+                    >
+                      <Form.Item
+                        label="Email"
+                        name="email"
+                        initialValue={gamer?.email}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please write a correct email',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Confirm e-mail change
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </div>
+
+                  <div className="passwordWrapper">
+                    <Form
+                      {...layout}
+                      name="basic"
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={onFinishPasswordForm}
+                      onFinishFailed={onFinishFailedPasswordForm}
+                    >
+                      <Form.Item
+                        label="Current Password"
+                        name="currentPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter your old password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="New Password"
+                        name="newPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter your new password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please confirm your new password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Confirm password change
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </div>
+                </Modal>
               </div>
             </div>
           </Col>
@@ -347,6 +504,7 @@ function Profile() {
             <Modal
               title="Remove a game from your game list"
               visible={isRemoveGameModalVisible}
+              closable={false}
               footer={[
                 <Popconfirm
                   title="Are you sure you want to remove this game ?"
@@ -396,7 +554,11 @@ function Profile() {
               <Modal
                 title="Add a game to your game list"
                 visible={isAddGameModalVisible}
+                closable={false}
                 footer={[
+                  <Button key="cancel" onClick={() => setIsAddGameModalVisible(false)}>
+                    Cancel
+                  </Button>,
                   <Button
                     type="primary"
                     key="Ok"
@@ -404,9 +566,6 @@ function Profile() {
                     onClick={handleOkAddGame}
                   >
                     Add Game
-                  </Button>,
-                  <Button key="cancel" onClick={() => setIsAddGameModalVisible(false)}>
-                    Cancel
                   </Button>,
                 ]}
               >
@@ -438,6 +597,7 @@ function Profile() {
             <Modal
               title="Unfollow a gamer"
               visible={isUnfollowModalVisible}
+              closable={false}
               footer={[
                 <Popconfirm
                   title="Are you sure you want to unfollow this gamer?"
@@ -482,8 +642,12 @@ function Profile() {
             <Modal
               title="Follow a gamer"
               visible={isFollowModalVisible}
-              onOk={() => setIsFollowModalVisible(false)}
-              onCancel={() => setIsFollowModalVisible(false)}
+              closable={false}
+              footer={[
+                <Button type="primary" onClick={() => setIsFollowModalVisible(false)}>
+                  Close
+                </Button>,
+              ]}
             >
               <Input.Search
                 placeholder="Follow a player"
