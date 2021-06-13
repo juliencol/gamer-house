@@ -1,20 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Affix,
-  Button,
-  Card,
-  Modal,
-  Form,
-  Input,
-  Row,
-  Col,
-  Avatar,
-  Tag,
-  Select,
-  Collapse,
-} from 'antd';
-
-import Comment from 'Components/Comment/Comment';
+import { Affix, Button, Card, Modal, Form, Input, Row, Col, Tag, Select } from 'antd';
 
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
@@ -24,7 +9,6 @@ import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
 
 import './Feed.css';
-import AddComment from 'Components/Comment/AddComment';
 import CommentCollapse from 'Components/Comment/CommentCollapse';
 import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 import { CheckOutlined, FormOutlined } from '@ant-design/icons';
@@ -141,7 +125,7 @@ function Feed() {
   });
 
   function tagRender(props: any) {
-    const { label, value, closable, onClose } = props;
+    const { label, closable, onClose } = props;
     const onPreventMouseDown = (event: any) => {
       event.preventDefault();
       event.stopPropagation();

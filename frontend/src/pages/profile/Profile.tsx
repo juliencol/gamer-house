@@ -280,8 +280,6 @@ function Profile() {
   }
 
   function displaySelectRemoveGame() {
-    let name = '';
-    let id = '';
     return (
       <select
         name="removeGame"

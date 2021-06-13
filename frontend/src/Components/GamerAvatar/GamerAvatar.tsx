@@ -26,7 +26,11 @@ function GamerAvatar(props: propsGamerAvatar) {
     if (gamesWithRank && gamesWithRank.length > 0) {
       return gamesWithRank?.map((gameWithRank) => (
         <Col className="centerCol">
-          <img className="gameImage" src={gameWithRank.game?.picture} />
+          <img
+            className="gameImage"
+            src={gameWithRank.game?.picture}
+            alt={gameWithRank.game?.name}
+          />
           <h4>{gameWithRank.game?.name}</h4>
           <h6>{gameWithRank.rank}</h6>
         </Col>
@@ -52,7 +56,7 @@ function GamerAvatar(props: propsGamerAvatar) {
           title={
             <Row>
               <Col>
-                <img className="subAvatar" src={currentGamer?.profilePicture} />
+                <img className="subAvatar" src={currentGamer?.profilePicture} alt="avatar" />
               </Col>
               <Col className="playerStatus">
                 <h1>{currentGamer?.pseudo}</h1>

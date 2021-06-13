@@ -1,4 +1,3 @@
-import homePageLanding from "../../../Images/background.png"
 import "./HomePageLanding.css"
 import {Button} from 'antd'
 import React, {useState} from "react";

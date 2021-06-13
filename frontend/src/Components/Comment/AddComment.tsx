@@ -6,6 +6,7 @@ import { CreateCommentArgs } from 'types/Comment';
 
 function AddComment(props: { post: string; refresh: () => void }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [addCommentForm] = Form.useForm();
   const [commentData, setCommentData] = useState<CreateCommentArgs>({
     ...props,
     content: '',
@@ -19,6 +20,7 @@ function AddComment(props: { post: string; refresh: () => void }) {
   function handleCancel() {
     setIsModalVisible(false);
     setCommentData({ ...commentData, content: '' });
+    addCommentForm.resetFields();
   }
 
   function onFinish() {
@@ -47,7 +49,7 @@ function AddComment(props: { post: string; refresh: () => void }) {
         onCancel={handleCancel}
         footer={[<Button onClick={handleCancel}>Cancel</Button>]}
       >
-        <Form name="basic" onFinish={onFinish}>
+        <Form name="basic" onFinish={onFinish} form={addCommentForm}>
           <Form.Item
             label="Content"
             name="content"
@@ -59,11 +61,10 @@ function AddComment(props: { post: string; refresh: () => void }) {
             ]}
           >
             <Input.TextArea
-              value={commentData.content}
               onChange={(event) =>
                 setCommentData({ ...commentData, content: event.target.value })
               }
-            />
+            ></Input.TextArea>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" icon={<SendOutlined />}>

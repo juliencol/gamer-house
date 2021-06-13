@@ -1,4 +1,4 @@
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 import { Gamer } from 'types/Gamer';
 import './Comment.css';

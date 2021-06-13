@@ -37,7 +37,7 @@ export async function getGamersByPseudoDB(
   pseudo: string
 ): Promise<IGamer[] | null> {
   return Gamer.find({
-    pseudo: pseudo,
+    pseudo: { $regex: pseudo, $options: 'i' },
     _id: { $ne: userId },
   }).populate('following');
 }
