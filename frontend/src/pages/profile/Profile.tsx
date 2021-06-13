@@ -23,6 +23,7 @@ import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Gamer, GameWithRank } from 'types/Gamer';
 import { Game } from 'types/Game';
+import Icon from '@ant-design/icons/lib/components/AntdIcon';
 
 export type gameWithRank = 'gameId' | 'rank';
 
@@ -46,6 +47,10 @@ function Profile() {
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
   const [confirmLoadingAddGame, setConfirmLoadingAddGame] = useState(false);
   const [confirmLoadingRemoveGame, setConfirmLoadingRemoveGame] = useState(false);
+  const [isIconVisible, setIsIconVisible] = useState('iconNotVisible');
+  const [isIconPasswordVisible, setIsIconPasswordVisible] = useState(
+    'iconPasswordNotVisible'
+  );
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
@@ -89,6 +94,12 @@ function Profile() {
     }, 100);
   };
 
+  const handleCancelChangeInfo = () => {
+    setIsChangeInfoModalVisible(false);
+    setIsIconVisible('iconNotVisible');
+    setIsIconPasswordVisible('iconPasswordNotVisible');
+  };
+
   const layout = {
     labelCol: {
       span: 8,
@@ -106,12 +117,13 @@ function Profile() {
 
   const onFinishEmailForm = (value: any) => {
     console.log(value);
+    setIsIconVisible('iconNotVisible');
     GamerServices.updateGamer(value).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
         setGamer(gamer.data);
+        setIsIconVisible('iconVisible');
       });
     });
-    // handleOk();
   };
 
   const onFinishFailedEmailForm = (errorInfo: any) => {
@@ -119,8 +131,8 @@ function Profile() {
   };
 
   const onFinishPasswordForm = (value: any) => {
+    setIsIconPasswordVisible('iconPasswordNotVisible');
     if (value.newPassword === value.confirmPassword) {
-      console.log(value);
       GamerServices.changePassword({
         currentPassword: value.currentPassword,
         password: value.newPassword,
@@ -128,6 +140,7 @@ function Profile() {
         GamerServices.getAuthenticatedGamer().then((gamer) => {
           setGamer(gamer.data);
           console.log('Password Changed');
+          setIsIconPasswordVisible('iconPasswordVisible');
         });
       });
     }
@@ -389,10 +402,7 @@ function Profile() {
                   visible={isChangeInfoModalVisible}
                   closable={false}
                   footer={[
-                    <Button
-                      type="primary"
-                      onClick={() => setIsChangeInfoModalVisible(false)}
-                    >
+                    <Button type="primary" onClick={handleCancelChangeInfo}>
                       Finish changes
                     </Button>,
                   ]}
@@ -424,6 +434,12 @@ function Profile() {
                         <Button type="primary" htmlType="submit">
                           Confirm e-mail change
                         </Button>
+                        {
+                          <CheckOutlined
+                            className={isIconVisible}
+                            style={{ color: '#33ff57' }}
+                          />
+                        }
                       </Form.Item>
                     </Form>
                   </div>
@@ -448,7 +464,7 @@ function Profile() {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input type="password" />
                       </Form.Item>
                       <Form.Item
                         label="New Password"
@@ -460,7 +476,7 @@ function Profile() {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input type="password" />
                       </Form.Item>
                       <Form.Item
                         label="Confirm Password"
@@ -472,12 +488,18 @@ function Profile() {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input type="password" />
                       </Form.Item>
                       <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
                           Confirm password change
                         </Button>
+                        {
+                          <CheckOutlined
+                            className={isIconPasswordVisible}
+                            style={{ color: '#33ff57' }}
+                          />
+                        }
                       </Form.Item>
                     </Form>
                   </div>
