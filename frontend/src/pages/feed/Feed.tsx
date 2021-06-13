@@ -99,9 +99,7 @@ function Feed() {
           }
         >
           <Meta
-            avatar={
-              <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU" />
-            }
+            avatar={<Avatar src={post.writer.profilePicture} />}
             title={post.name}
             description={post.content}
           />

@@ -16,13 +16,15 @@ function GamerAvatar(props: { gamer: Gamer | undefined }) {
   }
 
   function displayGames(gamesWithRank: [GameWithRank] | undefined) {
-    return gamesWithRank?.map((gameWithRank) => (
-      <Col>
-        <img src={gameWithRank.game.picture} />
-        <h4>{gameWithRank.game.name}</h4>
-        <h6>{gameWithRank.rank}</h6>
-      </Col>
-    ));
+    if (gamesWithRank && gamesWithRank.length > 0) {
+      return gamesWithRank?.map((gameWithRank) => (
+        <Col>
+          <img src={gameWithRank.game?.picture} />
+          <h4>{gameWithRank.game?.name}</h4>
+          <h6>{gameWithRank.rank}</h6>
+        </Col>
+      ));
+    }
   }
 
   if (props.gamer) {

@@ -67,3 +67,10 @@ html {
   flex-direction: row;
   justify-content: space-around;
 }
+
+.followButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}

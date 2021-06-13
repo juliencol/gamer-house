@@ -136,13 +136,9 @@ function Profile() {
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
       <Row>
-        <img
-          className="avatar"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-          alt="avatar"
-        />
+        <img className="avatar" src={searchedGamer.profilePicture} />
         <div>
-          <h1>{searchedGamer.pseudo}</h1>
+          <h1 style={{ margin: '0px', padding: '0px' }}>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>
           <br />
           <span>Number of followers: {searchedGamer.followers.length}</span>
@@ -154,9 +150,17 @@ function Profile() {
 
   function createFollowButton(id: string) {
     if (gamer?.following?.find((followedGamer) => followedGamer._id === id)) {
-      return <Button disabled> Already Followed </Button>;
+      return (
+        <Col className="followButton">
+          <Button disabled> Already Followed </Button>
+        </Col>
+      );
     }
-    return <Button onClick={() => followGamer(id)}>Follow</Button>;
+    return (
+      <Col className="followButton">
+        <Button onClick={() => followGamer(id)}>Follow</Button>
+      </Col>
+    );
   }
 
   function displayGamers(gamers: [Gamer] | undefined) {

@@ -32,11 +32,7 @@ function Header(props: { logOut: () => void }) {
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
       <Row>
-        <img
-          className="avatar"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-          alt="avatar"
-        />
+        <img className="avatar" src={searchedGamer.profilePicture} alt="avatar" />
         <div>
           <h1>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>

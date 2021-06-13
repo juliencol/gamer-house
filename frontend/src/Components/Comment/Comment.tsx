@@ -8,7 +8,18 @@ interface propsComment {
 
 function Comment(props: propsComment) {
   return (
-    <Card bordered={false} title={<div className="writer">{props.writer.pseudo}</div>}>
+    <Card
+      bordered={false}
+      title={
+        <div className="writer">
+          <img
+            style={{ height: '32px', width: 'auto' }}
+            src={props.writer.profilePicture}
+          />
+          {props.writer.pseudo}
+        </div>
+      }
+    >
       <p>{props.children}</p>
     </Card>
   );
