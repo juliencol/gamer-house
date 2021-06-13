@@ -31,12 +31,10 @@ function App() {
         <Router>
           <Switch>
             <Route path="/authentication" exact={true}>
-              <Route path="/">
                 <Header logOut={logOut} isAuthenticated={isAuthenticate}/>
                 <Authentication
                     refresh={() => setRequest(authReq().isAuthenticated())}
                 />
-              </Route>
             </Route>
             <Route path="/">
               <Header logOut={logOut} isAuthenticated={isAuthenticate}/>
