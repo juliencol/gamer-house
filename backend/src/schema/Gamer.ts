@@ -23,8 +23,23 @@ export const GamerSchema = new Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
   followers: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
   following: [{ type: Schema.Types.ObjectId, ref: 'Gamer', required: true }],
-  gamesWithRanks: [{ type: Object, required: false }],
-  groups: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
+  gamesWithRank: {
+    type: [
+      {
+        game: {
+          type: Schema.Types.ObjectId,
+          ref: 'Game',
+          required: true,
+        },
+        rank: {
+          type: String,
+          required: false,
+        },
+      },
+    ],
+    required: false,
+  },
+  group: [{ type: Schema.Types.ObjectId, ref: 'Game', required: true }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }],
 });
 
@@ -48,16 +63,18 @@ interface IGamerSchema extends Document {
   posts: Array<IPost['id']>;
   followers: Array<IGamer['id']>;
   following: Array<IGamer['id']>;
-  gamesWithRanks: Array<{
-    game: IGame['id'];
-    rank: string;
-  }>;
-  groups: Array<IGroup['id']>;
+  gamesWithRank: Array<GameWithRank>;
+  group: Array<IGroup['id']>;
   comments: Array<IComment['id']>;
 }
 
 interface IGamerBase extends IGamerSchema {
   getID(): string;
+}
+
+export interface GameWithRank {
+  game: IGame['id'];
+  rank: string;
 }
 
 export interface IGamer extends IGamerBase {}

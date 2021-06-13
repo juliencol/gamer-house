@@ -4,10 +4,14 @@ html {
 
 .ant-layout-content {
   height: 1080px;
-  color: rgb(255, 255, 255);
+  color: black;
   background: #6f4071;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .ant-carousel {
@@ -20,16 +24,16 @@ html {
   width: auto;
 }
 
-.ant-typography {
-  color: white;
-  width: 80%;
-}
-
 .mainRow {
   min-height: 300px;
   justify-content: space-around;
-  margin-top: 30px;
-  border: solid;
+  margin-top: 250px;
+  margin-bottom: -200px;
+  background: white;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  border-radius: 100px;
+  width: 80%;
 }
 
 .mainColumn {
@@ -40,11 +44,33 @@ html {
 }
 
 .mainColumn h1 {
-  color: white;
+  color: black;
 }
 
 .descriptionTextWrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.image-upload > input {
+  display: none;
+}
+
+.avatarImage:hover {
+  border: solid gray 2px;
+  cursor: pointer;
+}
+
+.gamersRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.followButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }

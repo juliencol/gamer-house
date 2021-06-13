@@ -14,9 +14,9 @@
   border: none;
 }
 
-.pseudo {
-  color: var(--white);
-  font-size: 3em;
+.userRow {
+  margin-top: 40px;
+  margin-left: 40px;
 }
 
 .avatar {
@@ -25,7 +25,17 @@
   height: 80%;
 }
 
-.userRow {
-  margin-top: 40px;
-  margin-left: 40px;
+.headerAvatar {
+  height: 128px;
+  width: auto;
+}
+
+.pseudo {
+  color: var(--white);
+  font-size: 2em;
+}
+
+.statusMessage {
+  color: var(--white);
+  font-size: 1em;
 }

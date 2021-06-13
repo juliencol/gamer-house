@@ -6,62 +6,58 @@ import {
   Upload,
   Typography,
   Avatar,
+  message,
   Carousel,
   Popconfirm,
   Input,
   Row,
   Col,
 } from 'antd';
-import {
-  UploadOutlined,
-  UserOutlined,
-  CheckOutlined,
-  PlusCircleTwoTone,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import { CheckOutlined, PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import GamerServices from 'Services/GamerServices';
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
-import { Gamer } from 'types/Gamer';
+import GameServices from 'Services/GameServices';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Gamer, GameWithRank } from 'types/Gamer';
+import { Game } from 'types/Game';
 
-const { Header, Footer, Content } = Layout;
+export type gameWithRank = 'gameId' | 'rank';
 
 function Profile() {
+  const defaultGameWithRank: { [key in gameWithRank]: string } = {
+    gameId: '',
+    rank: '',
+  };
   const [gamer, setGamer] = useState<Gamer>();
+  const [games, setGames] = useState<Array<Game>>();
+  const [gameToAdd, setGameToAdd] = useState(defaultGameWithRank);
+  const [gameToRemove, setGameToRemove] = useState('');
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
   const [idToUnfollow, setIdToUnfollow] = useState('');
-  const { Paragraph } = Typography;
+  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
-  const [isRGModalVisible, setIsRGModalVisible] = useState(false);
+  const [isRemoveGameModalVisible, setIsRemoveGameModalVisible] = useState(false);
+  const [isAddGameModalVisible, setIsAddGameModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
-  const [description, setDescription] = useState('');
-  const [isFollowModalVisible, setIsFollowModalVisible] = useState(false);
-  const { Search } = Input;
-  const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-      authorization: 'authorization-text',
-    },
-  };
-  const showRGModal = () => {
-    setIsRGModalVisible(true);
-  };
+  const [avatar, setAvatar] = useState<string>('');
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
   };
-  const handleOkRG = () => {
+  const handleOkRemoveGame = () => {
     setPopConfirmVisible(false);
+    GameServices.removeGameFromGamer(gameToRemove).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data));
+    });
     setTimeout(() => {
-      setIsRGModalVisible(false);
+      setIsRemoveGameModalVisible(false);
     }, 200);
   };
 
-  const handleCancelRG = () => {
+  const handleCancelRemoveGame = () => {
     setPopConfirmVisible(false);
     setTimeout(() => {
-      setIsRGModalVisible(false);
+      setIsRemoveGameModalVisible(false);
     }, 100);
   };
 
@@ -85,22 +81,28 @@ function Profile() {
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
-      setDescription(gamer.data.description);
+    });
+    GameServices.getGames().then((games) => {
+      setGames(games.data);
     });
   }, []);
 
   function onSearch(value: string) {
     GamerServices.searchGamers(value).then((gamers) => {
       setGamersSearchResult(gamers.data);
-      console.log(gamers.data);
     });
   }
 
-  function changeDescription(e: any) {
-    GamerServices.updateGamer({ description: description }).then(() => {
+  function handleChangeDescription(value: string) {
+    GamerServices.updateGamer({ description: value }).then((gamer) => {
+      setGamer(gamer.data);
+    });
+  }
+
+  function handleChangePseudo(value: string) {
+    GamerServices.updateGamer({ pseudo: value }).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
         setGamer(gamer.data);
-        setDescription(gamer.data.description);
       });
     });
   }
@@ -111,16 +113,32 @@ function Profile() {
     );
   }
 
+  function uploadAvatar() {
+    if (avatar !== '') {
+      GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
+        GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+      );
+    }
+  }
+
+  function loadAvatar(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        setAvatar(reader.result as string);
+        console.log(reader.result);
+      };
+    }
+  }
+
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
       <Row>
-        <img
-          className="avatar"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-          alt="avatar"
-        />
+        <img className="avatar" src={searchedGamer.profilePicture} />
         <div>
-          <h1>{searchedGamer.pseudo}</h1>
+          <h1 style={{ margin: '0px', padding: '0px' }}>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>
           <br />
           <span>Number of followers: {searchedGamer.followers.length}</span>
@@ -132,25 +150,37 @@ function Profile() {
 
   function createFollowButton(id: string) {
     if (gamer?.following?.find((followedGamer) => followedGamer._id === id)) {
-      return <Button disabled> Already Followed </Button>;
+      return (
+        <Col className="followButton">
+          <Button disabled> Already Followed </Button>
+        </Col>
+      );
     }
-    return <Button onClick={() => followGamer(id)}>Follow</Button>;
+    return (
+      <Col className="followButton">
+        <Button onClick={() => followGamer(id)}>Follow</Button>
+      </Col>
+    );
   }
 
-  function displayFollowedGamers() {
-    return gamer?.following?.map((followedGamer) => (
-      <Row>
-        <Col span={1}>
-          <img
-            className="avatar"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU"
-            alt="avatar"
-          />
-          <h1>{followedGamer.pseudo}</h1>
-          <strong>{followedGamer.statusMessage}</strong>
-        </Col>
-      </Row>
+  function displayGamers(gamers: [Gamer] | undefined) {
+    return gamers?.map((gamer) => (
+      <Col>
+        <img className="avatar" src={gamer.profilePicture} alt="avatar" />
+        <h1>{gamer.pseudo}</h1>
+        {gamer.statusMessage}
+      </Col>
     ));
+  }
+
+  function displayGame(gameWithRanks: GameWithRank) {
+    return (
+      <Col>
+        <Avatar shape="square" src={gameWithRanks.game.picture} size={64} />
+        <h4>{gameWithRanks.game.name}</h4>
+        <h6>{gameWithRanks.rank}</h6>
+      </Col>
+    );
   }
 
   function displaySelectUnfollowGamer() {
@@ -174,64 +204,116 @@ function Profile() {
     );
   }
 
+  function displaySelectAddGame() {
+    return (
+      <select
+        name="addGame"
+        className="form-control"
+        onChange={handleSelectAddGame}
+        style={{ textAlign: 'center' }}
+      >
+        <option hidden disabled selected>
+          {' '}
+          -- Select a game to add --{' '}
+        </option>
+        {games?.map((game) => (
+          <option value={game._id}>{game.name}</option>
+        ))}
+      </select>
+    );
+  }
+
+  function displaySelectRemoveGame() {
+    let name = '';
+    let id = '';
+    return (
+      <select
+        name="removeGame"
+        className="form-control"
+        onChange={handleSelectRemoveGame}
+        style={{ textAlign: 'center' }}
+      >
+        <option hidden disabled selected>
+          {' '}
+          -- Select a game to remove --{' '}
+        </option>
+        {gamer?.gamesWithRank.map((gameWithRanks) => {
+          return (
+            <option value={gameWithRanks.game._id}>{gameWithRanks.game.name}</option>
+          );
+        })}
+      </select>
+    );
+  }
+
   function handleSelectUnfollowGamer(e: ChangeEvent<HTMLSelectElement>) {
     const value: string = e.target.value;
     setIdToUnfollow(value);
   }
 
-  const profilePicture = File;
-  function onFileUpload(event: ChangeEvent<HTMLInputElement>) {}
-
-  function createCarouselGame() {
-    const result: Array<JSX.Element> = [];
-    for (let i = 0; i < 3; i++) {
-      result.push(
-        <div className="CarouselImg">
-          <h3>Carousel Photo</h3>
-        </div>
-      );
-    }
-    return result;
+  function handleSelectAddGame(e: ChangeEvent<HTMLSelectElement>) {
+    const value: string = e.target.value;
+    setGameToAdd({
+      ...gameToAdd,
+      gameId: value,
+    });
   }
 
-  function getBase64(img: any, callback: any) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+  function handleSelectRemoveGame(e: ChangeEvent<HTMLSelectElement>) {
+    const value: string = e.target.value;
+    setGameToRemove(value);
+  }
+
+  function handleChangeAddGame(e: ChangeEvent<HTMLInputElement>) {
+    const value: string = e.target.value;
+    setGameToAdd({
+      ...gameToAdd,
+      rank: value,
+    });
+  }
+
+  function handleOkAddGame() {
+    GameServices.addGameToGamer({ game: gameToAdd.gameId, rank: gameToAdd.rank }).then(
+      () => GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+    );
   }
 
   return (
     <Layout>
-      <Content>
+      <Layout.Content>
         <Row className="mainRow">
           <Col className="mainColumn" span={6}>
             <h1>Avatar</h1>
-            <div>
-              <Avatar size={64} icon={<UserOutlined />} />
+            <div className="image-upload">
+              <label htmlFor="avatar">
+                <Avatar className="avatarImage" size={64} src={gamer?.profilePicture} />
+              </label>
+              <input type="file" id="avatar" onChange={loadAvatar} />
             </div>
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
+            <br />
+            <div className="ButtonWrapper">
+              <Button shape="round" onClick={() => uploadAvatar()}>
+                Confirm change
+              </Button>
+            </div>
           </Col>
           <Col span={12} className="mainColumn">
             <h1>Description</h1>
             <div className="descriptionTextWrapper">
-              <Paragraph editable={{ onChange: setDescription }}>{description}</Paragraph>
-            </div>
-            <div>
-              <Button
-                shape="round"
-                type="primary"
-                size="small"
-                onClick={changeDescription}
+              <Typography.Paragraph
+                editable={{ onChange: handleChangeDescription, maxLength: 200 }}
               >
-                Change description
-              </Button>
+                {gamer?.description}
+              </Typography.Paragraph>
             </div>
           </Col>
           <Col span={6} className="mainColumn">
-            <h1>Username</h1>
-            <p>{gamer?.pseudo}</p>
+            <div>
+              <h1>Username</h1>
+              <Typography.Text editable={{ onChange: handleChangePseudo, maxLength: 15 }}>
+                {gamer?.pseudo}
+              </Typography.Text>
+            </div>
           </Col>
         </Row>
 
@@ -244,36 +326,42 @@ function Profile() {
                 type="default"
                 size="large"
                 icon={<DeleteOutlined />}
-                onClick={showRGModal}
+                onClick={() => setIsRemoveGameModalVisible(true)}
               >
                 Remove
               </Button>
             </div>
             <Modal
-              title="Remove Game Modal"
-              visible={isRGModalVisible}
+              title="Remove a game from your game list"
+              visible={isRemoveGameModalVisible}
               footer={[
                 <Popconfirm
-                  title="Are you sure to Remove these Games ?"
+                  title="Are you sure you want to remove this game ?"
                   okText="Yes"
                   cancelText="No"
                   visible={popConfirm}
-                  onConfirm={handleOkRG}
-                  onCancel={handleCancelRG}
+                  onConfirm={handleOkRemoveGame}
+                  onCancel={handleCancelRemoveGame}
                 ></Popconfirm>,
-                <Button key="cancel" onClick={handleCancelRG}>
+                <Button key="cancel" onClick={handleCancelRemoveGame}>
                   Cancel
                 </Button>,
                 <Button danger key="remove" onClick={showPopConfim}>
                   Remove
                 </Button>,
               ]}
-            ></Modal>
+            >
+              {displaySelectRemoveGame()}
+            </Modal>
           </Col>
 
           <Col span={12} className="mainColumn">
             <h1>I play the following games</h1>
+            <Row className="gamersRow">
+              {gamer?.gamesWithRank.map((gameWithRank) => displayGame(gameWithRank))}
+            </Row>
           </Col>
+
           <Col span={6} className="mainColumn">
             <h1>Add a game</h1>
             <div className="ButtonWrapper">
@@ -281,11 +369,26 @@ function Profile() {
                 shape="round"
                 type="default"
                 size="large"
-                onClick={showRGModal}
+                onClick={() => setIsAddGameModalVisible(true)}
                 icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
               >
                 Add
               </Button>
+              <Modal
+                title="Add a game to your game list"
+                visible={isAddGameModalVisible}
+                okText="Add Game"
+                onOk={handleOkAddGame}
+                onCancel={() => setIsAddGameModalVisible(false)}
+              >
+                {displaySelectAddGame()}
+                <Input
+                  id="rank"
+                  name="rank"
+                  onChange={handleChangeAddGame}
+                  value={gameToAdd.rank}
+                ></Input>
+              </Modal>
             </div>
           </Col>
         </Row>
@@ -299,7 +402,7 @@ function Profile() {
               </Button>
             </div>
             <Modal
-              title="Unfollow"
+              title="Unfollow a gamer"
               visible={isUnfollowModalVisible}
               footer={[
                 <Popconfirm
@@ -327,8 +430,8 @@ function Profile() {
             </Modal>
           </Col>
           <Col span={12} className="mainColumn">
-            <h1>I Follow</h1>
-            {displayFollowedGamers()}
+            <h1>I follow</h1>
+            <Row className="gamersRow">{displayGamers(gamer?.following)}</Row>
           </Col>
           <Col span={6} className="mainColumn">
             <h1>Follow a gamer</h1>
@@ -348,8 +451,8 @@ function Profile() {
               onOk={() => setIsFollowModalVisible(false)}
               onCancel={() => setIsFollowModalVisible(false)}
             >
-              <Search
-                placeholder="input search text"
+              <Input.Search
+                placeholder="Follow a player"
                 onSearch={onSearch}
                 style={{ width: 200 }}
               />
@@ -357,7 +460,13 @@ function Profile() {
             </Modal>
           </Col>
         </Row>
-      </Content>
+        <Row className="mainRow">
+          <Col span={12} className="mainColumn">
+            <h1>Followed by</h1>
+            <Row className="gamersRow">{displayGamers(gamer?.followers)}</Row>
+          </Col>
+        </Row>
+      </Layout.Content>
     </Layout>
   );
 }

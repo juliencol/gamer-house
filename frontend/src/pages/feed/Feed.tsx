@@ -11,7 +11,11 @@ import {
   Avatar,
   Tag,
   Select,
+  Collapse,
 } from 'antd';
+
+import Comment from 'Components/Comment/Comment';
+
 import PostServices from 'Services/PostServices';
 import PostTagServices from 'Services/PostTagServices';
 import './Feed.css';
@@ -20,6 +24,10 @@ import { Post } from 'types/Post';
 import { Category, PostTag } from 'types/PostTag';
 
 import './Feed.css';
+import AddComment from 'Components/Comment/AddComment';
+import CommentCollapse from 'Components/Comment/CommentCollapse';
+import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
+import { CheckOutlined, FormOutlined } from '@ant-design/icons';
 
 function Feed() {
   const [posts, setPosts] = useState<Array<Post>>([]);
@@ -93,12 +101,12 @@ function Feed() {
           }
         >
           <Meta
-            avatar={
-              <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReHQkNOzYqIg7yA0UfPI_ILNRbTvrgXflC6g&usqp=CAU" />
-            }
+            avatar={<GamerAvatar avatarStyle="feedAvatar" gamer={post.writer} />}
             title={post.name}
             description={post.content}
           />
+          <br />
+          <CommentCollapse post={post} />
         </Card>
       );
     });
@@ -183,7 +191,12 @@ function Feed() {
         <Col span={4}>
           <Affix offsetTop={40} className="affix">
             <h3>Share something</h3>
-            <Button size="large" onClick={showModal} shape="round">
+            <Button
+              size="large"
+              onClick={showModal}
+              shape="round"
+              icon={<FormOutlined />}
+            >
               Add a post
             </Button>
           </Affix>
@@ -250,8 +263,8 @@ function Feed() {
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit">
-                Submit
+              <Button type="primary" htmlType="submit" icon={<CheckOutlined />}>
+                Create post
               </Button>
             </Form.Item>
           </Form>

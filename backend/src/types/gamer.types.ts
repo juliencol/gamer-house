@@ -27,7 +27,7 @@ export interface UpdateGamerArgs {
   birthDate: IGamer['birthDate'];
   country?: IGamer['country'];
   city?: IGamer['city'];
-  gamesWithRanks?: Array<{
+  gamesWithRank?: Array<{
     game: IGame['id'];
     rank: string;
   }>;
