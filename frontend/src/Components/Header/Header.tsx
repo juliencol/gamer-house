@@ -47,14 +47,6 @@ function Header(props: { logOut: () => void }) {
     <Layout.Header className="background">
       <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Menu mode="horizontal" defaultSelectedKeys={['home']} className="menu">
-          <Menu.Item key="home">
-            <Link
-              to="/"
-              style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
-            >
-              Home
-            </Link>
-          </Menu.Item>
           <Menu.Item key="feed">
             <Link
               to="/feed"

@@ -1,5 +1,6 @@
 html {
   height: 1080px;
+  background-color: #704071;
 }
 
 .ant-layout-content {
@@ -73,4 +74,8 @@ html {
   flex-direction: column;
   justify-content: center;
   margin-left: 10px;
+}
+
+.firstRow {
+  margin-top: 500px;
 }

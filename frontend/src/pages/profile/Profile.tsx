@@ -281,7 +281,7 @@ function Profile() {
   return (
     <Layout>
       <Layout.Content>
-        <Row className="mainRow">
+        <Row className="mainRow firstRow">
           <Col className="mainColumn" span={6}>
             <h1>Avatar</h1>
             <div className="image-upload">
@@ -354,14 +354,12 @@ function Profile() {
               {displaySelectRemoveGame()}
             </Modal>
           </Col>
-
           <Col span={12} className="mainColumn">
             <h1>I play the following games</h1>
             <Row className="gamersRow">
               {gamer?.gamesWithRank.map((gameWithRank) => displayGame(gameWithRank))}
             </Row>
           </Col>
-
           <Col span={6} className="mainColumn">
             <h1>Add a game</h1>
             <div className="ButtonWrapper">
@@ -464,6 +462,12 @@ function Profile() {
           <Col span={12} className="mainColumn">
             <h1>Followed by</h1>
             <Row className="gamersRow">{displayGamers(gamer?.followers)}</Row>
+          </Col>
+        </Row>
+        <Row className="mainRow">
+          <Col span={12} className="mainColumn">
+            <h1>My groups</h1>
+            <p>You don't have any groups</p>
           </Col>
         </Row>
       </Layout.Content>
