@@ -116,50 +116,58 @@ describe('GET gamers/search', () => {
   });
 });
 
-describe('PATCH gamers/:id/password', () => {
-  it('should respond with a error because of non valid password', async () => {
+describe('PATCH gamers/password', () => {
+  it('should respond with an error because of non matching currentPassword', async () => {
     await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
+      .patch(`/gamers/password`)
       .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'password' })
+      .send({ currentPassword: 'Password1', password: 'Password2' })
+      .expect(500);
+  });
+
+  it('should respond with an error because of non valid password', async () => {
+    await request(app)
+      .patch(`/gamers/password`)
+      .set('Authorization', `AccessToken ${jwt}`)
+      .send({ currentPassword: 'Password0', password: 'password' })
       .expect(422);
   });
 
-  it('should respond with a error because of non valid password', async () => {
+  it('should respond with an error because of non valid password', async () => {
     await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
+      .patch(`/gamers/password`)
       .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'Password' })
+      .send({ currentPassword: 'Password0', password: 'Password' })
       .expect(422);
   });
 
-  it('should respond with a error because of non valid password', async () => {
+  it('should respond with an error because of non valid password', async () => {
     await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
+      .patch(`/gamers/password`)
       .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'password0' })
+      .send({ currentPassword: 'Password0', password: 'password0' })
       .expect(422);
   });
 
-  it('should respond with a error because of non valid password', async () => {
+  it('should respond with an error because of non valid password', async () => {
     await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
+      .patch(`/gamers/password`)
       .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'PASSWORD0' })
+      .send({ currentPassword: 'Password0', password: 'PASSWORD0' })
       .expect(422);
   });
 
   it('should update the gamer with a valid password', async () => {
     await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
+      .patch(`/gamers/password`)
       .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'Password1' })
+      .send({ currentPassword: 'Password0', password: 'Password1' })
       .expect(201);
   });
 });
 
 describe('PUT gamers/update', () => {
-  it('should respond with a error because of non valid email', async () => {
+  it('should respond with an error because of non valid email', async () => {
     await request(app)
       .put(`/gamers/update`)
       .set('Authorization', `AccessToken ${jwt}`)
@@ -167,7 +175,7 @@ describe('PUT gamers/update', () => {
       .expect(500);
   });
 
-  it('should respond with a error because of non valid email', async () => {
+  it('should respond with an error because of non valid email', async () => {
     await request(app)
       .put(`/gamers/update`)
       .set('Authorization', `AccessToken ${jwt}`)
@@ -180,48 +188,6 @@ describe('PUT gamers/update', () => {
       .put(`/gamers/update`)
       .set('Authorization', `AccessToken ${jwt}`)
       .send({ email: 'test@pseudo.fr' })
-      .expect(201);
-  });
-});
-
-describe('PATCH gamers/:id/password', () => {
-  it('should respond with a error because of non valid password', async () => {
-    await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
-      .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'password' })
-      .expect(422);
-  });
-
-  it('should respond with a error because of non valid password', async () => {
-    await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
-      .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'Password' })
-      .expect(422);
-  });
-
-  it('should respond with a error because of non valid password', async () => {
-    await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
-      .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'password0' })
-      .expect(422);
-  });
-
-  it('should respond with a error because of non valid password', async () => {
-    await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
-      .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'PASSWORD0' })
-      .expect(422);
-  });
-
-  it('should update the gamer with a valid password', async () => {
-    await request(app)
-      .patch(`/gamers/${gamer.id}/password`)
-      .set('Authorization', `AccessToken ${jwt}`)
-      .send({ password: 'Password1' })
       .expect(201);
   });
 });

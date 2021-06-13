@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { Gamer, GameWithRank } from 'types/Gamer';
 import { Row, Col, Modal } from 'antd';
 import './GamerAvatar.css';
+import GamerServices from 'Services/GamerServices';
 
 interface propsGamerAvatar {
   avatarStyle?: string;
-  gamer: Gamer | undefined;
+  gamer: Gamer;
 }
 
 function GamerAvatar(props: propsGamerAvatar) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentGamer, setCurrentGamer] = useState<Gamer>();
 
   function displayGamers(gamers: [Gamer] | undefined) {
     return gamers?.map((gamer) => (
@@ -32,6 +34,11 @@ function GamerAvatar(props: propsGamerAvatar) {
     }
   }
 
+  function openProfileModal(gamerId: string) {
+    GamerServices.getGamer(gamerId).then((gamer) => setCurrentGamer(gamer.data));
+    setIsModalVisible(true);
+  }
+
   if (props.gamer) {
     return (
       <>
@@ -39,17 +46,17 @@ function GamerAvatar(props: propsGamerAvatar) {
           className={`mainAvatar ${props.avatarStyle}`}
           src={props.gamer.profilePicture}
           alt="avatar"
-          onClick={() => setIsModalVisible(true)}
+          onClick={() => openProfileModal(props.gamer._id)}
         />
         <Modal
           title={
             <Row>
               <Col>
-                <img className="subAvatar" src={props.gamer.profilePicture} />
+                <img className="subAvatar" src={currentGamer?.profilePicture} />
               </Col>
               <Col className="playerStatus">
-                <h1>{props.gamer.pseudo}</h1>
-                <h4>{props.gamer.statusMessage}</h4>
+                <h1>{currentGamer?.pseudo}</h1>
+                <h4>{currentGamer?.statusMessage}</h4>
               </Col>
             </Row>
           }
@@ -58,13 +65,13 @@ function GamerAvatar(props: propsGamerAvatar) {
           onCancel={() => setIsModalVisible(false)}
         >
           <h1>Plays the following games</h1>
-          <Row justify="space-around">{displayGames(props.gamer.gamesWithRank)}</Row>
+          <Row justify="space-around">{displayGames(currentGamer?.gamesWithRank)}</Row>
 
           <h1>Follows</h1>
-          <Row justify="space-around">{displayGamers(props.gamer.following)}</Row>
+          <Row justify="space-around">{displayGamers(currentGamer?.following)}</Row>
 
           <h1>Is followed by</h1>
-          <Row justify="space-around">{displayGamers(props.gamer.followers)}</Row>
+          <Row justify="space-around">{displayGamers(currentGamer?.followers)}</Row>
         </Modal>
       </>
     );

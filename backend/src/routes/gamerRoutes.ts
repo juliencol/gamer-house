@@ -110,9 +110,10 @@ router.patch(
     try {
       const payload: PayloadJWT = getPayload(req.accessToken);
       let gamer = await getGamer(payload.id);
-      if (bcrypt.compareSync(req.body.currentPassword, gamer.password)) {
-        gamer = await changePassword(payload.id, req.body.password);
+      if (!bcrypt.compareSync(req.body.currentPassword, gamer.password)) {
+        throw new Error('The password could not be updated');
       }
+      gamer = await changePassword(payload.id, req.body.password);
       res.status(201).json(gamer);
     } catch (e) {
       res.status(500).json({ error: `The password could not be updated: ${e.message}` });

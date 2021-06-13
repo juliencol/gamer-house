@@ -28,7 +28,7 @@ function CommentCollapse(props: { post: Post }) {
       <Collapse.Panel
         header={
           <>
-            Comments <CommentOutlined />
+            Comments
           </>
         }
         key={props.post._id}

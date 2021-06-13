@@ -64,6 +64,15 @@
   position: relative;
   justify-self: flex-end;
 }
+
+.centerCol {
+  text-align: center;
+}
+
+.statusMessage {
+  color: var(--white);
+  font-size: 1em;
+}
 .currentLink::after{
   content: "";
   position: absolute;

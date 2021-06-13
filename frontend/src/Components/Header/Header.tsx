@@ -83,6 +83,97 @@ function Header(props: { logOut: () => void, isAuthenticated : boolean }) {
     </div>
     );
 
+  function displaySearchGamersResult() {
+    return gamersSearchResult?.map((searchedGamer) => (
+      <Row>
+        <Col>
+          <GamerAvatar avatarStyle="avatar" gamer={searchedGamer} />
+        </Col>
+        <Col className="searchResult">
+          <h1>{searchedGamer.pseudo}</h1>
+          <strong>{searchedGamer.statusMessage}</strong>
+          <br />
+          <span>Number of followers: {searchedGamer.followers.length}</span>
+        </Col>
+      </Row>
+    ));
+  }
+
+  return (
+    <Layout.Header className="background">
+      <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Menu mode="horizontal" defaultSelectedKeys={['home']} className="menu">
+          <Menu.Item key="home">
+            <Link
+              to="/"
+              style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+            >
+              Home
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="feed">
+            <Link
+              to="/feed"
+              style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+            >
+              Feed
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="profile">
+            <Link
+              to="/profile"
+              style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+            >
+              Profile
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="search">
+            <Input
+              placeholder="Search player"
+              bordered={false}
+              onPressEnter={onSearch}
+              style={{ width: 150, color: 'white' }}
+            />
+          </Menu.Item>
+        </Menu>
+        <Menu mode="horizontal" className="menu" style={{ marginRight: '40px' }}>
+          <Menu.Item key="disconnect">
+            <Link
+              to="/"
+              style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
+              onClick={() => props.logOut()}
+            >
+              Log out
+            </Link>
+          </Menu.Item>
+        </Menu>
+      </Row>
+      <Row align="middle" className="userRow">
+        <Col span={2}>
+          <GamerAvatar avatarStyle="headerAvatar" gamer={gamer!} />
+        </Col>
+        <Col span={3}>
+          <div className="pseudo">{gamer?.pseudo}</div>
+          <Typography.Text
+            className="statusMessage"
+            editable={{
+              onChange: handleChange,
+            }}
+          >
+            {gamer?.statusMessage}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <Modal
+        title="The following gamers have been found"
+        visible={isSearchModalVisible}
+        onOk={() => setIsSearchModalVisible(false)}
+        onCancel={() => setIsSearchModalVisible(false)}
+      >
+        {displaySearchGamersResult()}
+      </Modal>
+    </Layout.Header>
+  );
 }
 
 export default Header;
