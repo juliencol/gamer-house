@@ -23,7 +23,6 @@ import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Gamer, GameWithRank } from 'types/Gamer';
 import { Game } from 'types/Game';
-import Icon from '@ant-design/icons/lib/components/AntdIcon';
 
 export type gameWithRank = 'gameId' | 'rank';
 
@@ -51,6 +50,7 @@ function Profile() {
   const [isIconPasswordVisible, setIsIconPasswordVisible] = useState(
     'iconPasswordNotVisible'
   );
+  const [formPasswordInput] = Form.useForm();
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
@@ -98,6 +98,7 @@ function Profile() {
     setIsChangeInfoModalVisible(false);
     setIsIconVisible('iconNotVisible');
     setIsIconPasswordVisible('iconPasswordNotVisible');
+    formPasswordInput.resetFields();
   };
 
   const layout = {
@@ -448,6 +449,7 @@ function Profile() {
                     <Form
                       {...layout}
                       name="basic"
+                      form={formPasswordInput}
                       initialValues={{
                         remember: true,
                       }}
@@ -460,11 +462,11 @@ function Profile() {
                         rules={[
                           {
                             required: true,
-                            message: 'Please enter your old password',
+                            message: 'Please enter your current password',
                           },
                         ]}
                       >
-                        <Input type="password" />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item
                         label="New Password"
@@ -476,7 +478,7 @@ function Profile() {
                           },
                         ]}
                       >
-                        <Input type="password" />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item
                         label="Confirm Password"
@@ -486,9 +488,22 @@ function Profile() {
                             required: true,
                             message: 'Please confirm your new password',
                           },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                              }
+
+                              return Promise.reject(
+                                new Error(
+                                  'The two passwords that you entered do not match!'
+                                )
+                              );
+                            },
+                          }),
                         ]}
                       >
-                        <Input type="password" />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
