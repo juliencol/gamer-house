@@ -44,7 +44,7 @@ router.get(
         const games = await getGames();
         res.status(200).json(games);
       } catch (e) {
-        res.status(500).json({ error: `The game could not be found: ${e.message}` });
+        res.status(500).json({ error: `The games could not be found: ${e.message}` });
       }
     }
 );

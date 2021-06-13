@@ -1,14 +1,11 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { createGamer } from '../../controllers/gamerController';
-import { createPost } from '../../controllers/postController';
 import { createPostTag } from '../../controllers/postTagController';
 import { IGamer } from '../../schema/Gamer';
 import { Category } from '../../schema/PostTag';
 import { createServer } from '../../server/createServer';
 import { generateJWT } from '../../services/authenticationService';
-import { CreateCommentArgs } from '../../types/comment.types';
-import { CreatePostArgs } from '../../types/post.types';
 
 const DEV_DB_CONNECTION_STRING = process.env.DEV_DB_CONNECTION_STRING;
 

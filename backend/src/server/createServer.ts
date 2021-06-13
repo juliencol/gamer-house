@@ -21,7 +21,7 @@ export function createServer() {
   // Backend endpoints
   app.use('/authentication', authenticationRouter);
   app.use('/comment', mustBeAuthenticated, commentRouter);
-  app.use('/games', gameRoutes);
+  app.use('/games', mustBeAuthenticated, gameRoutes);
   app.use('/gamers', mustBeAuthenticated, gamerRoutes);
   app.use('/posts', mustBeAuthenticated, postRoutes);
   app.use('/postTags', mustBeAuthenticated, postTagRoutes);
