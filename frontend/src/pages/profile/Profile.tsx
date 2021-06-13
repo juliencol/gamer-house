@@ -3,17 +3,20 @@ import {
   Layout,
   Modal,
   Button,
-  Upload,
   Typography,
   Avatar,
-  message,
-  Carousel,
   Popconfirm,
   Input,
   Row,
   Col,
 } from 'antd';
-import { CheckOutlined, PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  UserDeleteOutlined,
+  UserAddOutlined,
+} from '@ant-design/icons';
 import GamerServices from 'Services/GamerServices';
 import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -39,19 +42,25 @@ function Profile() {
   const [isAddGameModalVisible, setIsAddGameModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
-  const [avatar, setAvatar] = useState<string>('');
+  const [confirmLoadingAddGame, setConfirmLoadingAddGame] = useState(false);
+  const [confirmLoadingRemoveGame, setConfirmLoadingRemoveGame] = useState(false);
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
   };
   const handleOkRemoveGame = () => {
-    setPopConfirmVisible(false);
+    setConfirmLoadingRemoveGame(true);
+
+    setTimeout(() => {
+      setPopConfirmVisible(false);
+    }, 1000);
     GameServices.removeGameFromGamer(gameToRemove).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data));
     });
     setTimeout(() => {
       setIsRemoveGameModalVisible(false);
-    }, 200);
+      setConfirmLoadingRemoveGame(false);
+    }, 1300);
   };
 
   const handleCancelRemoveGame = () => {
@@ -113,22 +122,18 @@ function Profile() {
     );
   }
 
-  function uploadAvatar() {
-    if (avatar !== '') {
-      GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
-        GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
-      );
-    }
-  }
-
   function loadAvatar(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       let file = e.target.files[0];
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function () {
-        setAvatar(reader.result as string);
-        console.log(reader.result);
+        const avatar = reader.result as string;
+        if (avatar !== '') {
+          GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
+            GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+          );
+        }
       };
     }
   }
@@ -167,7 +172,7 @@ function Profile() {
     return gamers?.map((gamer) => (
       <Col>
         <img className="avatar" src={gamer.profilePicture} alt="avatar" />
-        <h1>{gamer.pseudo}</h1>
+        <h1 style={{ margin: '0px' }}>{gamer.pseudo}</h1>
         {gamer.statusMessage}
       </Col>
     ));
@@ -276,6 +281,15 @@ function Profile() {
     GameServices.addGameToGamer({ game: gameToAdd.gameId, rank: gameToAdd.rank }).then(
       () => GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
     );
+    setConfirmLoadingAddGame(true);
+    setTimeout(() => {
+      setIsAddGameModalVisible(false);
+      setConfirmLoadingAddGame(false);
+    }, 1000);
+  }
+
+  function handleCancelAddGame() {
+    setIsAddGameModalVisible(false);
   }
 
   return (
@@ -286,22 +300,16 @@ function Profile() {
             <h1>Avatar</h1>
             <div className="image-upload">
               <label htmlFor="avatar">
-                <Avatar className="avatarImage" size={64} src={gamer?.profilePicture} />
+                <Avatar className="avatarImage" size={115} src={gamer?.profilePicture} />
               </label>
               <input type="file" id="avatar" onChange={loadAvatar} />
-            </div>
-            <br />
-            <div className="ButtonWrapper">
-              <Button shape="round" onClick={() => uploadAvatar()}>
-                Confirm change
-              </Button>
             </div>
           </Col>
           <Col span={12} className="mainColumn">
             <h1>Description</h1>
             <div className="descriptionTextWrapper">
               <Typography.Paragraph
-                editable={{ onChange: handleChangeDescription, maxLength: 200 }}
+                editable={{ onChange: handleChangeDescription, maxLength: 400 }}
               >
                 {gamer?.description}
               </Typography.Paragraph>
@@ -310,9 +318,14 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <div>
               <h1>Username</h1>
-              <Typography.Text editable={{ onChange: handleChangePseudo, maxLength: 15 }}>
-                {gamer?.pseudo}
-              </Typography.Text>
+              <div className="usernameWrapper">
+                <Typography.Text
+                  className="usernameTypography"
+                  editable={{ onChange: handleChangePseudo, maxLength: 15 }}
+                >
+                  {gamer?.pseudo}
+                </Typography.Text>
+              </div>
             </div>
           </Col>
         </Row>
@@ -339,6 +352,7 @@ function Profile() {
                   title="Are you sure you want to remove this game ?"
                   okText="Yes"
                   cancelText="No"
+                  okButtonProps={{ loading: confirmLoadingRemoveGame }}
                   visible={popConfirm}
                   onConfirm={handleOkRemoveGame}
                   onCancel={handleCancelRemoveGame}
@@ -346,7 +360,12 @@ function Profile() {
                 <Button key="cancel" onClick={handleCancelRemoveGame}>
                   Cancel
                 </Button>,
-                <Button danger key="remove" onClick={showPopConfim}>
+                <Button
+                  danger
+                  key="remove"
+                  icon={<DeleteOutlined />}
+                  onClick={showPopConfim}
+                >
                   Remove
                 </Button>,
               ]}
@@ -370,16 +389,26 @@ function Profile() {
                 type="default"
                 size="large"
                 onClick={() => setIsAddGameModalVisible(true)}
-                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
+                icon={<PlusOutlined />}
               >
                 Add
               </Button>
               <Modal
                 title="Add a game to your game list"
                 visible={isAddGameModalVisible}
-                okText="Add Game"
-                onOk={handleOkAddGame}
-                onCancel={() => setIsAddGameModalVisible(false)}
+                footer={[
+                  <Button
+                    type="primary"
+                    key="Ok"
+                    loading={confirmLoadingAddGame}
+                    onClick={handleOkAddGame}
+                  >
+                    Add Game
+                  </Button>,
+                  <Button key="cancel" onClick={() => setIsAddGameModalVisible(false)}>
+                    Cancel
+                  </Button>,
+                ]}
               >
                 {displaySelectAddGame()}
                 <Input
@@ -397,8 +426,13 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <h1>Unfollow a gamer</h1>
             <div className="ButtonWrapper">
-              <Button shape="round" onClick={() => setIsUnfollowModalVisible(true)}>
-                Unfollow -
+              <Button
+                shape="round"
+                icon={<UserDeleteOutlined />}
+                size="large"
+                onClick={() => setIsUnfollowModalVisible(true)}
+              >
+                Unfollow
               </Button>
             </div>
             <Modal
@@ -440,9 +474,9 @@ function Profile() {
                 shape="round"
                 onClick={() => setIsFollowModalVisible(true)}
                 size="large"
-                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
+                icon={<UserAddOutlined />}
               >
-                Follow +
+                Follow
               </Button>
             </div>
             <Modal
