@@ -7,6 +7,7 @@ import { authReq } from 'Services/AuthenticationServices';
 import Feed from 'pages/feed/Feed';
 import Header from 'Components/Header/Header';
 import Profile from 'pages/profile/Profile';
+import Home from "../src/pages/Home/Home";
 
 function App() {
   const { data, setRequest, resetData } = useFetch<boolean>(
@@ -27,19 +28,28 @@ function App() {
 
   if (!isAuthenticate) {
     return (
-      <Router>
-        <Switch>
-          <Route path="/">
-            <Authentication refresh={() => setRequest(authReq().isAuthenticated())} />
-          </Route>
-        </Switch>
-      </Router>
+        <Router>
+          <Switch>
+            <Route path="/authentication" exact={true}>
+              <Route path="/">
+                <Header logOut={logOut} isAuthenticated={isAuthenticate}/>
+                <Authentication
+                    refresh={() => setRequest(authReq().isAuthenticated())}
+                />
+              </Route>
+            </Route>
+            <Route path="/">
+              <Header logOut={logOut} isAuthenticated={isAuthenticate}/>
+              <Home/>
+            </Route>
+          </Switch>
+        </Router>
     );
   }
 
   return (
     <Router>
-      <Header logOut={logOut} />
+      <Header logOut={logOut} isAuthenticated={isAuthenticate}/>
       <Switch>
         <Route exact={true} path="/">
           <h1>You are now connected</h1>
