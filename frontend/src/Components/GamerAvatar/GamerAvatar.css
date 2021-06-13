@@ -1,0 +1,32 @@
+.mainAvatar {
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.subAvatar {
+  height: 64px;
+  width: auto;
+  border-radius: 100px;
+}
+
+.gameImage {
+  height: 64px;
+  width: auto;
+}
+
+.centerCol {
+  text-align: center;
+}
+
+.playerStatus {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.playerStatus h1 {
+  margin-bottom: 5px;
+}
+
+.playerStatus h4 {
+  color: slategray;
+}

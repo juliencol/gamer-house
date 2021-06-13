@@ -1,3 +1,4 @@
+import { SendOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal } from 'antd';
 import { useState } from 'react';
 import CommentServices from 'Services/CommentServices';
@@ -33,7 +34,11 @@ function AddComment(props: { post: string; refresh: () => void }) {
 
   return (
     <>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>
+      <Button
+        type="primary"
+        onClick={() => setIsModalVisible(true)}
+        icon={<SendOutlined />}
+      >
         Answer
       </Button>
       <Modal
