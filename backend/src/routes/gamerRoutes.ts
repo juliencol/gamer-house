@@ -14,6 +14,7 @@ import {
   updateGamer,
   changePassword,
   getGamersByPseudo,
+  changeAvatar,
 } from '../controllers/gamerController';
 import { CreateGamerArgs } from '../types/gamer.types';
 import { getPayload, PayloadJWT } from '../services/authenticationService';
@@ -102,7 +103,25 @@ router.put('/update', async (req: Request, res: Response) => {
     const gamer = await updateGamer(payload.id, req.body);
     res.status(201).json(gamer);
   } catch (e) {
-    res.status(500).json({ error: `The gamer could not be updated: ${e.message}` });
+    res.status(500).json({ error: `The user could not be updated: ${e.message}` });
+  }
+});
+
+router.patch('/avatar', async (req: Request, res: Response) => {
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      return res.status(500).json('No authorization header');
+    }
+    const accessToken = authorization.replace('AccessToken ', '');
+    if (!accessToken) {
+      return res.status(500).send('No access token');
+    }
+    const payload: PayloadJWT = getPayload(accessToken);
+    const gamer = await changeAvatar(payload.id, req.body.avatarToChange);
+    res.status(201).json(gamer);
+  } catch (e) {
+    res.status(500).json({ error: `The avatar could not be updated: ${e.message}` });
   }
 });
 
@@ -115,7 +134,7 @@ router.patch(
       const gamer = await changePassword(req.params.id, req.body.password);
       res.status(201).json(gamer);
     } catch (e) {
-      res.status(500).json({ error: `The gamer could not be updated: ${e.message}` });
+      res.status(500).json({ error: `The password could not be updated: ${e.message}` });
     }
   }
 );
