@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import bcrypt from 'bcrypt';
 import {
   changePasswordArgumentsValidator,
   registerGamerArgumentsValidator,
@@ -102,12 +103,16 @@ router.patch('/avatar', async (req: Request, res: Response) => {
 });
 
 router.patch(
-  '/:id/password',
+  '/password',
   changePasswordArgumentsValidator(),
   validate,
   async (req: Request, res: Response) => {
     try {
-      const gamer = await changePassword(req.params.id, req.body.password);
+      const payload: PayloadJWT = getPayload(req.accessToken);
+      let gamer = await getGamer(payload.id);
+      if (bcrypt.compareSync(req.body.currentPassword, gamer.password)) {
+        gamer = await changePassword(payload.id, req.body.password);
+      }
       res.status(201).json(gamer);
     } catch (e) {
       res.status(500).json({ error: `The password could not be updated: ${e.message}` });

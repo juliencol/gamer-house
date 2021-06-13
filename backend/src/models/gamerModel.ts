@@ -15,7 +15,10 @@ export async function getGamersDB(): Promise<IGamer[]> {
 }
 
 export async function getGamerDB(id: string): Promise<IGamer | null> {
-  return Gamer.findById(id).populate('following').populate('followers').populate('gamesWithRank.game');
+  return Gamer.findById(id)
+    .populate('following')
+    .populate('followers')
+    .populate('gamesWithRank.game');
 }
 
 export async function getSimpleGamerDB(id: string): Promise<IGamer | null> {
