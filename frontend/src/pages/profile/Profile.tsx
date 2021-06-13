@@ -47,6 +47,11 @@ function Profile() {
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
   const [confirmLoadingAddGame, setConfirmLoadingAddGame] = useState(false);
   const [confirmLoadingRemoveGame, setConfirmLoadingRemoveGame] = useState(false);
+  const [isIconVisible, setIsIconVisible] = useState('iconNotVisible');
+  const [isIconPasswordVisible, setIsIconPasswordVisible] = useState(
+    'iconPasswordNotVisible'
+  );
+  const [formPasswordInput] = Form.useForm();
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
@@ -90,6 +95,13 @@ function Profile() {
     }, 100);
   };
 
+  const handleCancelChangeInfo = () => {
+    setIsChangeInfoModalVisible(false);
+    setIsIconVisible('iconNotVisible');
+    setIsIconPasswordVisible('iconPasswordNotVisible');
+    formPasswordInput.resetFields();
+  };
+
   const layout = {
     labelCol: {
       span: 8,
@@ -107,12 +119,13 @@ function Profile() {
 
   const onFinishEmailForm = (value: any) => {
     console.log(value);
+    setIsIconVisible('iconNotVisible');
     GamerServices.updateGamer(value).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => {
         setGamer(gamer.data);
+        setIsIconVisible('iconVisible');
       });
     });
-    // handleOk();
   };
 
   const onFinishFailedEmailForm = (errorInfo: any) => {
@@ -120,8 +133,8 @@ function Profile() {
   };
 
   const onFinishPasswordForm = (value: any) => {
+    setIsIconPasswordVisible('iconPasswordNotVisible');
     if (value.newPassword === value.confirmPassword) {
-      console.log(value);
       GamerServices.changePassword({
         currentPassword: value.currentPassword,
         password: value.newPassword,
@@ -129,6 +142,7 @@ function Profile() {
         GamerServices.getAuthenticatedGamer().then((gamer) => {
           setGamer(gamer.data);
           console.log('Password Changed');
+          setIsIconPasswordVisible('iconPasswordVisible');
         });
       });
     }
@@ -386,10 +400,7 @@ function Profile() {
                   visible={isChangeInfoModalVisible}
                   closable={false}
                   footer={[
-                    <Button
-                      type="primary"
-                      onClick={() => setIsChangeInfoModalVisible(false)}
-                    >
+                    <Button type="primary" onClick={handleCancelChangeInfo}>
                       Finish changes
                     </Button>,
                   ]}
@@ -421,6 +432,12 @@ function Profile() {
                         <Button type="primary" htmlType="submit">
                           Confirm e-mail change
                         </Button>
+                        {
+                          <CheckOutlined
+                            className={isIconVisible}
+                            style={{ color: '#33ff57' }}
+                          />
+                        }
                       </Form.Item>
                     </Form>
                   </div>
@@ -429,6 +446,7 @@ function Profile() {
                     <Form
                       {...layout}
                       name="basic"
+                      form={formPasswordInput}
                       initialValues={{
                         remember: true,
                       }}
@@ -441,11 +459,11 @@ function Profile() {
                         rules={[
                           {
                             required: true,
-                            message: 'Please enter your old password',
+                            message: 'Please enter your current password',
                           },
                         ]}
                       >
-                        <Input />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item
                         label="New Password"
@@ -457,7 +475,7 @@ function Profile() {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item
                         label="Confirm Password"
@@ -467,14 +485,33 @@ function Profile() {
                             required: true,
                             message: 'Please confirm your new password',
                           },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                              }
+
+                              return Promise.reject(
+                                new Error(
+                                  'The two passwords that you entered do not match!'
+                                )
+                              );
+                            },
+                          }),
                         ]}
                       >
-                        <Input />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
                           Confirm password change
                         </Button>
+                        {
+                          <CheckOutlined
+                            className={isIconPasswordVisible}
+                            style={{ color: '#33ff57' }}
+                          />
+                        }
                       </Form.Item>
                     </Form>
                   </div>
