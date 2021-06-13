@@ -75,16 +75,16 @@ export async function changeAvatar(id: string, avatar: string): Promise<IGamer> 
 export async function followGamer(id: string, idToFollow: string): Promise<IGamer> {
   await getGamer(idToFollow); // checks if the gamer to follow exists
   await isFollowable(id, idToFollow);
-  await addToFollowersDB(idToFollow, id);
   const gamer = await addToFollowingDB(id, idToFollow);
   if (!gamer) throw new Error('The requested gamer does not exist');
+  await addToFollowersDB(idToFollow, id);
   return gamer;
 }
 
 export async function unfollowGamer(id: string, idToUnfollow: string): Promise<IGamer> {
-  await deleteFromFollowersDB(idToUnfollow, id);
   const gamer = await deleteFromFollowingDB(id, idToUnfollow);
   if (!gamer) throw new Error('The requested gamer does not exist');
+  await deleteFromFollowersDB(idToUnfollow, id);
   return gamer;
 }
 
