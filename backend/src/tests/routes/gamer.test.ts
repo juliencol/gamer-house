@@ -62,7 +62,7 @@ describe('GET gamers/', () => {
       .expect(500)
       .expect({
         error:
-          'The gamer could not be found: Cast to ObjectId failed for value "testid" at path "_id" for model "Gamer"',
+          'The gamer could not be found: Cast to ObjectId failed for value "testid" (type string) at path "_id" for model "Gamer"',
       });
   });
 
