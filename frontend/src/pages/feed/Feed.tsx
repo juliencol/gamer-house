@@ -77,6 +77,7 @@ function Feed() {
         <Card
           className="post"
           bordered={false}
+          key={post._id}
           title={
             <div className="title">
               <div className="writer">{post.writer.pseudo}</div>
@@ -110,7 +111,7 @@ function Feed() {
     });
     postTags.forEach((postTag) => {
       result.push(
-        <Tag className="postTag" color={postTag.category}>
+        <Tag className="postTag" key={postTag.name} color={postTag.category}>
           {postTag.name}
         </Tag>
       );

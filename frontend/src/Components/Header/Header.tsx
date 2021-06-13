@@ -11,6 +11,7 @@ function Header(props: { logOut: () => void; isAuthenticated: boolean }) {
   const [gamer, setGamer] = useState<Gamer>();
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
   const [gamersSearchResult, setGamersSearchResult] = useState<Array<Gamer>>();
+
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
@@ -48,18 +49,10 @@ function Header(props: { logOut: () => void; isAuthenticated: boolean }) {
     return (
       <Layout.Header className="background">
         <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Menu mode="horizontal" defaultSelectedKeys={['home']} className="menu">
-            <Menu.Item key="home">
-              <Link
-                to="/"
-                style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
-              >
-                Home
-              </Link>
-            </Menu.Item>
+          <Menu mode="horizontal" defaultSelectedKeys={['feed']} className="menu">
             <Menu.Item key="feed">
               <Link
-                to="/feed"
+                to="/"
                 style={{ color: 'var(--white)', fontSize: '1em', bottom: '-3px' }}
               >
                 Feed
