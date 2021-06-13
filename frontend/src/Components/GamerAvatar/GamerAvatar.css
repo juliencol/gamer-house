@@ -1,5 +1,9 @@
 .mainAvatar {
   border-radius: 100px;
+}
+
+.mainAvatar:hover {
+  border: solid #33ff57 3px;
   cursor: pointer;
 }
 

@@ -3,22 +3,27 @@ import {
   Layout,
   Modal,
   Button,
-  Upload,
   Typography,
   Avatar,
-  message,
-  Carousel,
   Popconfirm,
   Input,
   Row,
   Col,
+  Form,
 } from 'antd';
-import { CheckOutlined, PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  UserDeleteOutlined,
+  UserAddOutlined,
+} from '@ant-design/icons';
 import GamerServices from 'Services/GamerServices';
 import GameServices from 'Services/GameServices';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Gamer, GameWithRank } from 'types/Gamer';
 import { Game } from 'types/Game';
+import GamerAvatar from 'Components/GamerAvatar/GamerAvatar';
 
 export type gameWithRank = 'gameId' | 'rank';
 
@@ -37,21 +42,28 @@ function Profile() {
   const [isUnfollowModalVisible, setIsUnfollowModalVisible] = useState(false);
   const [isRemoveGameModalVisible, setIsRemoveGameModalVisible] = useState(false);
   const [isAddGameModalVisible, setIsAddGameModalVisible] = useState(false);
+  const [isChangeInfoModalVisible, setIsChangeInfoModalVisible] = useState(false);
   const [popConfirm, setPopConfirmVisible] = useState(false);
   const [popUnfollowConfirm, setPopUnfollowConfirm] = useState(false);
-  const [avatar, setAvatar] = useState<string>('');
+  const [confirmLoadingAddGame, setConfirmLoadingAddGame] = useState(false);
+  const [confirmLoadingRemoveGame, setConfirmLoadingRemoveGame] = useState(false);
 
   const showPopConfim = () => {
     setPopConfirmVisible(true);
   };
   const handleOkRemoveGame = () => {
-    setPopConfirmVisible(false);
+    setConfirmLoadingRemoveGame(true);
+
+    setTimeout(() => {
+      setPopConfirmVisible(false);
+    }, 1000);
     GameServices.removeGameFromGamer(gameToRemove).then(() => {
       GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data));
     });
     setTimeout(() => {
       setIsRemoveGameModalVisible(false);
-    }, 200);
+      setConfirmLoadingRemoveGame(false);
+    }, 1300);
   };
 
   const handleCancelRemoveGame = () => {
@@ -78,6 +90,54 @@ function Profile() {
     }, 100);
   };
 
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+  const tailLayout = {
+    wrapperCol: {
+      offset: 8,
+      span: 16,
+    },
+  };
+
+  const onFinishEmailForm = (value: any) => {
+    console.log(value);
+    GamerServices.updateGamer(value).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+      });
+    });
+    // handleOk();
+  };
+
+  const onFinishFailedEmailForm = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const onFinishPasswordForm = (value: any) => {
+    if (value.newPassword === value.confirmPassword) {
+      console.log(value);
+      GamerServices.changePassword({
+        currentPassword: value.currentPassword,
+        password: value.newPassword,
+      }).then(() => {
+        GamerServices.getAuthenticatedGamer().then((gamer) => {
+          setGamer(gamer.data);
+          console.log('Password Changed');
+        });
+      });
+    }
+  };
+
+  const onFinishFailedPasswordForm = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   useEffect(() => {
     GamerServices.getAuthenticatedGamer().then((gamer) => {
       setGamer(gamer.data);
@@ -94,8 +154,10 @@ function Profile() {
   }
 
   function handleChangeDescription(value: string) {
-    GamerServices.updateGamer({ description: value }).then((gamer) => {
-      setGamer(gamer.data);
+    GamerServices.updateGamer({ description: value }).then(() => {
+      GamerServices.getAuthenticatedGamer().then((gamer) => {
+        setGamer(gamer.data);
+      });
     });
   }
 
@@ -113,22 +175,18 @@ function Profile() {
     );
   }
 
-  function uploadAvatar() {
-    if (avatar !== '') {
-      GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
-        GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
-      );
-    }
-  }
-
   function loadAvatar(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       let file = e.target.files[0];
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function () {
-        setAvatar(reader.result as string);
-        console.log(reader.result);
+        const avatar = reader.result as string;
+        if (avatar !== '') {
+          GamerServices.changeAvatar({ avatarToChange: avatar }).then(() =>
+            GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
+          );
+        }
       };
     }
   }
@@ -136,7 +194,7 @@ function Profile() {
   function displaySearchGamersResult() {
     return gamersSearchResult?.map((searchedGamer) => (
       <Row>
-        <img className="avatar" src={searchedGamer.profilePicture} />
+        <GamerAvatar avatarStyle="avatar" gamer={searchedGamer} />
         <div>
           <h1 style={{ margin: '0px', padding: '0px' }}>{searchedGamer.pseudo}</h1>
           <strong>{searchedGamer.statusMessage}</strong>
@@ -166,8 +224,8 @@ function Profile() {
   function displayGamers(gamers: [Gamer] | undefined) {
     return gamers?.map((gamer) => (
       <Col>
-        <img className="avatar" src={gamer.profilePicture} alt="avatar" />
-        <h1>{gamer.pseudo}</h1>
+        <GamerAvatar avatarStyle="avatar" gamer={gamer} />
+        <h1 style={{ margin: '0px' }}>{gamer.pseudo}</h1>
         {gamer.statusMessage}
       </Col>
     ));
@@ -196,9 +254,7 @@ function Profile() {
           -- Select a gamer to unfollow --{' '}
         </option>
         {gamer?.following?.map((followedGamer) => (
-          <option value={followedGamer._id}>
-            {followedGamer.pseudo} {followedGamer.statusMessage}
-          </option>
+          <option value={followedGamer._id}>{followedGamer.pseudo}</option>
         ))}
       </select>
     );
@@ -224,8 +280,6 @@ function Profile() {
   }
 
   function displaySelectRemoveGame() {
-    let name = '';
-    let id = '';
     return (
       <select
         name="removeGame"
@@ -276,6 +330,11 @@ function Profile() {
     GameServices.addGameToGamer({ game: gameToAdd.gameId, rank: gameToAdd.rank }).then(
       () => GamerServices.getAuthenticatedGamer().then((gamer) => setGamer(gamer.data))
     );
+    setConfirmLoadingAddGame(true);
+    setTimeout(() => {
+      setIsAddGameModalVisible(false);
+      setConfirmLoadingAddGame(false);
+    }, 1000);
   }
 
   return (
@@ -286,22 +345,16 @@ function Profile() {
             <h1>Avatar</h1>
             <div className="image-upload">
               <label htmlFor="avatar">
-                <Avatar className="avatarImage" size={64} src={gamer?.profilePicture} />
+                <Avatar className="avatarImage" size={115} src={gamer?.profilePicture} />
               </label>
               <input type="file" id="avatar" onChange={loadAvatar} />
-            </div>
-            <br />
-            <div className="ButtonWrapper">
-              <Button shape="round" onClick={() => uploadAvatar()}>
-                Confirm change
-              </Button>
             </div>
           </Col>
           <Col span={12} className="mainColumn">
             <h1>Description</h1>
             <div className="descriptionTextWrapper">
               <Typography.Paragraph
-                editable={{ onChange: handleChangeDescription, maxLength: 200 }}
+                editable={{ onChange: handleChangeDescription, maxLength: 400 }}
               >
                 {gamer?.description}
               </Typography.Paragraph>
@@ -310,9 +363,123 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <div>
               <h1>Username</h1>
-              <Typography.Text editable={{ onChange: handleChangePseudo, maxLength: 15 }}>
-                {gamer?.pseudo}
-              </Typography.Text>
+              <div className="usernameWrapper">
+                <Typography.Text
+                  className="usernameTypography"
+                  editable={{ onChange: handleChangePseudo }}
+                >
+                  {gamer?.pseudo}
+                </Typography.Text>
+              </div>
+              <div style={{ position: 'relative', bottom: '-30px' }}>
+                <Button
+                  type="default"
+                  shape="round"
+                  size="middle"
+                  onClick={() => setIsChangeInfoModalVisible(true)}
+                >
+                  Change more information
+                </Button>
+
+                <Modal
+                  title="Change your informations"
+                  visible={isChangeInfoModalVisible}
+                  closable={false}
+                  footer={[
+                    <Button
+                      type="primary"
+                      onClick={() => setIsChangeInfoModalVisible(false)}
+                    >
+                      Finish changes
+                    </Button>,
+                  ]}
+                >
+                  <div className="emailWrapper">
+                    <Form
+                      {...layout}
+                      name="basic"
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={onFinishEmailForm}
+                      onFinishFailed={onFinishFailedEmailForm}
+                    >
+                      <Form.Item
+                        label="Email"
+                        name="email"
+                        initialValue={gamer?.email}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please write a correct email',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Confirm e-mail change
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </div>
+
+                  <div className="passwordWrapper">
+                    <Form
+                      {...layout}
+                      name="basic"
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={onFinishPasswordForm}
+                      onFinishFailed={onFinishFailedPasswordForm}
+                    >
+                      <Form.Item
+                        label="Current Password"
+                        name="currentPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter your old password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="New Password"
+                        name="newPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter your new password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please confirm your new password',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Confirm password change
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </div>
+                </Modal>
+              </div>
             </div>
           </Col>
         </Row>
@@ -334,11 +501,13 @@ function Profile() {
             <Modal
               title="Remove a game from your game list"
               visible={isRemoveGameModalVisible}
+              closable={false}
               footer={[
                 <Popconfirm
                   title="Are you sure you want to remove this game ?"
                   okText="Yes"
                   cancelText="No"
+                  okButtonProps={{ loading: confirmLoadingRemoveGame }}
                   visible={popConfirm}
                   onConfirm={handleOkRemoveGame}
                   onCancel={handleCancelRemoveGame}
@@ -346,7 +515,12 @@ function Profile() {
                 <Button key="cancel" onClick={handleCancelRemoveGame}>
                   Cancel
                 </Button>,
-                <Button danger key="remove" onClick={showPopConfim}>
+                <Button
+                  danger
+                  key="remove"
+                  icon={<DeleteOutlined />}
+                  onClick={showPopConfim}
+                >
                   Remove
                 </Button>,
               ]}
@@ -370,16 +544,27 @@ function Profile() {
                 type="default"
                 size="large"
                 onClick={() => setIsAddGameModalVisible(true)}
-                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
+                icon={<PlusOutlined />}
               >
                 Add
               </Button>
               <Modal
                 title="Add a game to your game list"
                 visible={isAddGameModalVisible}
-                okText="Add Game"
-                onOk={handleOkAddGame}
-                onCancel={() => setIsAddGameModalVisible(false)}
+                closable={false}
+                footer={[
+                  <Button key="cancel" onClick={() => setIsAddGameModalVisible(false)}>
+                    Cancel
+                  </Button>,
+                  <Button
+                    type="primary"
+                    key="Ok"
+                    loading={confirmLoadingAddGame}
+                    onClick={handleOkAddGame}
+                  >
+                    Add Game
+                  </Button>,
+                ]}
               >
                 {displaySelectAddGame()}
                 <Input
@@ -397,13 +582,19 @@ function Profile() {
           <Col span={6} className="mainColumn">
             <h1>Unfollow a gamer</h1>
             <div className="ButtonWrapper">
-              <Button shape="round" onClick={() => setIsUnfollowModalVisible(true)}>
-                Unfollow -
+              <Button
+                shape="round"
+                icon={<UserDeleteOutlined />}
+                size="large"
+                onClick={() => setIsUnfollowModalVisible(true)}
+              >
+                Unfollow
               </Button>
             </div>
             <Modal
               title="Unfollow a gamer"
               visible={isUnfollowModalVisible}
+              closable={false}
               footer={[
                 <Popconfirm
                   title="Are you sure you want to unfollow this gamer?"
@@ -440,16 +631,20 @@ function Profile() {
                 shape="round"
                 onClick={() => setIsFollowModalVisible(true)}
                 size="large"
-                icon={<PlusCircleTwoTone twoToneColor="#6f4071" />}
+                icon={<UserAddOutlined />}
               >
-                Follow +
+                Follow
               </Button>
             </div>
             <Modal
               title="Follow a gamer"
               visible={isFollowModalVisible}
-              onOk={() => setIsFollowModalVisible(false)}
-              onCancel={() => setIsFollowModalVisible(false)}
+              closable={false}
+              footer={[
+                <Button type="primary" onClick={() => setIsFollowModalVisible(false)}>
+                  Close
+                </Button>,
+              ]}
             >
               <Input.Search
                 placeholder="Follow a player"

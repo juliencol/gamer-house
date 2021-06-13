@@ -47,18 +47,12 @@ html {
   color: black;
 }
 
-.descriptionTextWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .image-upload > input {
   display: none;
 }
 
 .avatarImage:hover {
-  border: solid gray 2px;
+  border: solid #33ff57 3px;
   cursor: pointer;
 }
 
@@ -73,4 +67,12 @@ html {
   flex-direction: column;
   justify-content: center;
   margin-left: 10px;
+}
+
+.usernameTypography {
+  width: 50%;
+}
+.usernameWrapper {
+  display: flex;
+  justify-content: center;
 }

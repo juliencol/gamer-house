@@ -1,5 +1,4 @@
-import { CommentOutlined } from '@ant-design/icons';
-import { Button, Card, Collapse } from 'antd';
+import { Collapse } from 'antd';
 import { useEffect, useState } from 'react';
 import CommentServices from 'Services/CommentServices';
 import { Comment as IComment } from 'types/Comment';
@@ -15,7 +14,7 @@ function CommentCollapse(props: { post: Post }) {
     if (refresh) {
       CommentServices.getComments(props.post._id)
         .then((resp) => setComments(resp.data))
-        .catch((err) => alert('Something wen wrong...\n' + err.message));
+        .catch((err) => alert('Something went wrong...\n' + err.message));
     }
   }, [refresh]);
 
@@ -25,14 +24,7 @@ function CommentCollapse(props: { post: Post }) {
 
   return (
     <Collapse bordered={false} onChange={refetch}>
-      <Collapse.Panel
-        header={
-          <>
-            Comments <CommentOutlined />
-          </>
-        }
-        key={props.post._id}
-      >
+      <Collapse.Panel header={<>Comments</>} key={props.post._id}>
         {comments.map((comment) => (
           <Comment writer={comment.writer} key={comment.commentId}>
             {comment.content}
